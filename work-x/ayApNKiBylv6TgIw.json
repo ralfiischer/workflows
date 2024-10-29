@@ -1,0 +1,121 @@
+{
+  "createdAt": "2024-10-23T13:56:27.742Z",
+  "updatedAt": "2024-10-23T18:47:54.089Z",
+  "id": "ayApNKiBylv6TgIw",
+  "name": "minha normalização",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ed4ea1e0-002f-41f7-8799-d195a4727195",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2bdc6ff1-2b92-45f4-825b-d7cfa6f941a6",
+              "name": "message.message_id",
+              "value": "={{ $json.body.data.key.id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "041aeed3-cdb8-4308-9176-567728498957",
+              "name": "message.chat_id",
+              "value": "={{ $json.body.data.key.remoteJid || ''}}",
+              "type": "string"
+            },
+            {
+              "id": "3827f797-8ff7-4bfa-8341-5765e38f49f4",
+              "name": "message.content_type",
+              "value": "={{ $json.body.data.message.extendedTextMessage ? 'text' : ''}}{{ $json.body.data.message ? 'text' : ''}}{{ $json.body.data.message.imageMessage ? 'image' : ''}}{{$json.body.data.message.audioMessage ? 'audio' : ''}}",
+              "type": "string"
+            },
+            {
+              "id": "16fa7a4a-b906-4e41-9436-d3570b873102",
+              "name": "message.content",
+              "value": "={{ $json.body.data.message.conversation || '' }}{{ $json.body.data.message.extendedTextMessage.text || '' }}{{ $json.body.data.message.imageMessage?.caption || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "fd810e9e-c8bd-4a6e-9cd7-71a720c22553",
+              "name": "message.timestamp",
+              "value": "={{ $json.body.data.messageTimestamp.toDateTime('s').toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "5c9217b4-8c03-4703-882f-0c37904ef14c",
+              "name": "message.content_url",
+              "value": "={{ $json.body.data.message.audioMessage?.url || '' }}{{ $json.body.data.message.imageMessage?.url || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "6407ecfb-e9eb-4899-b606-873345446f2c",
+              "name": "message.event",
+              "value": "={{ $json.body.data.key.fromMe ? 'outcoming' : 'incoming' }}",
+              "type": "string"
+            },
+            {
+              "id": "30cb447d-ca47-4d1f-a781-4ac40461b5ec",
+              "name": "instance.name",
+              "value": "={{ $json.body.instance }}",
+              "type": "string"
+            },
+            {
+              "id": "dfbd8cca-3ff9-4c7c-834c-cb1bc6ec6406",
+              "name": "instance.apikey",
+              "value": "={{ $json.body.apikey }}",
+              "type": "string"
+            },
+            {
+              "id": "dc7ed44d-f281-4db1-9d2f-02a6feff58c0",
+              "name": "instance.server_url",
+              "value": "={{ $json.body.server_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5c0d3a21-ee48-4149-ae3c-6cf67bb8c753",
+      "name": "edit",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1060,
+        420
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "edit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "ef609a97-d4fd-4540-98eb-33df2940d1db",
+  "triggerCount": 0,
+  "tags": []
+}
