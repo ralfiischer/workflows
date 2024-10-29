@@ -1,0 +1,349 @@
+{
+  "createdAt": "2024-10-25T19:00:34.565Z",
+  "updatedAt": "2024-10-29T19:25:40.430Z",
+  "id": "lGMe8FNFiWe3Sj5p",
+  "name": "backup n8n github",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "5d5f700a-a2fa-4840-a5c9-f016d9261f49",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        540,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "de53e738-7870-40dc-841f-00af3459c3bb",
+      "name": "puxa os flow",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        900,
+        380
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "LlPyWlmkvcik6Uew",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "584cbc47-3edb-440b-abb2-e45e1d92c383",
+              "name": "owner",
+              "value": "ralfiischer",
+              "type": "string"
+            },
+            {
+              "id": "4abf4065-0c49-428d-a084-08d2e82dd7f9",
+              "name": "repository",
+              "value": "workflows",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3ccd2460-a0fe-4d71-9733-6bcd6c34a7c8",
+      "name": "infos basic",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "47e6eabb-7f59-496b-acdc-6137a1494ccb",
+              "name": "data",
+              "value": "={{ $json }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6bcf1efa-cedf-442a-85c8-f115bea8ab08",
+      "name": "dados workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1060,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "id": "a53cf41b-8bc6-4e9c-918a-20440b6ae876",
+      "name": "Extract from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('infos basic').item.json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('infos basic').item.json.repository }}",
+          "mode": "name"
+        },
+        "filePath": "=work-x/{{ $json.id }}.json",
+        "additionalParameters": {}
+      },
+      "id": "4b8944b4-df4a-4dbe-9295-806d996d25c6",
+      "name": "GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        220
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "tmlVcAaS7zF2bEP1",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.data }}",
+        "options": {}
+      },
+      "id": "2cf62410-cb58-44fe-90fa-1fade4cae1dd",
+      "name": "workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1720,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.id }}.json"
+        }
+      },
+      "id": "3624c3e9-ff60-4b64-8d67-9e40362cd690",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1900,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('infos basic').first().json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('infos basic').first().json.repository }}",
+          "mode": "name"
+        },
+        "filePath": "=work-x/{{ $('workflow').item.json.id }}.json",
+        "binaryData": true,
+        "commitMessage": "={{ $('workflow').item.json.name }}"
+      },
+      "id": "225316c5-f1a5-46d4-90ad-fbda5a7c2df6",
+      "name": "GitHub cria file",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        520
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "tmlVcAaS7zF2bEP1",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "data.data.id",
+              "field2": "data.id"
+            }
+          ]
+        },
+        "resolve": "preferInput2",
+        "options": {}
+      },
+      "id": "4695bedb-e0c3-4776-9ae5-9087ca84ed76",
+      "name": "Compare Datasets",
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
+      "position": [
+        1460,
+        360
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "infos basic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "puxa os flow": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "dados workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "infos basic": {
+      "main": [
+        [
+          {
+            "node": "puxa os flow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados workflow": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "workflow": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "GitHub cria file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Datasets": {
+      "main": [
+        [],
+        [],
+        [],
+        [
+          {
+            "node": "workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f6b9bb45-6e19-4997-8911-094df4df01ed",
+  "triggerCount": 0,
+  "tags": []
+}
