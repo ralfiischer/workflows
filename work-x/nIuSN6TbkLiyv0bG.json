@@ -1,0 +1,201 @@
+{
+  "data": {
+    "createdAt": "2024-10-07T18:36:33.230Z",
+    "updatedAt": "2024-10-17T12:59:52.382Z",
+    "id": "nIuSN6TbkLiyv0bG",
+    "name": "bobzada",
+    "active": true,
+    "nodes": [
+      {
+        "parameters": {
+          "model": "gpt-4o-mini",
+          "options": {}
+        },
+        "id": "f718d31a-1cc8-4061-bba4-8699c6cf970c",
+        "name": "OpenAI Chat Model",
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1,
+        "position": [
+          880,
+          680
+        ],
+        "credentials": {
+          "openAiApi": {
+            "id": "RhJGnAesg7rbO4uq",
+            "name": "primeiro assistent"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "toolDescription": "obtem informações do site da afill",
+          "url": "https://afill.com.br",
+          "optimizeResponse": true,
+          "responseType": "text"
+        },
+        "id": "dc119abc-4d15-41e3-a746-8520d1379a6b",
+        "name": "base de conhecimento",
+        "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+        "typeVersion": 1.1,
+        "position": [
+          1160,
+          680
+        ]
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $json.sessionid }}",
+          "tableName": "chat_bot"
+        },
+        "id": "0dd41bb9-1b7b-48ee-8d28-dd82ed0b4879",
+        "name": "Postgres Chat Memory",
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.1,
+        "position": [
+          1020,
+          680
+        ],
+        "credentials": {
+          "postgres": {
+            "id": "bX6ggeCJ75wvYGES",
+            "name": "Postgres supabase"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "5bbcb88d-1d8a-48be-9836-7a9fbeca2336",
+                "name": "sessionid",
+                "value": "={{ $json.sessionId }}",
+                "type": "string"
+              },
+              {
+                "id": "9bc3bbd6-4b1a-459b-8229-35c0b21caf29",
+                "name": "mensagem",
+                "value": "={{ $json.chatInput }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "b294916a-2fc1-4c97-8549-d06b9c6ea8d1",
+        "name": "Edit Fields",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          740,
+          460
+        ]
+      },
+      {
+        "parameters": {
+          "public": true,
+          "initialMessages": "Olá, em que posso ajudar hoje?",
+          "options": {
+            "subtitle": "Sou Reginaldo o seu assistente virtual",
+            "title": "Seja bem vindo!"
+          }
+        },
+        "id": "78197e69-2255-403b-8a2a-e2715b5ab93a",
+        "name": "When chat message received1",
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          520,
+          460
+        ],
+        "webhookId": "1505bbf8-67ee-41a3-ab1d-d262f5243363"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.chatInput }}{{ $json.mensagem }}",
+          "options": {
+            "systemMessage": "Você é o assistente virtual da AFILL você se chama Reginaldo\nVocê coleta informações na sua base de conhecimento para responder todas as perguntas com precisão. sempre se forma resumida e direta. essa parte você não precisa informar ao cliente\nSempre que não souber uma pergunta, você ira de desculpar informar que não momento não tem a reposta e que irá consultar os seus superiores."
+          }
+        },
+        "id": "7a61ecef-b803-4c09-8afa-720b14cfcd9f",
+        "name": "AI Agent",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 1.6,
+        "position": [
+          920,
+          460
+        ]
+      }
+    ],
+    "connections": {
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "base de conhecimento": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Postgres Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When chat message received1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1"
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "7424b149-9b1e-46fb-89dd-9521a53293f4",
+    "triggerCount": 2,
+    "tags": []
+  }
+}
