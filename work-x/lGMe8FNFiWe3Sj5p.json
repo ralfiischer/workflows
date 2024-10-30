@@ -1,21 +1,10 @@
 {
   "createdAt": "2024-10-25T19:00:34.565Z",
-  "updatedAt": "2024-10-30T12:43:03.613Z",
+  "updatedAt": "2024-10-30T12:47:10.581Z",
   "id": "lGMe8FNFiWe3Sj5p",
   "name": "backup n8n github",
-  "active": false,
+  "active": true,
   "nodes": [
-    {
-      "parameters": {},
-      "id": "5d5f700a-a2fa-4840-a5c9-f016d9261f49",
-      "name": "When clicking ‘Test workflow’",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        540,
-        380
-      ]
-    },
     {
       "parameters": {
         "filters": {},
@@ -302,20 +291,29 @@
           "name": "GitHub account"
         }
       }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      },
+      "id": "4cd36953-14d8-44a8-bc41-716fb87e6491",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        520,
+        380
+      ]
     }
   ],
   "connections": {
-    "When clicking ‘Test workflow’": {
-      "main": [
-        [
-          {
-            "node": "infos basic",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "puxa os flow": {
       "main": [
         [
@@ -450,17 +448,32 @@
           }
         ]
       ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "infos basic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b9796308-d953-4949-a567-807ccb5cd322",
-  "triggerCount": 0,
+  "versionId": "f1606260-0a04-4795-9c89-4124680690ea",
+  "triggerCount": 1,
   "tags": []
 }
