@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-30T12:47:56.785Z",
-  "updatedAt": "2024-10-30T13:49:56.480Z",
+  "updatedAt": "2024-10-30T13:53:17.925Z",
   "id": "q7pACElrquWRqBks",
   "name": "restore workflow",
   "active": false,
@@ -32,7 +32,9 @@
           "mode": "name"
         },
         "filePath": "={{ $json.file }}",
-        "additionalParameters": {}
+        "additionalParameters": {
+          "reference": "={{ $json.version }}"
+        }
       },
       "id": "3b3396fa-aa8f-49b3-91cc-d3e3171242e9",
       "name": "GitHub",
@@ -114,7 +116,7 @@
             {
               "id": "2d3ef66e-f692-4bdc-b3a2-ad1f621c60e4",
               "name": "version",
-              "value": "",
+              "value": "c323f14a05c3b1e8c67674811c1f7805e4589de0",
               "type": "string"
             }
           ]
@@ -185,7 +187,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "db2932f9-6d5e-4678-afb3-e183995c4dd8",
+  "versionId": "a03e5318-dfa6-4ea5-a4b1-bcbc193502cb",
   "triggerCount": 0,
   "tags": []
 }
