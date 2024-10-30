@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-25T18:24:59.767Z",
-  "updatedAt": "2024-10-30T13:03:56.534Z",
+  "updatedAt": "2024-10-30T13:04:50.365Z",
   "id": "FCD1OW3uiL8NFHQi",
   "name": "futuro projeto de webhook unico",
   "active": false,
@@ -215,19 +215,6 @@
         540,
         180
       ]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
-      },
-      "id": "5fcbd918-c847-4674-b0b8-01cf8d60bfd1",
-      "name": "Code",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        140,
-        540
-      ]
     }
   ],
   "connections": {
@@ -361,7 +348,7 @@
       }
     ]
   },
-  "versionId": "dc8adf76-e3f9-4e57-bc7a-0ef97a92f621",
+  "versionId": "a78f802c-af52-4f04-a6bb-8c513fc02965",
   "triggerCount": 0,
   "tags": []
 }
