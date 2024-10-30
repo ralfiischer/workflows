@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:36:44.401Z",
-  "updatedAt": "2024-10-21T13:29:44.486Z",
+  "updatedAt": "2024-10-30T13:47:14.390Z",
   "id": "7VeeM3ZFj7ag2A3A",
   "name": "personal bot ultrapassado",
   "active": false,
@@ -916,7 +916,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "00fa6d85-f964-4edc-94be-4539029c6932",
+  "versionId": "b0011cee-2717-4a5b-8c49-72b2c5e6e5fd",
   "triggerCount": 0,
   "tags": []
 }
