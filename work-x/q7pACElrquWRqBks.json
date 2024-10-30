@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-30T12:47:56.785Z",
-  "updatedAt": "2024-10-30T13:03:31.175Z",
+  "updatedAt": "2024-10-30T13:49:56.480Z",
   "id": "q7pACElrquWRqBks",
   "name": "restore workflow",
   "active": false,
@@ -18,55 +18,20 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "f906b8e4-e551-49a6-b957-529377dcd3e9",
-              "name": "arquivo",
-              "value": "work-x /FCD1OW3uiL8NFHQi.json",
-              "type": "string"
-            },
-            {
-              "id": "8a25786c-36b2-4b11-961c-6e737363b2ab",
-              "name": "dono",
-              "value": "ralfiischer",
-              "type": "string"
-            },
-            {
-              "id": "575be1f9-307b-4c2b-8dd7-654f16124f7b",
-              "name": "repositorio",
-              "value": "workflows",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "78ae3273-6ba9-43c6-91b0-8007b9309d49",
-      "name": "infos basic",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1000,
-        380
-      ]
-    },
-    {
-      "parameters": {
         "authentication": "oAuth2",
         "resource": "file",
         "operation": "get",
         "owner": {
           "__rl": true,
-          "value": "={{ $json.dono }}",
+          "value": "={{ $json.owner }}",
           "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "value": "={{ $json.repositorio }}",
+          "value": "={{ $json.repository }}",
           "mode": "name"
         },
-        "filePath": "={{ $json.arquivo }}",
+        "filePath": "={{ $json.file }}",
         "additionalParameters": {}
       },
       "id": "3b3396fa-aa8f-49b3-91cc-d3e3171242e9",
@@ -106,7 +71,7 @@
           "value": "={{ $json.data.id }}",
           "mode": "id"
         },
-        "workflowObject": "={{ JSON.STRINGIFY($json.data)}}",
+        "workflowObject": "={{ JSON.stringify($json.data)}}",
         "requestOptions": {}
       },
       "id": "d65f8f35-cb50-4a55-9eee-922d6e1c0f57",
@@ -114,7 +79,7 @@
       "type": "n8n-nodes-base.n8n",
       "typeVersion": 1,
       "position": [
-        1580,
+        1540,
         380
       ],
       "credentials": {
@@ -123,6 +88,47 @@
           "name": "n8n account"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "584cbc47-3edb-440b-abb2-e45e1d92c383",
+              "name": "owner",
+              "value": "ralfiischer",
+              "type": "string"
+            },
+            {
+              "id": "4abf4065-0c49-428d-a084-08d2e82dd7f9",
+              "name": "repository",
+              "value": "workflows",
+              "type": "string"
+            },
+            {
+              "id": "d0a76906-00e1-45c8-97c8-b6d3b41ed26b",
+              "name": "file",
+              "value": "work-x/7VeeM3ZFj7ag2A3A.json",
+              "type": "string"
+            },
+            {
+              "id": "2d3ef66e-f692-4bdc-b3a2-ad1f621c60e4",
+              "name": "version",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9def794d-fd2a-48d7-979b-e2d245d9a645",
+      "name": "infos basic1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        380
+      ]
     }
   ],
   "connections": {
@@ -130,18 +136,7 @@
       "main": [
         [
           {
-            "node": "infos basic",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "infos basic": {
-      "main": [
-        [
-          {
-            "node": "GitHub",
+            "node": "infos basic1",
             "type": "main",
             "index": 0
           }
@@ -169,6 +164,17 @@
           }
         ]
       ]
+    },
+    "infos basic1": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -179,7 +185,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cb8619f0-11e5-4433-9c79-1ff421058601",
+  "versionId": "db2932f9-6d5e-4678-afb3-e183995c4dd8",
   "triggerCount": 0,
   "tags": []
 }
