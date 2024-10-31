@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-25T18:24:59.767Z",
-  "updatedAt": "2024-10-30T21:04:47.747Z",
+  "updatedAt": "2024-10-31T13:54:51.328Z",
   "id": "FCD1OW3uiL8NFHQi",
   "name": "futuro projeto de webhook unico",
   "active": false,
@@ -186,9 +186,11 @@
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "mode": "id",
-          "cachedResultName": ""
+          "value": "YtEowEVOPoGpmWRT",
+          "mode": "list",
+          "cachedResultName": "test webhook unico"
         },
+        "mode": "each",
         "options": {}
       },
       "id": "847a6483-a71f-433b-8481-b3ae8a458fc8",
@@ -273,8 +275,82 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "efcaa28d-373c-4161-817b-b7de767161d9",
+  "pinData": {
+    "input evolution": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-principal.tkbczu.easypanel.host",
+            "user-agent": "axios/1.7.4",
+            "content-length": "1074",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n-n8n-principal.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "teste",
+            "data": {
+              "key": {
+                "remoteJid": "554799471522@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3F2B139AB81F92E649FF"
+              },
+              "pushName": "Ralf Fischer",
+              "message": {
+                "extendedTextMessage": {
+                  "text": "ola",
+                  "contextInfo": {
+                    "expiration": 0,
+                    "ephemeralSettingTimestamp": "0",
+                    "disappearingMode": {
+                      "initiator": "CHANGED_IN_CHAT"
+                    }
+                  }
+                },
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "a4JSQdDSD43N5g==",
+                    "senderTimestamp": "1729953428",
+                    "recipientKeyHash": "MF2MWPipHm1gXQ==",
+                    "recipientTimestamp": "1729957225"
+                  },
+                  "deviceListMetadataVersion": 2
+                }
+              },
+              "contextInfo": {
+                "expiration": 0,
+                "ephemeralSettingTimestamp": "0",
+                "disappearingMode": {
+                  "initiator": "CHANGED_IN_CHAT"
+                }
+              },
+              "messageType": "extendedTextMessage",
+              "messageTimestamp": 1730381858,
+              "instanceId": "340a7d67-b858-4933-a10a-8825b6f6be28",
+              "source": "unknown"
+            },
+            "destination": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook-test/geral",
+            "date_time": "2024-10-31T10:37:38.985Z",
+            "sender": "5521980410426@s.whatsapp.net",
+            "server_url": "https://evo-evolution-app.tkbczu.easypanel.host",
+            "apikey": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+          },
+          "webhookUrl": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook-test/geral",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "3f22ee6e-e060-4d1f-937b-e89b7e835a09",
   "triggerCount": 0,
   "tags": []
 }
