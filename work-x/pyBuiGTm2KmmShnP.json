@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:36:21.686Z",
-  "updatedAt": "2024-10-17T13:04:03.794Z",
+  "updatedAt": "2024-10-30T18:33:45.551Z",
   "id": "pyBuiGTm2KmmShnP",
   "name": "chat bot whats com audio",
   "active": false,
@@ -143,93 +143,6 @@
       "position": [
         1000,
         460
-      ]
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.body.data.messageType }}",
-                    "rightValue": "audioMessage",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "audio"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "conditions": [
-                  {
-                    "id": "21be55bc-6079-42d8-87db-5bc9b916645e",
-                    "leftValue": "={{ $json.body.data.messageType }}",
-                    "rightValue": "conversation",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "conversation"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "conditions": [
-                  {
-                    "id": "07a2b18f-712a-406b-ab04-39f47cae63ba",
-                    "leftValue": "={{ $json.body.data.messageType }}",
-                    "rightValue": "extendedTextMessage",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "text"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "9f09e595-d1c8-4e84-9fe5-e40401053dbe",
-      "name": "Switch",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.1,
-      "position": [
-        200,
-        580
       ]
     },
     {
@@ -423,7 +336,8 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 1
           },
           "conditions": [
             {
@@ -520,22 +434,6 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "fluxoaudio",
-        "options": {}
-      },
-      "id": "b0052d30-7915-4db4-b83b-f234ebf7be8e",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -260,
-        600
-      ],
-      "webhookId": "307db7e4-26b8-4ba4-9cd6-e8cc4377c61c"
-    },
-    {
-      "parameters": {
         "resource": "audio",
         "input": "={{ $json.output }}",
         "voice": "nova",
@@ -555,6 +453,112 @@
           "name": "primeiro assistent"
         }
       }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fluxoaudio",
+        "options": {}
+      },
+      "id": "b0052d30-7915-4db4-b83b-f234ebf7be8e",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -260,
+        600
+      ],
+      "webhookId": "307db7e4-26b8-4ba4-9cd6-e8cc4377c61c"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.data.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "21be55bc-6079-42d8-87db-5bc9b916645e",
+                    "leftValue": "={{ $json.body.data.messageType }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "conversation"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "07a2b18f-712a-406b-ab04-39f47cae63ba",
+                    "leftValue": "={{ $json.body.data.messageType }}",
+                    "rightValue": "extendedTextMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9f09e595-d1c8-4e84-9fe5-e40401053dbe",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.1,
+      "position": [
+        200,
+        580
+      ]
     }
   ],
   "connections": {
@@ -618,31 +622,6 @@
         [
           {
             "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "mensagem de texto",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "mensagem de texto",
             "type": "main",
             "index": 0
           }
@@ -736,6 +715,17 @@
         ]
       ]
     },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Webhook": {
       "main": [
         [
@@ -747,11 +737,25 @@
         ]
       ]
     },
-    "OpenAI1": {
+    "Switch": {
       "main": [
         [
           {
-            "node": "Extract from File",
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "mensagem de texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "mensagem de texto",
             "type": "main",
             "index": 0
           }
@@ -767,7 +771,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "748586b2-c3e8-4d28-ac61-5d925cce719c",
+  "versionId": "25b4b420-f038-4669-b2ff-3497bb597808",
   "triggerCount": 0,
   "tags": []
 }
