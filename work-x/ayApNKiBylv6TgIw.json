@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-23T13:56:27.742Z",
-  "updatedAt": "2024-10-23T18:47:54.089Z",
+  "updatedAt": "2024-10-31T14:27:29.509Z",
   "id": "ayApNKiBylv6TgIw",
   "name": "minha normalização",
   "active": false,
@@ -115,7 +115,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "ef609a97-d4fd-4540-98eb-33df2940d1db",
+  "versionId": "0b83ad80-fd00-4803-985b-75cd48571e75",
   "triggerCount": 0,
   "tags": []
 }
