@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:36:21.686Z",
-  "updatedAt": "2024-10-31T14:52:02.278Z",
+  "updatedAt": "2024-10-31T15:04:57.324Z",
   "id": "pyBuiGTm2KmmShnP",
   "name": "chat bot whats com audio",
   "active": false,
@@ -287,7 +287,8 @@
       "position": [
         1240,
         700
-      ]
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -328,7 +329,8 @@
       "position": [
         1600,
         460
-      ]
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -410,27 +412,6 @@
         660,
         700
       ]
-    },
-    {
-      "parameters": {
-        "resource": "audio",
-        "operation": "transcribe",
-        "options": {}
-      },
-      "id": "47eb1364-fd49-43ac-b09e-14271f7429de",
-      "name": "OpenAI",
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.4,
-      "position": [
-        820,
-        460
-      ],
-      "credentials": {
-        "openAiApi": {
-          "id": "RhJGnAesg7rbO4uq",
-          "name": "primeiro assistent"
-        }
-      }
     },
     {
       "parameters": {
@@ -559,6 +540,27 @@
         600
       ],
       "webhookId": "307db7e4-26b8-4ba4-9cd6-e8cc4377c61c"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "47eb1364-fd49-43ac-b09e-14271f7429de",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        820,
+        460
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
     }
   ],
   "connections": {
@@ -704,17 +706,6 @@
         ]
       ]
     },
-    "OpenAI": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI1": {
       "main": [
         [
@@ -756,6 +747,17 @@
         [
           {
             "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
@@ -855,9 +857,16 @@
           "executionMode": "test"
         }
       }
+    ],
+    "OpenAI": [
+      {
+        "json": {
+          "text": "Não esquece, canta comigo."
+        }
+      }
     ]
   },
-  "versionId": "32a0f8d2-2e3b-4337-a69e-31e78789256c",
+  "versionId": "eabefd68-ed31-4796-9590-0545279f8db3",
   "triggerCount": 0,
   "tags": []
 }
