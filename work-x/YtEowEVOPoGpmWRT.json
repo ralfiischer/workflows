@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-31T13:51:33.061Z",
-  "updatedAt": "2024-10-31T14:08:25.145Z",
+  "updatedAt": "2024-10-31T14:44:13.228Z",
   "id": "YtEowEVOPoGpmWRT",
   "name": "test webhook unico",
   "active": false,
@@ -93,7 +93,7 @@
           "parameters": [
             {
               "name": "number",
-              "value": "={{ $('normalizacao').item.json.message.chat_id }}"
+              "value": "={{ $('normalizacao').item.json.chat_id }}"
             },
             {
               "name": "text",
@@ -155,16 +155,16 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $json.message.chat_id }}",
-        "tableName": "testando wehook"
+        "sessionKey": "={{ $('normalizacao').item.json.chat_id }}",
+        "tableName": "testandowehook"
       },
-      "id": "a58bd37b-d94c-4acd-bbc5-a59bca05f922",
+      "id": "c932585b-da67-4e02-936d-1a13d1e31f60",
       "name": "Postgres Chat Memory1",
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.1,
       "position": [
         960,
-        500
+        520
       ],
       "credentials": {
         "postgres": {
@@ -225,17 +225,6 @@
         ]
       ]
     },
-    "Postgres Chat Memory1": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "normalizacao": {
       "main": [
         [
@@ -257,6 +246,17 @@
           }
         ]
       ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -266,24 +266,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Execute Workflow Trigger": [
-      {
-        "json": {
-          "message": {
-            "message_id": "3F2B139AB81F92E649FF",
-            "chat_id": "554799471522@s.whatsapp.net",
-            "content_type": "text",
-            "content": "ola",
-            "timestamp": "2024-10-31T10:37:38.000-03:00",
-            "content_url": "",
-            "event": "incoming"
-          }
-        }
-      }
-    ]
-  },
-  "versionId": "2f921f1e-9835-40fe-b9a4-eb566850f4c0",
+  "pinData": {},
+  "versionId": "52aa4a7d-7dc0-4c60-a561-899af5235132",
   "triggerCount": 0,
   "tags": []
 }
