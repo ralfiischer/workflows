@@ -1,8 +1,8 @@
 {
   "createdAt": "2024-10-31T13:51:33.061Z",
-  "updatedAt": "2024-10-31T14:44:13.228Z",
+  "updatedAt": "2024-10-31T17:08:16.442Z",
   "id": "YtEowEVOPoGpmWRT",
-  "name": "test webhook unico",
+  "name": "retorno mensagem",
   "active": false,
   "nodes": [
     {
@@ -227,13 +227,7 @@
     },
     "normalizacao": {
       "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "AI Agent": {
@@ -267,7 +261,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "52aa4a7d-7dc0-4c60-a561-899af5235132",
+  "versionId": "6b3f7166-a0c9-4c0e-b661-0efe6871cff7",
   "triggerCount": 0,
   "tags": []
 }
