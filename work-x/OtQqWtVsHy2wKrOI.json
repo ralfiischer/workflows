@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:35:56.119Z",
-  "updatedAt": "2024-10-31T14:36:50.711Z",
+  "updatedAt": "2024-10-31T14:46:21.079Z",
   "id": "OtQqWtVsHy2wKrOI",
   "name": "Chat bot com IA retorno whats",
   "active": false,
@@ -794,7 +794,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "5cd56e01-63bb-45b7-8a5a-cc294e6dd5f1",
-  "triggerCount": 0,
+  "versionId": "4c8913bb-7c6c-4ca6-abf7-5104470b6219",
+  "triggerCount": 1,
   "tags": []
 }
