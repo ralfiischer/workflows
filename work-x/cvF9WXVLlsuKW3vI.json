@@ -1,45 +1,10 @@
 {
   "createdAt": "2024-10-31T14:47:37.059Z",
-  "updatedAt": "2024-10-31T14:55:45.182Z",
+  "updatedAt": "2024-10-31T16:53:44.738Z",
   "id": "cvF9WXVLlsuKW3vI",
-  "name": "My workflow 2",
+  "name": "Retorno Audio EVO",
   "active": false,
   "nodes": [
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ee84f456-184e-4653-897f-bab681035d2c",
-              "name": "text_field",
-              "value": "={{ $json.body.data.messageType }}",
-              "type": "string"
-            },
-            {
-              "id": "4995e703-cd96-4ecf-973a-fa4be5798433",
-              "name": "sessionid",
-              "value": "={{ $json.body.sender }}",
-              "type": "string"
-            },
-            {
-              "id": "74a27101-2656-4049-a623-836b2189559a",
-              "name": "sessionid_jid",
-              "value": "={{ $json.body.data.key.remoteJid }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "bf6d5d15-12d5-4598-9449-2c1c2803d483",
-      "name": "mensagem de texto",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        460,
-        700
-      ]
-    },
     {
       "parameters": {
         "model": "gpt-4o-mini",
@@ -50,7 +15,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        560,
+        780,
         920
       ],
       "credentials": {
@@ -62,27 +27,12 @@
     },
     {
       "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "163145",
-        "contextWindowLength": 20
-      },
-      "id": "13b07bed-5f0f-4886-a51e-66e62cff47b2",
-      "name": "Window Buffer Memory",
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.2,
-      "position": [
-        720,
-        920
-      ]
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
               "id": "8659f415-d1dc-44bc-bb95-86bf324b7e68",
               "name": "base64",
-              "value": "=",
+              "value": "={{ $json.base64 }}",
               "type": "string"
             }
           ]
@@ -94,7 +44,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        460,
+        680,
         460
       ]
     },
@@ -112,7 +62,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        640,
+        860,
         460
       ]
     },
@@ -129,7 +79,7 @@
             {
               "id": "d81f33df-4ab5-42e2-8af4-44bbbf4e107b",
               "name": "sessionid",
-              "value": "={{ $('Webhook').item.json.body.data.key.id }}",
+              "value": "=",
               "type": "string"
             }
           ]
@@ -141,7 +91,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1000,
+        1220,
         460
       ]
     },
@@ -157,135 +107,7 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        1400,
-        460
-      ]
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
-                    "rightValue": "audioMessage",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "audio"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "conditions": [
-                  {
-                    "id": "bf59cad4-ff64-494f-80f6-7d3f0a86dc9f",
-                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
-                    "rightValue": "extendedTextMessage",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "text"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "conditions": [
-                  {
-                    "id": "eed42906-12ab-460c-a154-10d57f3259ca",
-                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
-                    "rightValue": "conversation",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "conversation"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "6f51f24d-d239-4ed3-ac72-396a2add17b8",
-      "name": "Switch1",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.1,
-      "position": [
-        1000,
-        700
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://automation-evolution-app.nzix4c.easypanel.host/message/sendText/teste",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "6BFC33AAF525-43DD-897F-9D48618D08DD"
-            }
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "number",
-              "value": "={{ $('Webhook').item.json.body.data.key.remoteJid }}"
-            },
-            {
-              "name": "text",
-              "value": "={{ $json.output }}"
-            }
-          ]
-        },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
-      },
-      "id": "efcdf5e1-def5-4cfe-8323-7d4f03ecc594",
-      "name": "Retorno EVO",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1240,
+        1480,
         700
       ]
     },
@@ -307,7 +129,7 @@
           "parameters": [
             {
               "name": "number",
-              "value": "={{ $('Webhook').item.json.body.data.key.remoteJid }}"
+              "value": "={{ $('Execute Workflow Trigger').item.json.id }}"
             },
             {
               "name": "audio",
@@ -326,20 +148,129 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1600,
-        460
+        1680,
+        700
       ]
     },
     {
       "parameters": {},
-      "id": "d142909e-0d29-499d-942e-3c1f6ad182bf",
-      "name": "Wikipedia",
-      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "id": "3f384509-69f7-4861-a561-4d78455565fc",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1,
       "position": [
-        900,
-        920
+        240,
+        460
       ]
+    },
+    {
+      "parameters": {
+        "toolDescription": "obtem informações do site da afill",
+        "url": "https://afill.com.br",
+        "optimizeResponse": true,
+        "responseType": "text"
+      },
+      "id": "238f4845-9db3-401f-acc1-a96bc9e603e0",
+      "name": "base de conhecimento",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1080,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('normalize').item.json.id }}",
+        "tableName": "testandowehook"
+      },
+      "id": "daee605d-f522-4ac8-9416-e40ba112e183",
+      "name": "Postgres Chat Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.1,
+      "position": [
+        980,
+        900
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4bfee671-684d-4951-bc6a-ec94609a3704",
+              "name": "base64",
+              "value": "={{ $json.base64 }}",
+              "type": "string"
+            },
+            {
+              "id": "03c283b2-7475-4bd3-ae34-7d1bcff13beb",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "64e14066-2602-4a1a-b122-bac7ba31ba75",
+      "name": "normalize",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "76ad1b11-5b90-42be-a392-791a7fe80d4d",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1040,
+        460
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "input": "={{ $json.output }}",
+        "voice": "nova",
+        "options": {}
+      },
+      "id": "73d98093-0773-4a94-915b-a085942e6deb",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1300,
+        700
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
     },
     {
       "parameters": {
@@ -355,94 +286,18 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
       "position": [
-        660,
+        880,
         700
       ]
-    },
-    {
-      "parameters": {
-        "resource": "audio",
-        "input": "={{ $json.output }}",
-        "voice": "nova",
-        "options": {}
-      },
-      "id": "73d98093-0773-4a94-915b-a085942e6deb",
-      "name": "OpenAI1",
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.4,
-      "position": [
-        1220,
-        460
-      ],
-      "credentials": {
-        "openAiApi": {
-          "id": "RhJGnAesg7rbO4uq",
-          "name": "primeiro assistent"
-        }
-      }
-    },
-    {
-      "parameters": {},
-      "id": "3f384509-69f7-4861-a561-4d78455565fc",
-      "name": "Execute Workflow Trigger",
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1,
-      "position": [
-        240,
-        460
-      ]
-    },
-    {
-      "parameters": {
-        "resource": "audio",
-        "operation": "transcribe",
-        "options": {}
-      },
-      "id": "76ad1b11-5b90-42be-a392-791a7fe80d4d",
-      "name": "OpenAI",
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.4,
-      "position": [
-        820,
-        460
-      ],
-      "credentials": {
-        "openAiApi": {
-          "id": "RhJGnAesg7rbO4uq",
-          "name": "primeiro assistent"
-        }
-      }
     }
   ],
   "connections": {
-    "mensagem de texto": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI Chat Model": {
       "ai_languageModel": [
         [
           {
             "node": "AI Agent",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Window Buffer Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -492,32 +347,29 @@
         ]
       ]
     },
-    "Switch1": {
+    "Execute Workflow Trigger": {
       "main": [
         [
           {
-            "node": "OpenAI1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Retorno EVO",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Retorno EVO",
+            "node": "normalize",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Wikipedia": {
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base de conhecimento": {
       "ai_tool": [
         [
           {
@@ -528,29 +380,7 @@
         ]
       ]
     },
-    "AI Agent": {
-      "main": [
-        [
-          {
-            "node": "Switch1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI1": {
-      "main": [
-        [
-          {
-            "node": "Extract from File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Execute Workflow Trigger": {
+    "normalize": {
       "main": [
         [
           {
@@ -571,6 +401,28 @@
           }
         ]
       ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -581,7 +433,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "48e4b324-8d90-4045-8f9a-e53254446498",
+  "versionId": "0899daab-cd7b-4c5f-8932-501a07b72a3c",
   "triggerCount": 0,
   "tags": []
 }
