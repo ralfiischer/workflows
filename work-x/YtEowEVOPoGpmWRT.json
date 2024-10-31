@@ -1,0 +1,289 @@
+{
+  "createdAt": "2024-10-31T13:51:33.061Z",
+  "updatedAt": "2024-10-31T14:08:25.145Z",
+  "id": "YtEowEVOPoGpmWRT",
+  "name": "test webhook unico",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "2993c820-73ed-449a-9b53-e654cba2a95b",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        460,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "da86ae4f-8f39-4876-b718-06741e9af92b",
+              "name": "message_id",
+              "value": "={{ $json.message.message_id }}",
+              "type": "string"
+            },
+            {
+              "id": "ddbb9b79-1877-4d16-a9bc-46ac17c65a8c",
+              "name": "chat_id",
+              "value": "={{ $json.message.chat_id }}",
+              "type": "string"
+            },
+            {
+              "id": "72f0ad61-e1e1-41ec-8203-a0bf9df4938a",
+              "name": "content_type",
+              "value": "={{ $json.message.content_type }}",
+              "type": "string"
+            },
+            {
+              "id": "2fb4b44f-1fe8-49cd-bb02-ef4456a82f2c",
+              "name": "content",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "b878c73a-a316-4dd9-baf1-76a1b1916d0a",
+              "name": "timestamp",
+              "value": "={{ $json.message.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "14c77a4a-b111-4e7c-937a-232ef568db81",
+              "name": "content_url",
+              "value": "={{ $json.message.content_url }}",
+              "type": "string"
+            },
+            {
+              "id": "9858f546-17db-4317-aca1-694ddaa0c6bb",
+              "name": "event",
+              "value": "={{ $json.message.event }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3139e98f-b23a-43e3-ad36-7d82be3223aa",
+      "name": "normalizacao",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('normalizacao').item.json.message.chat_id }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.output }}{{ $json.message.content }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "95464fae-4242-4395-a518-fd190146ad7f",
+      "name": "Retorno EVO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {}
+      },
+      "id": "375bca62-f8c1-49d2-8761-19f7ccdc9d97",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        860,
+        500
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "obtem informações do site da afill",
+        "url": "https://afill.com.br",
+        "optimizeResponse": true,
+        "responseType": "text"
+      },
+      "id": "4c6066c0-9fc9-4171-8a4a-c298501a1556",
+      "name": "base de conhecimento",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1060,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat_id }}",
+        "tableName": "testando wehook"
+      },
+      "id": "a58bd37b-d94c-4acd-bbc5-a59bca05f922",
+      "name": "Postgres Chat Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        500
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.content }}",
+        "options": {
+          "systemMessage": "Voce responde todas as perguntas sobre todos os assuntos, se perguntando sobre a Afill voce ira buscar nas tools as informações. se forem perguntas genéricas voce respondera normalmente sem consultar a tools, voce sempre respondera de forma resumida e bem informada. E nao ira informar essas informações se o usuário perguntar"
+        }
+      },
+      "id": "670c86ed-ce78-4fc9-ae84-7a70e1060ebb",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        880,
+        340
+      ]
+    }
+  ],
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "normalizacao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base de conhecimento": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "normalizacao": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Retorno EVO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Execute Workflow Trigger": [
+      {
+        "json": {
+          "message": {
+            "message_id": "3F2B139AB81F92E649FF",
+            "chat_id": "554799471522@s.whatsapp.net",
+            "content_type": "text",
+            "content": "ola",
+            "timestamp": "2024-10-31T10:37:38.000-03:00",
+            "content_url": "",
+            "event": "incoming"
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "2f921f1e-9835-40fe-b9a4-eb566850f4c0",
+  "triggerCount": 0,
+  "tags": []
+}
