@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-25T18:24:59.767Z",
-  "updatedAt": "2024-10-30T13:04:50.365Z",
+  "updatedAt": "2024-10-30T21:04:47.747Z",
   "id": "FCD1OW3uiL8NFHQi",
   "name": "futuro projeto de webhook unico",
   "active": false,
@@ -184,22 +184,6 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "geral",
-        "options": {}
-      },
-      "id": "11a37626-871e-42b7-aed7-fc53f73f5422",
-      "name": "input evolution",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -80,
-        360
-      ],
-      "webhookId": "5ff4e083-c2da-4a73-9d17-96389e92c620"
-    },
-    {
-      "parameters": {
         "workflowId": {
           "__rl": true,
           "mode": "id",
@@ -215,6 +199,22 @@
         540,
         180
       ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "geral",
+        "options": {}
+      },
+      "id": "11a37626-871e-42b7-aed7-fc53f73f5422",
+      "name": "input evolution",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        360
+      ],
+      "webhookId": "5ff4e083-c2da-4a73-9d17-96389e92c620"
     }
   ],
   "connections": {
@@ -273,82 +273,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "input evolution": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-n8n-principal.tkbczu.easypanel.host",
-            "user-agent": "axios/1.7.4",
-            "content-length": "1076",
-            "accept": "application/json, text/plain, */*",
-            "accept-encoding": "gzip, compress, deflate, br",
-            "content-type": "application/json",
-            "x-forwarded-for": "172.18.0.1",
-            "x-forwarded-host": "n8n-n8n-principal.tkbczu.easypanel.host",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "e6ce9d964610",
-            "x-real-ip": "172.18.0.1"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "teste",
-            "data": {
-              "key": {
-                "remoteJid": "554799471522@s.whatsapp.net",
-                "fromMe": false,
-                "id": "3FCC000CE96641DE9185"
-              },
-              "pushName": "Ralf Fischer",
-              "message": {
-                "extendedTextMessage": {
-                  "text": "salve",
-                  "contextInfo": {
-                    "expiration": 0,
-                    "ephemeralSettingTimestamp": "0",
-                    "disappearingMode": {
-                      "initiator": "CHANGED_IN_CHAT"
-                    }
-                  }
-                },
-                "messageContextInfo": {
-                  "deviceListMetadata": {
-                    "senderKeyHash": "a4JSQdDSD43N5g==",
-                    "senderTimestamp": "1728654780",
-                    "recipientKeyHash": "MF2MWPipHm1gXQ==",
-                    "recipientTimestamp": "1728655143"
-                  },
-                  "deviceListMetadataVersion": 2
-                }
-              },
-              "contextInfo": {
-                "expiration": 0,
-                "ephemeralSettingTimestamp": "0",
-                "disappearingMode": {
-                  "initiator": "CHANGED_IN_CHAT"
-                }
-              },
-              "messageType": "extendedTextMessage",
-              "messageTimestamp": 1729882342,
-              "instanceId": "340a7d67-b858-4933-a10a-8825b6f6be28",
-              "source": "unknown"
-            },
-            "destination": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook-test/geral",
-            "date_time": "2024-10-25T15:52:23.014Z",
-            "sender": "5521980410426@s.whatsapp.net",
-            "server_url": "https://evo-evolution-app.tkbczu.easypanel.host",
-            "apikey": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
-          },
-          "webhookUrl": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook-test/geral",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "a78f802c-af52-4f04-a6bb-8c513fc02965",
+  "pinData": {},
+  "versionId": "efcaa28d-373c-4161-817b-b7de767161d9",
   "triggerCount": 0,
   "tags": []
 }
