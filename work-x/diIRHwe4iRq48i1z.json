@@ -1,0 +1,367 @@
+{
+  "createdAt": "2024-10-31T14:14:55.310Z",
+  "updatedAt": "2024-10-31T14:36:15.164Z",
+  "id": "diIRHwe4iRq48i1z",
+  "name": "My workflow 2",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8f16b1bf-1a3e-4029-8d7a-1bccb919ee43",
+              "name": "message.message_id",
+              "value": "={{ $('input evolution').item.json.body.data.key.id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "11800d83-ecca-4f9c-a878-a2419db0c8e9",
+              "name": "message.chat_id",
+              "value": "={{ $('input evolution').item.json.body.data.key.remoteJid || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "c33f9527-e661-49e5-8e5e-64f3b430928a",
+              "name": "message.content_type",
+              "value": "={{ $('input evolution').item.json.body.data.message.extendedTextMessage ? 'text' : '' }}{{ $('input evolution').item.json.body.data.message.conversation ? 'text' : '' }}{{ $('input evolution').item.json.body.data.message.audioMessage ? 'audio' : '' }}{{ $('input evolution').item.json.body.data.message.imageMessage ? 'image' : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "06eba1c9-cff0-4f68-b6da-6bb0092466b7",
+              "name": "message.content",
+              "value": "={{ $('input evolution').item.json.body.data.message.extendedTextMessage?.text || '' }}{{ $('input evolution').item.json.body.data.message.imageMessage?.caption || '' }}{{ $('input evolution').item.json.body.data.message.conversation || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "b97f1af3-5361-46fc-9303-d644921231d8",
+              "name": "message.timestamp",
+              "value": "={{ $('input evolution').item.json.body.data.messageTimestamp.toDateTime('s').toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "dc3dc59c-90a3-4a45-bea2-de092c91083b",
+              "name": "message.content_url",
+              "value": "={{ $('input evolution').item.json.body.data.message.audioMessage?.url || '' }}{{ $('input evolution').item.json.body.data.message.imageMessage?.url || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8b01a818-a456-476e-bace-adefe2f04eb4",
+              "name": "message.event",
+              "value": "={{ $('input evolution').item.json.body.data.key.fromMe ? 'outcoming' : 'incoming' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3ad1ead3-686c-470d-9296-38fec06258cd",
+      "name": "normalizacao",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1140,
+        1140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "messages",
+        "key": "={{ $('normalizacao').item.json.message.chat_id }}",
+        "options": {}
+      },
+      "id": "0019733b-7944-40da-b238-dd4b5c6ed6af",
+      "name": "get messages buffer",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -700,
+        1140
+      ],
+      "credentials": {
+        "redis": {
+          "id": "Rnopk7ln3pp70foa",
+          "name": "Rediscloud"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $json.message.chat_id }}",
+        "messageData": "={{ JSON.stringify($json.message) }}",
+        "tail": true
+      },
+      "id": "b3537bb5-5140-4351-8ff4-711deb6006e1",
+      "name": "push message buffer",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        1140
+      ],
+      "credentials": {
+        "redis": {
+          "id": "Rnopk7ln3pp70foa",
+          "name": "Rediscloud"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "id": "276e89d4-b2ea-464f-8cb8-2fe4dcce2d02",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -120,
+        1320
+      ],
+      "webhookId": "ac13eb12-ea29-4507-9539-ea41f8091b8f"
+    },
+    {
+      "parameters": {},
+      "id": "04eb3a86-e15d-41f2-ae13-91765de9705f",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "db5cfe0a-7f43-4a61-8b27-bfd3a95deb8d",
+              "name": "messages",
+              "value": "={{ $json.messages.map(value => JSON.parse(value).content).join('\\n') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2f868ce2-d9e6-4229-b82d-46f0e7147353",
+      "name": "messages",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        1140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('normalizacao').item.json.message.chat_id }}"
+      },
+      "id": "3b9d218a-0a62-48b7-a83d-6be34e8dffa1",
+      "name": "delete buffer",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        1140
+      ],
+      "credentials": {
+        "redis": {
+          "id": "Rnopk7ln3pp70foa",
+          "name": "Rediscloud"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "intervencao",
+        "options": {}
+      },
+      "id": "7079b3d9-53ef-4f98-8cbf-27771d74e3d4",
+      "name": "input evolution",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1360,
+        1140
+      ],
+      "webhookId": "806296e4-2509-4e37-b2ec-679445050d63"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ JSON.parse($json.messages.first()).message_id }}",
+                    "rightValue": "={{ $('normalizacao').item.json.message.message_id }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "nada a fazer"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "fdd1e894-df1c-4ebd-8f56-82f66dad03be",
+                    "leftValue": "={{ JSON.parse($json.messages.last()).timestamp }}",
+                    "rightValue": "={{ $now.minus(15, 'seconds') }}",
+                    "operator": {
+                      "type": "dateTime",
+                      "operation": "before"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "prosseguir"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "esperar"
+        }
+      },
+      "id": "ccae5ec6-4a0f-4d21-9ec9-dfd23d0eccc8",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        -480,
+        1140
+      ]
+    }
+  ],
+  "connections": {
+    "normalizacao": {
+      "main": [
+        [
+          {
+            "node": "push message buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "push message buffer": {
+      "main": [
+        [
+          {
+            "node": "get messages buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get messages buffer": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "get messages buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "delete buffer": {
+      "main": [
+        [
+          {
+            "node": "messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "input evolution": {
+      "main": [
+        [
+          {
+            "node": "normalizacao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "delete buffer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "9d4dd254-7859-4dab-b041-aeb63a15ea11",
+  "triggerCount": 0,
+  "tags": []
+}
