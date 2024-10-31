@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-10-07T18:35:56.119Z",
-  "updatedAt": "2024-10-29T14:24:22.200Z",
+  "updatedAt": "2024-10-31T14:36:50.711Z",
   "id": "OtQqWtVsHy2wKrOI",
   "name": "Chat bot com IA retorno whats",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
@@ -142,7 +142,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -640,
+        -660,
         520
       ]
     },
@@ -502,22 +502,6 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "testando",
-        "options": {}
-      },
-      "id": "aea3c24f-35c8-46fc-b960-ec55563bbd91",
-      "name": "input evolution",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -840,
-        520
-      ],
-      "webhookId": "90e53014-5386-4487-8470-48f982b3b8b8"
-    },
-    {
-      "parameters": {
         "rules": {
           "values": [
             {
@@ -555,7 +539,7 @@
                   {
                     "id": "fdd1e894-df1c-4ebd-8f56-82f66dad03be",
                     "leftValue": "={{ JSON.parse($json.messages.last()).timestamp }}",
-                    "rightValue": "={{ $now.minus(5, 'seconds') }}",
+                    "rightValue": "={{ $now.minus(15, 'seconds') }}",
                     "operator": {
                       "type": "dateTime",
                       "operation": "before"
@@ -582,6 +566,22 @@
         -100,
         520
       ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "testando",
+        "options": {}
+      },
+      "id": "c4f1fae7-2f04-4b38-b7bb-524e693c179f",
+      "name": "input evolution",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -860,
+        520
+      ],
+      "webhookId": "90e53014-5386-4487-8470-48f982b3b8b8"
     }
   ],
   "connections": {
@@ -591,17 +591,6 @@
           {
             "node": "AI Agent",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "normalizacao": {
-      "main": [
-        [
-          {
-            "node": "push message buffer",
-            "type": "main",
             "index": 0
           }
         ]
@@ -747,11 +736,11 @@
         ]
       ]
     },
-    "input evolution": {
+    "normalizacao": {
       "main": [
         [
           {
-            "node": "normalizacao",
+            "node": "push message buffer",
             "type": "main",
             "index": 0
           }
@@ -782,6 +771,17 @@
           }
         ]
       ]
+    },
+    "input evolution": {
+      "main": [
+        [
+          {
+            "node": "normalizacao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -794,7 +794,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "bb07d635-f103-498b-b7d7-c30cb2b51fc6",
-  "triggerCount": 1,
+  "versionId": "5cd56e01-63bb-45b7-8a5a-cc294e6dd5f1",
+  "triggerCount": 0,
   "tags": []
 }
