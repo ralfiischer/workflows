@@ -1,13 +1,12 @@
 {
   "createdAt": "2024-10-31T14:47:37.059Z",
-  "updatedAt": "2024-10-31T19:42:47.551Z",
+  "updatedAt": "2024-11-01T14:11:11.952Z",
   "id": "cvF9WXVLlsuKW3vI",
   "name": "Retorno Audio EVO",
   "active": false,
   "nodes": [
     {
       "parameters": {
-        "model": "gpt-4o-mini",
         "options": {}
       },
       "id": "9d9f56b6-217c-419e-8818-d023ef414933",
@@ -423,11 +422,6 @@
           }
         ]
       ]
-    },
-    "Retorno EVO audio": {
-      "main": [
-        []
-      ]
     }
   },
   "settings": {
@@ -438,7 +432,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a92213ba-753a-4b20-9341-d2cf600cfba5",
+  "versionId": "cdb52f27-d230-4292-9b1d-67bc9fc06ee3",
   "triggerCount": 0,
   "tags": []
 }
