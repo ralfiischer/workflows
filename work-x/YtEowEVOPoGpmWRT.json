@@ -1,8 +1,8 @@
 {
   "createdAt": "2024-10-31T13:51:33.061Z",
-  "updatedAt": "2024-10-31T17:08:16.442Z",
+  "updatedAt": "2024-10-31T19:37:30.851Z",
   "id": "YtEowEVOPoGpmWRT",
-  "name": "retorno mensagem",
+  "name": "Retorno Texto",
   "active": false,
   "nodes": [
     {
@@ -71,7 +71,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        680,
+        640,
         340
       ]
     },
@@ -112,7 +112,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1200,
+        1160,
         340
       ]
     },
@@ -126,7 +126,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        860,
+        820,
         500
       ],
       "credentials": {
@@ -148,7 +148,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        1060,
+        1020,
         500
       ]
     },
@@ -163,8 +163,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.1,
       "position": [
-        960,
-        520
+        920,
+        500
       ],
       "credentials": {
         "postgres": {
@@ -186,7 +186,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
       "position": [
-        880,
+        820,
         340
       ]
     }
@@ -225,11 +225,6 @@
         ]
       ]
     },
-    "normalizacao": {
-      "main": [
-        []
-      ]
-    },
     "AI Agent": {
       "main": [
         [
@@ -251,6 +246,17 @@
           }
         ]
       ]
+    },
+    "normalizacao": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -261,7 +267,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6b3f7166-a0c9-4c0e-b661-0efe6871cff7",
+  "versionId": "328a0c53-2be1-4716-83ee-fd0ea583c565",
   "triggerCount": 0,
   "tags": []
 }
