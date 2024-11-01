@@ -1,0 +1,560 @@
+{
+  "createdAt": "2024-11-01T14:33:08.894Z",
+  "updatedAt": "2024-11-01T14:44:07.755Z",
+  "id": "7uUqWM2NwnKYh8iD",
+  "name": "Backup Credenciais GitHub",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.data }}",
+        "options": {}
+      },
+      "id": "1aac7c15-4a87-4fd6-9dba-2bdba227f805",
+      "name": "Workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        1240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.id }}.json"
+        }
+      },
+      "id": "de3d3fd9-8aa9-4593-98b9-3ee78a22cade",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1720,
+        1240
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Infos Basicas').item.json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Infos Basicas').item.json.repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $('Infos Basicas').item.json.diretorio+$json.data.id }}.json",
+        "additionalParameters": {}
+      },
+      "id": "8bfcd554-7ecd-49be-b76a-3a2e4dda8193",
+      "name": "GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        720,
+        820
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "tmlVcAaS7zF2bEP1",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "id": "dac4e1b5-c9bb-485a-91c6-cee92aff0480",
+      "name": "Extract from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        920,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "data.id",
+              "field2": "data.id"
+            }
+          ]
+        },
+        "resolve": "preferInput2",
+        "options": {}
+      },
+      "id": "6bf0b1a3-d865-4bb7-ad05-fb2e06d3262f",
+      "name": "Compare Datasets",
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
+      "position": [
+        1180,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Infos Basicas').first().json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Infos Basicas').first().json.repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $('Workflow').item.json.id }}.json",
+        "binaryData": true,
+        "commitMessage": "={{ $('Workflow').item.json.name }} {{ $now.toString() }}"
+      },
+      "id": "4d3ec645-303e-43a2-a0b4-8a366e7f76e7",
+      "name": "GitHub Create File",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        1240
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "tmlVcAaS7zF2bEP1",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.data }}",
+        "options": {}
+      },
+      "id": "3e64f05b-7c97-42d7-8ac7-58cf118db324",
+      "name": "Workflow1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.id }}.json"
+        }
+      },
+      "id": "dc325b50-82e8-4014-b99a-247c137be4b3",
+      "name": "Convert to File1",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1720,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Infos Basicas').first().json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Infos Basicas').first().json.repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $('Workflow1').item.json.id }}.json",
+        "binaryData": true,
+        "commitMessage": "={{ $('Workflow1').item.json.name }} {{ $now.toString() }}"
+      },
+      "id": "c365016c-85fb-49ed-828d-1bcc2041193f",
+      "name": "GitHub Edit File",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        1040
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "tmlVcAaS7zF2bEP1",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "n8n export:credentials --backup --decrypted --output=/home/node/backup-credentials"
+      },
+      "id": "4fd700c8-3213-4a85-aecf-7c4f8879334f",
+      "name": "ExportaCredenciais",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        40,
+        960
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "command": "mkdir -p /home/node/backup-credentials"
+      },
+      "id": "79f65ad1-9d2b-492b-bb44-eda5024521a6",
+      "name": "CriaPasta",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        -320,
+        960
+      ],
+      "typeVersion": 1,
+      "notes": "Apenas Verifica se a pasta existe antes de continuar e evitar exceções."
+    },
+    {
+      "parameters": {
+        "command": "rm -rf /home/node/backup-credentials/*.json"
+      },
+      "id": "c4fc9656-07d7-4175-8b6c-19ffa70c7127",
+      "name": "LimpaPasta",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        -140,
+        960
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "fileSelector": "/home/node/backup-credentials/*.json"
+      },
+      "id": "257d2b1c-f853-489b-97b6-463ee372b4d2",
+      "name": "Read Binary Files",
+      "type": "n8n-nodes-base.readBinaryFiles",
+      "position": [
+        240,
+        960
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "id": "2881725c-f029-4ee4-a4ff-fd70e72aec1c",
+      "name": "Extract from File1",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        440,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "61df5ffb-7587-4ec0-a4ef-5d03168857c5",
+              "name": "owner",
+              "value": "ralfiischer",
+              "type": "string"
+            },
+            {
+              "id": "167893e5-9de8-4273-9fc3-3f2da550ebf7",
+              "name": "repository",
+              "value": "n8n_tester",
+              "type": "string"
+            },
+            {
+              "id": "a972e6d7-293b-4cbb-954e-d7332178ec1f",
+              "name": "diretorio",
+              "value": "credenciais/",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "35f746e8-8795-4516-bae3-cad8fbdb907a",
+      "name": "Infos Basicas",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -500,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 1
+            }
+          ]
+        }
+      },
+      "id": "45280364-bf4d-48cb-8004-c6e12400ceda",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -680,
+        960
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "6572c867-5434-43bf-97ee-874194db87a1",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        660
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b313464c-255c-458c-ace8-045e19504ce1",
+      "name": "No Operation, do nothing1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        840
+      ]
+    }
+  ],
+  "connections": {
+    "Workflow": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "GitHub Create File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Datasets": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Workflow1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "GitHub Edit File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ExportaCredenciais": {
+      "main": [
+        [
+          {
+            "node": "Read Binary Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CriaPasta": {
+      "main": [
+        [
+          {
+            "node": "LimpaPasta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LimpaPasta": {
+      "main": [
+        [
+          {
+            "node": "ExportaCredenciais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Binary Files": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Infos Basicas": {
+      "main": [
+        [
+          {
+            "node": "CriaPasta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Infos Basicas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f0834b96-0d1e-413a-a772-6df325142a9b",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-10-30T13:05:50.798Z",
+      "updatedAt": "2024-10-30T13:05:50.798Z",
+      "id": "YEMOCqgKzuvlDA5d",
+      "name": "system"
+    }
+  ]
+}
