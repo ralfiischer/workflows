@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:36:21.686Z",
-  "updatedAt": "2024-10-31T19:01:29.207Z",
+  "updatedAt": "2024-11-01T20:32:43.742Z",
   "id": "pyBuiGTm2KmmShnP",
   "name": "chat bot whats com audio",
   "active": false,
@@ -42,7 +42,6 @@
     },
     {
       "parameters": {
-        "model": "gpt-4o-mini",
         "options": {}
       },
       "id": "defc915b-9764-476d-a9aa-4f48b57f3454",
@@ -287,8 +286,7 @@
       "position": [
         1240,
         700
-      ],
-      "disabled": true
+      ]
     },
     {
       "parameters": {
@@ -329,8 +327,7 @@
       "position": [
         1600,
         460
-      ],
-      "disabled": true
+      ]
     },
     {
       "parameters": {
@@ -773,7 +770,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a4802532-7580-410f-9b8f-26518aea0a53",
+  "versionId": "68eabf2e-c79d-4dac-8002-3f9463143d32",
   "triggerCount": 0,
   "tags": []
 }
