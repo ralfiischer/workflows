@@ -1,0 +1,57 @@
+{
+  "createdAt": "2024-10-31T19:49:24.375Z",
+  "updatedAt": "2024-10-31T19:52:36.825Z",
+  "id": "e7Ia0p9n6BzlbCRc",
+  "name": "futuro fluxo de imagem",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "117b729f-2ab4-4973-abac-57996fc7d824",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        780,
+        400
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "622a8ed7-7452-4965-9a88-b1876b13d0b4",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        600,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "665857d0-5cbd-4418-8d74-6ad5416dfd2d",
+  "triggerCount": 0,
+  "tags": []
+}
