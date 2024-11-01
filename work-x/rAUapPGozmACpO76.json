@@ -1,0 +1,203 @@
+{
+  "createdAt": "2024-11-01T14:44:53.689Z",
+  "updatedAt": "2024-11-01T14:46:20.679Z",
+  "id": "rAUapPGozmACpO76",
+  "name": "Restore Credencial",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "f383c809-fae0-4750-b6a7-a0c9c0e4fb8d",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "credential",
+        "name": "={{ $json.data.name }}",
+        "credentialTypeName": "={{ $json.data.type }}",
+        "data": "={\n  \"hostname\": \"{{ $json.data.data.hostname }}\",\n  \"username\": \"{{ $json.data.data.username }}\",\n  \"password\": \"{{ $json.data.data.password }}\",\n  \"passwordless\": false,  \n  \"ca\": \"\",\n  \"cert\": \"\",\n  \"key\": \"\",\n  \"passphrase\": \"\"\n}\n",
+        "requestOptions": {}
+      },
+      "id": "546a929a-96a2-446a-92f6-30a27bc03b62",
+      "name": "n8n",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        2380,
+        220
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "LlPyWlmkvcik6Uew",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "id": "3eed61d4-e019-4e37-9fe1-d1a4746769e1",
+      "name": "Extract from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "200d0b65-a68f-47d6-b6ea-1df49f417ecc",
+              "name": "arquirvo",
+              "value": "0C0RtpMLvHQsFnyH",
+              "type": "string"
+            },
+            {
+              "id": "6fa35745-2bba-46db-9844-593e65756b92",
+              "name": "diretorio",
+              "value": "credenciais/",
+              "type": "string"
+            },
+            {
+              "id": "371533bf-57c3-4fd2-82ba-fb210f8c4cfb",
+              "name": "dono",
+              "value": "ralfiischer",
+              "type": "string"
+            },
+            {
+              "id": "928fa888-5d64-4afb-83eb-ac640f81bb9c",
+              "name": "repositorio",
+              "value": "n8n_tester",
+              "type": "string"
+            },
+            {
+              "id": "defef098-6bbd-403a-8081-5f90c1c08a62",
+              "name": "versao",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a0155709-927a-4591-9d00-f58454aedec0",
+      "name": "Info Basica",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1740,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $json.dono }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $json.repositorio }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $json.diretorio+$json.arquirvo }}.json",
+        "additionalParameters": {
+          "reference": "={{ $json.versao }}"
+        }
+      },
+      "id": "532a5747-5bbd-4793-b19c-e619279ab3df",
+      "name": "GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        220
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "tmlVcAaS7zF2bEP1",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Info Basica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Info Basica": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "46df1f81-b91b-4466-80ba-5b7ef7dfb5b0",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-10-30T13:05:50.798Z",
+      "updatedAt": "2024-10-30T13:05:50.798Z",
+      "id": "YEMOCqgKzuvlDA5d",
+      "name": "system"
+    }
+  ]
+}
