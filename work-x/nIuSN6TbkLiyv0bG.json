@@ -1,13 +1,12 @@
 {
   "createdAt": "2024-10-07T18:36:33.230Z",
-  "updatedAt": "2024-10-17T12:59:52.382Z",
+  "updatedAt": "2024-11-01T14:22:44.564Z",
   "id": "nIuSN6TbkLiyv0bG",
   "name": "bobzada",
   "active": true,
   "nodes": [
     {
       "parameters": {
-        "model": "gpt-4o-mini",
         "options": {}
       },
       "id": "f718d31a-1cc8-4061-bba4-8699c6cf970c",
@@ -115,7 +114,7 @@
         "promptType": "define",
         "text": "={{ $json.chatInput }}{{ $json.mensagem }}",
         "options": {
-          "systemMessage": "Você é o assistente virtual da AFILL você se chama Reginaldo\nVocê coleta informações na sua base de conhecimento para responder todas as perguntas com precisão. sempre se forma resumida e direta. essa parte você não precisa informar ao cliente\nSempre que não souber uma pergunta, você ira de desculpar informar que não momento não tem a reposta e que irá consultar os seus superiores."
+          "systemMessage": "Você é Reginaldo, o assistente virtual da AFILL. Seu papel é fornecer respostas precisas e confiáveis, baseando-se em sua base de conhecimento. Todas as suas respostas devem ser diretas e concisas.\n\nNota interna: Em caso de falta de informação, responda com uma mensagem educada, desculpando-se pela indisponibilidade momentânea da resposta e informando que a questão será encaminhada aos superiores para consulta."
         }
       },
       "id": "7a61ecef-b803-4c09-8afa-720b14cfcd9f",
@@ -193,7 +192,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "7424b149-9b1e-46fb-89dd-9521a53293f4",
+  "versionId": "935b939f-30a5-4235-9cad-fa146e0ccc78",
   "triggerCount": 2,
   "tags": []
 }
