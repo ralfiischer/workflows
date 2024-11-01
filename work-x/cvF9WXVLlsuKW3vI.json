@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-31T14:47:37.059Z",
-  "updatedAt": "2024-10-31T16:53:44.738Z",
+  "updatedAt": "2024-10-31T19:42:47.551Z",
   "id": "cvF9WXVLlsuKW3vI",
   "name": "Retorno Audio EVO",
   "active": false,
@@ -15,8 +15,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        780,
-        920
+        1300,
+        640
       ],
       "credentials": {
         "openAiApi": {
@@ -44,7 +44,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        680,
+        600,
         460
       ]
     },
@@ -62,7 +62,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        860,
+        780,
         460
       ]
     },
@@ -91,7 +91,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1220,
+        1140,
         460
       ]
     },
@@ -107,8 +107,8 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        1480,
-        700
+        1840,
+        460
       ]
     },
     {
@@ -148,8 +148,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1680,
-        700
+        2020,
+        460
       ]
     },
     {
@@ -175,8 +175,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        1080,
-        880
+        1520,
+        640
       ]
     },
     {
@@ -190,8 +190,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.1,
       "position": [
-        980,
-        900
+        1420,
+        640
       ],
       "credentials": {
         "postgres": {
@@ -225,7 +225,25 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        460,
+        420,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "agent": "openAiFunctionsAgent",
+        "promptType": "define",
+        "text": "={{ $json.text_field }}",
+        "options": {
+          "systemMessage": "voce é uma assistente virtual que responde todos os tipos de perguntas de forma gentil e delicada"
+        }
+      },
+      "id": "5f730886-2575-4430-b1b6-5fdb07e0ff67",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        1320,
         460
       ]
     },
@@ -240,7 +258,7 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.4,
       "position": [
-        1040,
+        960,
         460
       ],
       "credentials": {
@@ -262,8 +280,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.4,
       "position": [
-        1300,
-        700
+        1660,
+        460
       ],
       "credentials": {
         "openAiApi": {
@@ -271,24 +289,6 @@
           "name": "primeiro assistent"
         }
       }
-    },
-    {
-      "parameters": {
-        "agent": "openAiFunctionsAgent",
-        "promptType": "define",
-        "text": "={{ $json.text_field }}",
-        "options": {
-          "systemMessage": "voce é uma assistente virtual que responde todos os tipos de perguntas de forma gentil e delicada"
-        }
-      },
-      "id": "5f730886-2575-4430-b1b6-5fdb07e0ff67",
-      "name": "AI Agent",
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.6,
-      "position": [
-        880,
-        700
-      ]
     }
   ],
   "connections": {
@@ -391,6 +391,17 @@
         ]
       ]
     },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "OpenAI": {
       "main": [
         [
@@ -413,15 +424,9 @@
         ]
       ]
     },
-    "AI Agent": {
+    "Retorno EVO audio": {
       "main": [
-        [
-          {
-            "node": "OpenAI1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   },
@@ -433,7 +438,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "0899daab-cd7b-4c5f-8932-501a07b72a3c",
+  "versionId": "a92213ba-753a-4b20-9341-d2cf600cfba5",
   "triggerCount": 0,
   "tags": []
 }
