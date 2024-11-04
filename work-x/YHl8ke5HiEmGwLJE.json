@@ -1,0 +1,88 @@
+{
+  "createdAt": "2024-11-04T12:09:46.832Z",
+  "updatedAt": "2024-11-04T14:20:31.896Z",
+  "id": "YHl8ke5HiEmGwLJE",
+  "name": "My workflow 2",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {}
+      },
+      "id": "4d96f0ce-9ad3-44d5-80fa-30b85c9f65e2",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1240,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Formulário de Empresa</title>\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n    <style>\n        #chatScreen {\n            display: none;\n            height: 100vh;\n            background-color: #f8f9fa;\n            padding: 20px;\n        }\n        .chat-container {\n            border: 1px solid #ced4da;\n            border-radius: 10px;\n            padding: 20px;\n            background-color: #ffffff;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }\n        #formScreen {\n            display: block;\n        }\n    </style>\n</head>\n<body>\n\n<div id=\"formScreen\" class=\"container mt-5\">\n    <h2 class=\"mb-4\">Cadastro da Empresa</h2>\n    <form id=\"companyForm\">\n        <div class=\"mb-3\">\n            <label for=\"name\" class=\"form-label\">Nome da Empresa</label>\n            <input type=\"text\" class=\"form-control\" id=\"name\" placeholder=\"Digite o nome da empresa\" required>\n        </div>\n        <div class=\"mb-3\">\n            <label for=\"cnpj\" class=\"form-label\">CNPJ</label>\n            <input type=\"text\" class=\"form-control\" id=\"cnpj\" placeholder=\"Digite o CNPJ\" required>\n        </div>\n        <div class=\"mb-3\">\n            <label for=\"phone\" class=\"form-label\">Telefone</label>\n            <input type=\"tel\" class=\"form-control\" id=\"phone\" placeholder=\"Digite o telefone\" required>\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary\">Enviar</button>\n    </form>\n</div>\n\n<div id=\"chatScreen\" class=\"container mt-5\">\n    <h2 class=\"mb-4\">Chat</h2>\n    <div class=\"chat-container\">\n        <p>Bem-vindo ao chat! Inicie sua conversa.</p>\n        <textarea id=\"chatMessage\" class=\"form-control mb-3\" rows=\"3\" placeholder=\"Digite sua mensagem...\"></textarea>\n        <button id=\"sendChat\" class=\"btn btn-success\">Enviar</button>\n    </div>\n</div>\n\n<script>\n    document.getElementById(\"companyForm\").addEventListener(\"submit\", function(event) {\n        event.preventDefault(); // Evita o envio do formulário padrão\n        document.getElementById(\"formScreen\").style.display = \"none\";\n        document.getElementById(\"chatScreen\").style.display = \"block\";\n    });\n\n    document.getElementById(\"sendChat\").addEventListener(\"click\", function() {\n        var message = document.getElementById(\"chatMessage\").value;\n        if (message.trim() !== \"\") {\n            fetch('https://n8n-n8n-principal.tkbczu.easypanel.host/webhook/afill', {\n                method: 'POST',\n                headers: {\n                    'Content-Type': 'application/json'\n                },\n                body: JSON.stringify({ message: message })\n            })\n            .then(response => response.json())\n            .then(data => {\n                console.log(\"Resposta do webhook:\", data);\n                alert(\"Mensagem enviada com sucesso!\");\n            })\n            .catch(error => {\n                console.error(\"Erro ao enviar mensagem:\", error);\n                alert(\"Erro ao enviar a mensagem.\");\n            });\n\n            document.getElementById(\"chatMessage\").value = \"\";\n        }\n    });\n</script>\n\n<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>\n"
+      },
+      "id": "f4959610-4dd8-4e5d-9a93-e12b57e93854",
+      "name": "HTML",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1060,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "path": "afill",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1724feef-c7b0-4099-b6ee-ffddb9624494",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        880,
+        380
+      ],
+      "webhookId": "49a34ba7-dd38-4a60-a955-9d39b2f2024e"
+    }
+  ],
+  "connections": {
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "855bb646-ac7a-495d-8174-15845bd73f3a",
+  "triggerCount": 1,
+  "tags": []
+}
