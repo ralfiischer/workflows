@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-31T13:51:33.061Z",
-  "updatedAt": "2024-11-01T14:45:52.158Z",
+  "updatedAt": "2024-11-04T14:22:35.809Z",
   "id": "YtEowEVOPoGpmWRT",
   "name": "Retorno Texto EVO",
   "active": false,
@@ -265,24 +265,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Execute Workflow Trigger": [
-      {
-        "json": {
-          "message": {
-            "message_id": "3FDA6206828194522BDC",
-            "chat_id": "554799471522@s.whatsapp.net",
-            "content_type": "text",
-            "content": "opa",
-            "timestamp": "2024-10-31T13:57:26.000-03:00",
-            "content_url": "",
-            "event": "incoming"
-          }
-        }
-      }
-    ]
-  },
-  "versionId": "5bebc7b9-0014-43a0-a437-5f993789f785",
+  "pinData": {},
+  "versionId": "fd23d066-ac6f-483b-899e-f0ca6c407c6e",
   "triggerCount": 0,
   "tags": []
 }
