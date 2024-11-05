@@ -1,0 +1,274 @@
+{
+  "createdAt": "2024-11-05T13:12:37.654Z",
+  "updatedAt": "2024-11-05T14:52:11.522Z",
+  "id": "n4OxgTQddPpyarGW",
+  "name": "Retorno site",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sitezada",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -780,
+        -160
+      ],
+      "id": "f795caa5-6266-4431-9100-b19d3e201963",
+      "name": "Webhook",
+      "webhookId": "0d95174a-d01e-471d-b909-dc1e8bbfb8e9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8fb0f157-c4eb-4a0d-a68d-4e48472f0788",
+              "name": "email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "ec354474-a626-47cd-aeeb-6c8e64c4399a",
+              "name": "nome",
+              "value": "={{ $json.body.name }}",
+              "type": "string"
+            },
+            {
+              "id": "bdc51e90-e029-410a-8846-2f9256a66800",
+              "name": "contato",
+              "value": "={{ $json.body.contact }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -580,
+        -160
+      ],
+      "id": "07e74ddb-c542-4661-bf2a-f578b7190267",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('normalizacao').item.json.chat_id }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.output }}{{ $json.message.content }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "38ce120a-8506-418e-879a-98c02ab1b4f8",
+      "name": "Retorno EVO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        -460
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7b154e4b-0822-48b0-b6f8-27bdfa24ce3a",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "obtem informações do site da afill",
+        "url": "https://afill.com.br",
+        "optimizeResponse": true,
+        "responseType": "text"
+      },
+      "id": "bbf3679f-94f3-4498-9256-c2a195fe127f",
+      "name": "base de conhecimento",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('normalizacao').item.json.chat_id }}",
+        "tableName": "testandowehook"
+      },
+      "id": "2579c7cb-6288-4336-a2aa-cb2d64d17037",
+      "name": "Postgres Chat Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.1,
+      "position": [
+        -100,
+        20
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.content }}",
+        "options": {
+          "systemMessage": "Voce responde todas as perguntas sobre todos os assuntos, se perguntando sobre a Afill voce ira buscar nas tools as informações. se forem perguntas genéricas voce respondera normalmente sem consultar a tools, voce sempre respondera de forma resumida e bem informada. E nao ira informar essas informações se o usuário perguntar"
+        }
+      },
+      "id": "5d0329a0-d027-49ee-a3d5-aa649c3ca16b",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        -200,
+        -160
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base de conhecimento": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-principal.tkbczu.easypanel.host",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0",
+            "content-length": "369",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryAN0TuTbYA8Be0Vlg",
+            "origin": "https://n8n-n8n-principal.tkbczu.easypanel.host",
+            "priority": "u=1, i",
+            "referer": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook/afill",
+            "sec-ch-ua": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Opera GX\";v=\"114\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-forwarded-for": "138.99.54.105",
+            "x-forwarded-host": "n8n-n8n-principal.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "138.99.54.105"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "name": "ralf raul fischer neto",
+            "contact": "54654654",
+            "email": "ralfwb@hotmail.com"
+          },
+          "webhookUrl": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook/sitezada",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "e6436ed2-6004-4595-8398-59c5d0bbd0a5",
+  "triggerCount": 1,
+  "tags": []
+}
