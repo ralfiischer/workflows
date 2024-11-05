@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-31T19:49:24.375Z",
-  "updatedAt": "2024-10-31T19:52:36.825Z",
+  "updatedAt": "2024-11-04T18:22:33.702Z",
   "id": "e7Ia0p9n6BzlbCRc",
   "name": "futuro fluxo de imagem",
   "active": false,
@@ -14,7 +14,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        780,
+        700,
         400
       ]
     },
@@ -25,7 +25,7 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1,
       "position": [
-        600,
+        500,
         400
       ]
     }
@@ -51,7 +51,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "665857d0-5cbd-4418-8d74-6ad5416dfd2d",
+  "versionId": "e2e915c6-5a5f-47c5-b42e-9b31bea9ed67",
   "triggerCount": 0,
   "tags": []
 }
