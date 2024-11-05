@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-23T13:56:27.742Z",
-  "updatedAt": "2024-10-31T14:27:29.509Z",
+  "updatedAt": "2024-11-04T17:10:33.235Z",
   "id": "ayApNKiBylv6TgIw",
   "name": "minha normalização",
   "active": false,
@@ -89,8 +89,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1060,
-        420
+        1000,
+        380
       ]
     }
   ],
@@ -115,7 +115,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "0b83ad80-fd00-4803-985b-75cd48571e75",
+  "versionId": "7091a61b-9581-46cc-82bb-b1f617c52af2",
   "triggerCount": 0,
   "tags": []
 }
