@@ -1,8 +1,8 @@
 {
   "createdAt": "2024-11-05T13:12:37.654Z",
-  "updatedAt": "2024-11-05T14:52:11.522Z",
+  "updatedAt": "2024-11-05T21:08:44.329Z",
   "id": "n4OxgTQddPpyarGW",
-  "name": "Retorno site",
+  "name": "Retorno formulário",
   "active": true,
   "nodes": [
     {
@@ -19,7 +19,7 @@
       ],
       "id": "f795caa5-6266-4431-9100-b19d3e201963",
       "name": "Webhook",
-      "webhookId": "0d95174a-d01e-471d-b909-dc1e8bbfb8e9"
+      "webhookId": "2a7c0b29-1b7d-463b-ae7a-1470860025f5"
     },
     {
       "parameters": {
@@ -74,7 +74,7 @@
           "parameters": [
             {
               "name": "number",
-              "value": "={{ $('normalizacao').item.json.chat_id }}"
+              "value": "={{ $('Edit Fields').item.json.contato }}"
             },
             {
               "name": "text",
@@ -93,28 +93,9 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -120,
-        -460
+        -40,
+        -160
       ]
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "7b154e4b-0822-48b0-b6f8-27bdfa24ce3a",
-      "name": "OpenAI Chat Model",
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1,
-      "position": [
-        -200,
-        0
-      ],
-      "credentials": {
-        "openAiApi": {
-          "id": "RhJGnAesg7rbO4uq",
-          "name": "primeiro assistent"
-        }
-      }
     },
     {
       "parameters": {
@@ -128,47 +109,42 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        0,
+        -300,
         20
       ]
     },
     {
       "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $('normalizacao').item.json.chat_id }}",
-        "tableName": "testandowehook"
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={\n  \"assistant\": {\n    \"name\": \"Afill Virtual Assistant\",\n    \"initial_message\": \"Olá, {{ $json.nome }}! Seja bem-vindo. Em que posso ajudar você hoje?\",\n    \"response_settings\": {\n      \"format\": \"resumido e rápido\",\n      \"content\": \"informações detalhadas e precisas\",\n      \"source\": \"base de conhecimento da Afill\",\n      \"tone\": \"amigável e profissional\"\n    },\n    \"conversation_flow\": {\n      \"examples\": [\n        {\n          \"user\": \"Quais são os principais documentos necessários para exportação?\",\n          \"assistant\": \"Para exportação, os principais documentos são:\\n1. Fatura Comercial\\n2. Lista de Embalagem\\n3. Certificado de Origem\\n4. Conhecimento de Embarque (Bill of Lading)\\n5. Licença de Exportação (se aplicável)\"\n        },\n        {\n          \"user\": \"Como calcular as tarifas aduaneiras?\",\n          \"assistant\": \"As tarifas aduaneiras são calculadas com base no valor CIF da mercadoria, que inclui o custo, seguro e frete. A alíquota varia conforme o tipo de produto e o país de destino. Recomendo consultar a tabela tarifária específica na base de conhecimento da Afill.\"\n        }\n      ]\n    },\n    \"additional_behavior\": {\n      \"clarity\": \"Evitar jargões complexos; ser claro e direto\",\n      \"efficiency\": \"Responder prontamente para manter a fluidez da conversa\",\n      \"update\": \"Assegurar que as informações estejam atualizadas conforme a base de conhecimento da Afill\",\n      \"fallback\": \"Caso a dúvida não esteja na base de conhecimento, informar que irá encaminhar a questão para um atendente humano.\"\n    },\n    \"implementation_tips\": {\n      \"knowledge_base_integration\": \"Certificar-se de que a assistente tenha acesso atualizado e estruturado à base de conhecimento da Afill para fornecer respostas precisas.\",\n      \"conversation_testing\": \"Realizar testes com diferentes tipos de perguntas para garantir que a assistente responda de acordo com as diretrizes estabelecidas.\",\n      \"continuous_feedback\": \"Monitorar as interações e coletar feedback dos usuários para aprimorar continuamente as respostas e a eficácia da assistente.\",\n      \"error_handling\": \"Implementar respostas amigáveis para casos de erros ou perguntas não reconhecidas.\"\n    }\n  },\n  \"prompt\": {\n    \"content\": \"Você é a assistente virtual da Afill. Ao iniciar uma conversa, envie:\\n\\n\\\"Olá, {{user_name}}! Seja bem-vindo. Em que posso ajudar você hoje?\\\"\\n\\nA partir daí, responda a todas as perguntas de forma resumida e rápida, mas fornecendo informações detalhadas e precisas. Utilize a base de conhecimento da Afill para buscar as informações necessárias sobre importação, exportação e comércio exterior. Mantenha um tom amigável e profissional em todas as interações. Se a pergunta estiver fora da sua base de conhecimento, informe que irá encaminhar a questão para um atendente humano.\"\n  },\n  \"fallback_response\": \"Desculpe, não consegui encontrar uma resposta para isso. Vou encaminhar sua pergunta para um de nossos atendentes que poderá ajudá-lo melhor.\"\n}\n",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
       },
-      "id": "2579c7cb-6288-4336-a2aa-cb2d64d17037",
-      "name": "Postgres Chat Memory1",
-      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
-      "typeVersion": 1.1,
-      "position": [
-        -100,
-        20
-      ],
-      "credentials": {
-        "postgres": {
-          "id": "bX6ggeCJ75wvYGES",
-          "name": "Postgres supabase"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.content }}",
-        "options": {
-          "systemMessage": "Voce responde todas as perguntas sobre todos os assuntos, se perguntando sobre a Afill voce ira buscar nas tools as informações. se forem perguntas genéricas voce respondera normalmente sem consultar a tools, voce sempre respondera de forma resumida e bem informada. E nao ira informar essas informações se o usuário perguntar"
-        }
-      },
-      "id": "5d0329a0-d027-49ee-a3d5-aa649c3ca16b",
-      "name": "AI Agent",
-      "type": "@n8n/n8n-nodes-langchain.agent",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.6,
       "position": [
-        -200,
+        -380,
         -160
-      ]
+      ],
+      "id": "8dec998a-9b96-4d81-ba0a-39d24b3f7d5f",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
     }
   ],
   "connections": {
@@ -185,15 +161,10 @@
     },
     "Edit Fields": {
       "main": [
-        []
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
+            "node": "OpenAI",
+            "type": "main",
             "index": 0
           }
         ]
@@ -203,19 +174,24 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "OpenAI",
             "type": "ai_tool",
             "index": 0
           }
         ]
       ]
     },
-    "Postgres Chat Memory1": {
-      "ai_memory": [
+    "Retorno EVO": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI": {
+      "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_memory",
+            "node": "Retorno EVO",
+            "type": "main",
             "index": 0
           }
         ]
@@ -227,48 +203,8 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-n8n-principal.tkbczu.easypanel.host",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0",
-            "content-length": "369",
-            "accept": "*/*",
-            "accept-encoding": "gzip, deflate, br, zstd",
-            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
-            "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryAN0TuTbYA8Be0Vlg",
-            "origin": "https://n8n-n8n-principal.tkbczu.easypanel.host",
-            "priority": "u=1, i",
-            "referer": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook/afill",
-            "sec-ch-ua": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Opera GX\";v=\"114\"",
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": "\"Windows\"",
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin",
-            "x-forwarded-for": "138.99.54.105",
-            "x-forwarded-host": "n8n-n8n-principal.tkbczu.easypanel.host",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "e6ce9d964610",
-            "x-real-ip": "138.99.54.105"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "name": "ralf raul fischer neto",
-            "contact": "54654654",
-            "email": "ralfwb@hotmail.com"
-          },
-          "webhookUrl": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook/sitezada",
-          "executionMode": "production"
-        }
-      }
-    ]
-  },
-  "versionId": "e6436ed2-6004-4595-8398-59c5d0bbd0a5",
+  "pinData": {},
+  "versionId": "e4a7989a-7346-478e-859d-0c4bfb01160c",
   "triggerCount": 1,
   "tags": []
 }
