@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-10-25T18:24:59.767Z",
-  "updatedAt": "2024-11-04T13:42:58.922Z",
+  "updatedAt": "2024-11-06T14:40:14.741Z",
   "id": "FCD1OW3uiL8NFHQi",
   "name": "WEBHOOK UNICO",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
