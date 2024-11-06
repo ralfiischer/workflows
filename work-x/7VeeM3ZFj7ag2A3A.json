@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:36:44.401Z",
-  "updatedAt": "2024-10-30T13:47:14.390Z",
+  "updatedAt": "2024-11-06T14:26:57.153Z",
   "id": "7VeeM3ZFj7ag2A3A",
   "name": "personal bot ultrapassado",
   "active": false,
@@ -41,7 +41,8 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 1
           },
           "conditions": [
             {
@@ -101,7 +102,8 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 1
           },
           "conditions": [
             {
@@ -268,7 +270,7 @@
         1360,
         780
       ],
-      "webhookId": "7feb95db-17ee-42ed-af49-5e7d0c25a876"
+      "webhookId": "ed9e3d66-0cc3-4547-ad05-8d23f4a19ed6"
     },
     {
       "parameters": {
@@ -348,7 +350,8 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 1
           },
           "conditions": [
             {
@@ -618,7 +621,7 @@
         -1220,
         700
       ],
-      "webhookId": "92b89960-0403-4b04-9d1e-20d2ce8f73e5"
+      "webhookId": "cbe2954a-2bd5-4cb1-84ff-769808f022bb"
     },
     {
       "parameters": {
@@ -916,7 +919,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "b0011cee-2717-4a5b-8c49-72b2c5e6e5fd",
+  "versionId": "e5d73bbb-b6f9-4e0a-8438-9bed87b4659b",
   "triggerCount": 0,
   "tags": []
 }
