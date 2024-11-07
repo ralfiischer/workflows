@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:36:44.401Z",
-  "updatedAt": "2024-11-06T14:26:57.153Z",
+  "updatedAt": "2024-11-06T17:29:55.197Z",
   "id": "7VeeM3ZFj7ag2A3A",
   "name": "personal bot ultrapassado",
   "active": false,
@@ -270,7 +270,7 @@
         1360,
         780
       ],
-      "webhookId": "ed9e3d66-0cc3-4547-ad05-8d23f4a19ed6"
+      "webhookId": "095dad52-8679-4bdc-aacd-82875074462b"
     },
     {
       "parameters": {
@@ -621,7 +621,7 @@
         -1220,
         700
       ],
-      "webhookId": "cbe2954a-2bd5-4cb1-84ff-769808f022bb"
+      "webhookId": "c4f19464-ba4a-4f7c-b984-8412417bdb32"
     },
     {
       "parameters": {
@@ -919,7 +919,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "e5d73bbb-b6f9-4e0a-8438-9bed87b4659b",
+  "versionId": "2df2a506-761d-4747-b354-d7a5f60a6d34",
   "triggerCount": 0,
   "tags": []
 }
