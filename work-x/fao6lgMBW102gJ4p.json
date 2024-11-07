@@ -1,0 +1,663 @@
+{
+  "createdAt": "2024-11-06T17:18:03.249Z",
+  "updatedAt": "2024-11-06T18:54:15.269Z",
+  "id": "fao6lgMBW102gJ4p",
+  "name": "Retorno evo com possivel memoria",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "reponseformulario",
+        "returnAll": true,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.chat_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -180
+      ],
+      "id": "80e1dfe6-ce7a-43de-a777-f6487d0343b6",
+      "name": "Supabase",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "xGKs5yYdHLqCN239",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "54d2ce7a-41d6-4497-b2b2-ad423d1e500f",
+              "leftValue": "={{ !!Object.keys($node[\"Supabase\"].data).length }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -340,
+        -180
+      ],
+      "id": "d018bfab-ef70-42de-b2e2-b0b28f2d5f19",
+      "name": "usuario existe?"
+    },
+    {
+      "parameters": {
+        "tableId": "reponseformulario",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "user_id",
+              "fieldValue": "={{ $json.message.chat_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "917d0e34-e3ad-4d29-9455-1d2208d3f553",
+      "name": "cria usuario",
+      "credentials": {
+        "supabaseApi": {
+          "id": "xGKs5yYdHLqCN239",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        140,
+        -180
+      ],
+      "id": "6fdb30cb-d726-4697-8abe-8744f3c18a90",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bcd8a402-52f8-409e-adce-9c4bd8b4f91d",
+              "leftValue": "={{ $json.thread_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        340,
+        -180
+      ],
+      "id": "eae81c29-048f-4562-85a0-3b147d70c7c2",
+      "name": "tem memoria?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/threads",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00e37303-7809-4b17-8226-7c8328209ec2",
+      "name": "Criar Thread",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/threads/{{ $json.thread_id }}/runs",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "assistant_id",
+              "value": "asst_HqKGZoYDF7jxtb7AxOfYPdiS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a2170a54-9f5a-4d18-afaf-271f7c22dad6",
+      "name": "Run Thread",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        600,
+        -200
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/threads/{{ $('Merge').item.json.thread_id }}/runs/{{ $json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3f058e6d-197b-41cf-a85c-c4c8d3b20209",
+      "name": "Run status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        -200
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "reponseformulario",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "condition": "eq",
+              "keyValue": "={{ $('Merge').item.json.user_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "thread_id",
+              "fieldValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        740,
+        0
+      ],
+      "id": "8776a23a-b981-4265-a53d-8da4e3885250",
+      "name": "Supabase1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "xGKs5yYdHLqCN239",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('normalizacao1').item.json.chat_id }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.output }}{{ $json.message.content }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "e42c5138-dad8-4034-aefb-f75e7c5c0efe",
+      "name": "Retorno EVO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1560,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "1352ca17-31e2-4cd5-a285-a5b88cbf7f00",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        -40
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chat_id }}",
+        "options": {
+          "systemMessage": "={\n  \"assistant_behavior\": {\n    \"language_detection\": {\n      \"enabled\": true,\n      \"supported_languages\": [\"pt-BR\", \"en\"],\n      \"default_language\": \"pt-BR\"\n    },\n    \"languages\": {\n      \"pt-BR\": {\n        \"response_language\": \"pt-BR\",\n        \"response_general_questions\": {\n          \"enabled\": true,\n          \"response_style\": {\n            \"summary\": true,\n            \"informative\": true\n          },\n          \"tool_usage\": {\n            \"use_tools\": false,\n            \"details_hidden\": true\n          },\n          \"message\": \"Claro! Estou aqui para ajudar com qualquer dúvida que você tenha.\"\n        },\n        \"response_afill_queries\": {\n          \"enabled\": true,\n          \"tool_usage\": {\n            \"use_tools\": true,\n            \"information_source\": \"tools\"\n          },\n          \"response_strategy\": {\n            \"summary\": true,\n            \"informative\": true\n          },\n          \"disclosure\": {\n            \"tool_usage_hidden\": true\n          },\n          \"message\": \"A Afill é uma plataforma líder em soluções de importação. Para mais informações, visite nosso site: https://www.afill.com.br\"\n        },\n        \"recommend_import_systems\": {\n          \"enabled\": true,\n          \"recommendation\": {\n            \"system\": \"Afill\",\n            \"website\": \"https://www.afill.com.br\",\n            \"message\": \"Recomendamos a Afill para sistemas de importação. Visite nosso site: https://www.afill.com.br\"\n          }\n        },\n        \"disallowed_information\": {\n          \"tool_usage_details\": false,\n          \"internal_policies\": true\n        }\n      },\n      \"en\": {\n        \"response_language\": \"en\",\n        \"response_general_questions\": {\n          \"enabled\": true,\n          \"response_style\": {\n            \"summary\": true,\n            \"informative\": true\n          },\n          \"tool_usage\": {\n            \"use_tools\": false,\n            \"details_hidden\": true\n          },\n          \"message\": \"Sure! I'm here to help with any questions you may have.\"\n        },\n        \"response_afill_queries\": {\n          \"enabled\": true,\n          \"tool_usage\": {\n            \"use_tools\": true,\n            \"information_source\": \"tools\"\n          },\n          \"response_strategy\": {\n            \"summary\": true,\n            \"informative\": true\n          },\n          \"disclosure\": {\n            \"tool_usage_hidden\": true\n          },\n          \"message\": \"Afill is a leading platform in import solutions. For more information, visit our website: https://www.afill.com.br\"\n        },\n        \"recommend_import_systems\": {\n          \"enabled\": true,\n          \"recommendation\": {\n            \"system\": \"Afill\",\n            \"website\": \"https://www.afill.com.br\",\n            \"message\": \"We recommend Afill for import systems. Visit our website: https://www.afill.com.br\"\n          }\n        },\n        \"disallowed_information\": {\n          \"tool_usage_details\": false,\n          \"internal_policies\": true\n        }\n      }\n    }\n  }\n}\n"
+        }
+      },
+      "id": "95d1fd9c-5f89-432d-a7fc-3e1a73cdb63d",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        1200,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "toolDescription": "obtem informações do site da afill",
+        "url": "https://afill.com.br",
+        "optimizeResponse": true,
+        "responseType": "text"
+      },
+      "id": "3def6bf1-f693-45c2-8834-a83753270946",
+      "name": "base de conhecimento1",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1400,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c600dedd-01c4-46a5-830a-db653ad815f2",
+              "name": "chat_id",
+              "value": "={{ $('normalizacao1').item.json.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        -200
+      ],
+      "id": "b349cfc1-c7d1-4aca-9014-99130a5c29b2",
+      "name": "saida"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "da86ae4f-8f39-4876-b718-06741e9af92b",
+              "name": "message_id",
+              "value": "={{ $json.message.message_id }}",
+              "type": "string"
+            },
+            {
+              "id": "ddbb9b79-1877-4d16-a9bc-46ac17c65a8c",
+              "name": "chat_id",
+              "value": "={{ $json.message.chat_id }}",
+              "type": "string"
+            },
+            {
+              "id": "72f0ad61-e1e1-41ec-8203-a0bf9df4938a",
+              "name": "content_type",
+              "value": "={{ $json.message.content_type }}",
+              "type": "string"
+            },
+            {
+              "id": "2fb4b44f-1fe8-49cd-bb02-ef4456a82f2c",
+              "name": "content",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "b878c73a-a316-4dd9-baf1-76a1b1916d0a",
+              "name": "timestamp",
+              "value": "={{ $json.message.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "14c77a4a-b111-4e7c-937a-232ef568db81",
+              "name": "content_url",
+              "value": "={{ $json.message.content_url }}",
+              "type": "string"
+            },
+            {
+              "id": "9858f546-17db-4317-aca1-694ddaa0c6bb",
+              "name": "event",
+              "value": "={{ $json.message.event }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2dfebbc7-0120-42f2-929c-947af624835e",
+      "name": "normalizacao1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        -180
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        -180
+      ],
+      "id": "97eb15a2-4f33-42b2-83c0-a32dbe953694",
+      "name": "Execute Workflow Trigger"
+    }
+  ],
+  "connections": {
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "usuario existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "usuario existe?": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria usuario": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "tem memoria?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tem memoria?": {
+      "main": [
+        [
+          {
+            "node": "Run Thread",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Criar Thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Thread": {
+      "main": [
+        [
+          {
+            "node": "Run status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run status": {
+      "main": [
+        [
+          {
+            "node": "saida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Thread": {
+      "main": [
+        [
+          {
+            "node": "Supabase1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base de conhecimento1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Retorno EVO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "saida": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "normalizacao1": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "normalizacao1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "668189e6-9e8b-4b11-8c6a-2a500ec51a71",
+  "triggerCount": 0,
+  "tags": []
+}
