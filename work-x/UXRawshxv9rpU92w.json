@@ -1,0 +1,202 @@
+{
+  "createdAt": "2024-11-08T13:54:21.138Z",
+  "updatedAt": "2024-11-08T14:48:16.128Z",
+  "id": "UXRawshxv9rpU92w",
+  "name": "My workflow 2",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_HqKGZoYDF7jxtb7AxOfYPdiS",
+          "mode": "list",
+          "cachedResultName": "bob"
+        },
+        "prompt": "define",
+        "text": "={{ $json.content }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        -100,
+        -40
+      ],
+      "id": "0862c42f-7fd9-4449-86a9-f07d5fcd7ddc",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "da86ae4f-8f39-4876-b718-06741e9af92b",
+              "name": "message_id",
+              "value": "={{ $json.message.message_id }}",
+              "type": "string"
+            },
+            {
+              "id": "ddbb9b79-1877-4d16-a9bc-46ac17c65a8c",
+              "name": "chat_id",
+              "value": "={{ $json.message.chat_id }}",
+              "type": "string"
+            },
+            {
+              "id": "72f0ad61-e1e1-41ec-8203-a0bf9df4938a",
+              "name": "content_type",
+              "value": "={{ $json.message.content_type }}",
+              "type": "string"
+            },
+            {
+              "id": "2fb4b44f-1fe8-49cd-bb02-ef4456a82f2c",
+              "name": "content",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "b878c73a-a316-4dd9-baf1-76a1b1916d0a",
+              "name": "timestamp",
+              "value": "={{ $json.message.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "14c77a4a-b111-4e7c-937a-232ef568db81",
+              "name": "content_url",
+              "value": "={{ $json.message.content_url }}",
+              "type": "string"
+            },
+            {
+              "id": "9858f546-17db-4317-aca1-694ddaa0c6bb",
+              "name": "event",
+              "value": "={{ $json.message.event }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "08bcfb73-a4ca-4f83-a129-c4eb3fb15f48",
+      "name": "normalizacao1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -300,
+        -40
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        -40
+      ],
+      "id": "9e51fe02-2f05-4922-b35c-0e7fe8c3a027",
+      "name": "Execute Workflow Trigger",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.chat_id }}",
+        "tableName": "armazem"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.1,
+      "position": [
+        40,
+        140
+      ],
+      "id": "76afe17d-9160-433e-a2c5-c4f6828edc12",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "tUb24yykeyyvaDBp",
+          "name": "Postgres armazem"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "normalizacao1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "normalizacao1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Execute Workflow Trigger": [
+      {
+        "json": {
+          "message": {
+            "message_id": "3A2FEA9122446D48B2BD",
+            "chat_id": "554799471522@s.whatsapp.net",
+            "content_type": "text",
+            "content": "Olá",
+            "timestamp": "2024-11-07T22:43:58.000-03:00",
+            "content_url": "",
+            "event": "incoming"
+          }
+        }
+      }
+    ],
+    "normalizacao1": [
+      {
+        "json": {
+          "message_id": "3A2FEA9122446D48B2BD",
+          "chat_id": "554799471522@s.whatsapp.net",
+          "content_type": "text",
+          "content": "Olá",
+          "timestamp": "2024-11-07T22:43:58.000-03:00",
+          "content_url": "",
+          "event": "incoming"
+        }
+      }
+    ]
+  },
+  "versionId": "a589e729-4542-4086-8a6d-d3008985e81a",
+  "triggerCount": 0,
+  "tags": []
+}
