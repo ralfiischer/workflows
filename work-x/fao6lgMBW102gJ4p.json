@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-06T17:18:03.249Z",
-  "updatedAt": "2024-11-08T13:22:46.180Z",
+  "updatedAt": "2024-11-08T20:11:25.998Z",
   "id": "fao6lgMBW102gJ4p",
   "name": "Retorno evo com possivel memoria",
   "active": false,
@@ -23,7 +23,7 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        -560,
+        -640,
         -180
       ],
       "id": "80e1dfe6-ce7a-43de-a777-f6487d0343b6",
@@ -64,7 +64,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -340,
+        -440,
         -180
       ],
       "id": "d018bfab-ef70-42de-b2e2-b0b28f2d5f19",
@@ -85,8 +85,8 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        140,
-        0
+        -240,
+        -60
       ],
       "id": "917d0e34-e3ad-4d29-9455-1d2208d3f553",
       "name": "cria usuario",
@@ -102,7 +102,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        360,
+        -40,
         -180
       ],
       "id": "6fdb30cb-d726-4697-8abe-8744f3c18a90",
@@ -136,7 +136,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        560,
+        160,
         -180
       ],
       "id": "eae81c29-048f-4562-85a0-3b147d70c7c2",
@@ -164,7 +164,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        760,
+        360,
         0
       ],
       "credentials": {
@@ -205,7 +205,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        760,
+        360,
         -200
       ],
       "credentials": {
@@ -236,7 +236,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1020,
+        560,
         -200
       ],
       "credentials": {
@@ -271,7 +271,7 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        960,
+        560,
         0
       ],
       "id": "8776a23a-b981-4265-a53d-8da4e3885250",
@@ -320,10 +320,9 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1780,
+        1300,
         -200
-      ],
-      "disabled": true
+      ]
     },
     {
       "parameters": {
@@ -334,7 +333,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        1420,
+        980,
         -40
       ],
       "credentials": {
@@ -357,7 +356,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
       "position": [
-        1420,
+        960,
         -200
       ]
     },
@@ -373,7 +372,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        1620,
+        1120,
         -40
       ]
     },
@@ -394,7 +393,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1220,
+        760,
         -200
       ],
       "id": "b349cfc1-c7d1-4aca-9014-99130a5c29b2",
@@ -455,7 +454,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -800,
+        -840,
         -180
       ]
     },
@@ -657,24 +656,8 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {
-    "Execute Workflow Trigger": [
-      {
-        "json": {
-          "message": {
-            "message_id": "3A2FEA9122446D48B2BD",
-            "chat_id": "554799471522@s.whatsapp.net",
-            "content_type": "text",
-            "content": "Olá",
-            "timestamp": "2024-11-07T22:43:58.000-03:00",
-            "content_url": "",
-            "event": "incoming"
-          }
-        }
-      }
-    ]
-  },
-  "versionId": "39a3c863-fdd6-4c11-b3c2-97638f549f30",
+  "pinData": {},
+  "versionId": "72b3276d-dafe-4b1a-bf81-11b3ee30bd2f",
   "triggerCount": 0,
   "tags": []
 }
