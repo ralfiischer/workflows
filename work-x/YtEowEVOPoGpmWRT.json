@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-31T13:51:33.061Z",
-  "updatedAt": "2024-11-06T18:02:40.196Z",
+  "updatedAt": "2024-11-11T20:32:21.308Z",
   "id": "YtEowEVOPoGpmWRT",
   "name": "Retorno Texto EVO",
   "active": false,
@@ -162,8 +162,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.1,
       "position": [
-        640,
-        760
+        600,
+        720
       ],
       "credentials": {
         "postgres": {
@@ -266,7 +266,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "af4e7cb8-47e0-4cc2-aa66-aca5bd72fda6",
+  "versionId": "e5584a5e-fa87-4973-9baf-e0e5fdfde211",
   "triggerCount": 0,
   "tags": []
 }
