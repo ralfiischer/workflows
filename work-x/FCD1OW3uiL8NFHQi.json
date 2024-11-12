@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-25T18:24:59.767Z",
-  "updatedAt": "2024-11-06T18:40:28.312Z",
+  "updatedAt": "2024-11-11T20:32:12.904Z",
   "id": "FCD1OW3uiL8NFHQi",
   "name": "WEBHOOK UNICO",
   "active": true,
@@ -101,9 +101,9 @@
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "fao6lgMBW102gJ4p",
+          "value": "YtEowEVOPoGpmWRT",
           "mode": "list",
-          "cachedResultName": "My workflow 2"
+          "cachedResultName": "Retorno Texto EVO"
         },
         "mode": "each",
         "options": {}
@@ -175,7 +175,7 @@
         -320,
         360
       ],
-      "webhookId": "02fdc4d7-2140-461f-a31d-78e73c3e41b0"
+      "webhookId": "9c8fe96e-70d2-477c-839f-e8896010948b"
     },
     {
       "parameters": {
@@ -357,7 +357,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "37cac622-ca6d-4b07-97e4-dcedd9336839",
+  "versionId": "574f58ad-fd63-4ab6-9167-c306c79fdf74",
   "triggerCount": 1,
   "tags": []
 }
