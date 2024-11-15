@@ -1,0 +1,267 @@
+{
+  "createdAt": "2024-11-14T16:47:37.243Z",
+  "updatedAt": "2024-11-14T20:40:52.945Z",
+  "id": "rud632BIuXaXyfu1",
+  "name": "My workflow 3",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d193c82f-0ea4-474c-8222-dc2850a21d43",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -540,
+        20
+      ],
+      "id": "19b2971b-a648-4ed8-bb82-184139688649",
+      "name": "Webhook",
+      "webhookId": "41c4a411-80c8-4bca-9bc7-e83049ca7199"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a56ce4e2-89c1-498b-8aee-f764bd07d55e",
+              "name": "content",
+              "value": "={{ $json.body.conversation.messages[0].content }}",
+              "type": "string"
+            },
+            {
+              "id": "bd063ad9-00f1-48d2-9a6b-70869fe991e7",
+              "name": "instance_name",
+              "value": "={{ $json.body.account.name }}",
+              "type": "string"
+            },
+            {
+              "id": "3ee6de4a-a957-4f43-a4c6-0ae50cef264e",
+              "name": "phone_number",
+              "value": "={{ $json.body.conversation.meta.sender.phone_number }}",
+              "type": "string"
+            },
+            {
+              "id": "87c64376-4ec5-49a8-bf35-5c806b2772c3",
+              "name": "client_name",
+              "value": "={{ $json.body.conversation.meta.sender.name }}",
+              "type": "string"
+            },
+            {
+              "id": "1bd3f5a3-5331-4337-8e24-4fc8d88bf1f1",
+              "name": "body.conversation.meta.team.name",
+              "value": "={{ $json.body.conversation.meta.team.name }}",
+              "type": "string"
+            },
+            {
+              "id": "c9c32105-2d73-468b-ba66-096a0a886f19",
+              "name": "event_type",
+              "value": "={{ $json.body.message_type }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -340,
+        20
+      ],
+      "id": "d121f2e6-2c1d-4e59-a95a-2549f8f8b196",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.content }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Suporte",
+              "description": "=// Script para identificar intenção de contato com o suporte\n\n// Função que recebe a mensagem do cliente e retorna a intenção\nfunction identificarIntencao(mensagem) {\n    // Palavras-chave e frases que indicam intenção de contato com o suporte\n    const palavrasChaveSuporte = [\n        \"preciso de ajuda\",\n        \"suporte\",\n        \"problema\",\n        \"não consigo\",\n        \"erro\",\n        \"ajuda com\",\n        \"contato com suporte\",\n        \"atendimento\",\n        \"não está funcionando\",\n        \"falar com suporte\",\n        \"suporte técnico\",\n        \"falha\",\n        \"bug\",\n        \"como resolver\",\n        \"ajuda urgente\"\n    ];\n\n    // Normaliza a mensagem para minúsculas para garantir a correspondência com palavras-chave\n    const mensagemNormalizada = mensagem.toLowerCase();\n\n    // Verifica se alguma das palavras-chave está presente na mensagem\n    const intencaoDeSuporte = palavrasChaveSuporte.some(palavraChave => \n        mensagemNormalizada.includes(palavraChave)\n    );\n\n    // Retorna true se identificou a intenção de suporte; caso contrário, false\n    return intencaoDeSuporte;\n}\n\n// Exemplo de uso\nconst mensagemDoCliente = \"Olá, estou com um problema e preciso falar com o suporte!\";\nif (identificarIntencao(mensagemDoCliente)) {\n    console.log(\"A intenção é: Suporte\"); // Ação quando há intenção de suporte\n} else {\n    console.log(\"Nenhuma intenção de suporte identificada\"); // Ação alternativa\n}\n"
+            },
+            {
+              "category": "Financeiro",
+              "description": "=// Script para identificar intenção de contato com o setor financeiro\n\n// Função que recebe a mensagem do cliente e retorna a intenção\nfunction identificarIntencaoFinanceiro(mensagem) {\n    // Palavras-chave e frases que indicam intenção de contato com o setor financeiro\n    const palavrasChaveFinanceiro = [\n        \"pagamento\",\n        \"fatura\",\n        \"cobrança\",\n        \"boleto\",\n        \"nota fiscal\",\n        \"financeiro\",\n        \"contas a pagar\",\n        \"contas a receber\",\n        \"quero pagar\",\n        \"problema com pagamento\",\n        \"erro na cobrança\",\n        \"emitir nota\",\n        \"refaturamento\",\n        \"ajuda com minha fatura\",\n        \"alterar forma de pagamento\",\n        \"comprovante de pagamento\",\n        \"parcelamento\"\n    ];\n\n    // Normaliza a mensagem para minúsculas para garantir a correspondência com palavras-chave\n    const mensagemNormalizada = mensagem.toLowerCase();\n\n    // Verifica se alguma das palavras-chave está presente na mensagem\n    const intencaoFinanceira = palavrasChaveFinanceiro.some(palavraChave => \n        mensagemNormalizada.includes(palavraChave)\n    );\n\n    // Retorna true se identificou a intenção financeira; caso contrário, false\n    return intencaoFinanceira;\n}\n\n// Exemplo de uso\nconst mensagemDoCliente = \"Olá, preciso de ajuda com o pagamento da minha fatura!\";\nif (identificarIntencaoFinanceiro(mensagemDoCliente)) {\n    console.log(\"A intenção é: Financeiro\"); // Ação quando há intenção de financeiro\n} else {\n    console.log(\"Nenhuma intenção financeira identificada\"); // Ação alternativa\n}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        20
+      ],
+      "id": "ab032bba-3263-43b6-9d4f-0b3e8b8644bb",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        160
+      ],
+      "id": "9df57900-a90a-47cc-b218-1e7e0c5dd8f5",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.phone_number }}"
+            },
+            {
+              "name": "text",
+              "value": "Um momento, por favor, enquanto direcionamos você para a equipe de suporte especializada."
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "775fe5a3-ca72-4527-8477-8533ab37c0e8",
+      "name": "Retorno EVO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.phone_number }}"
+            },
+            {
+              "name": "text",
+              "value": "Por favor, aguarde um instante enquanto direcionamos você para a equipe financeira especializada."
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "3e9e7c2f-6bcd-4c7c-a3cb-7d40b5e9442c",
+      "name": "Retorno EVO1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Retorno EVO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Retorno EVO1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "f6345a1a-3380-4e33-a8ba-062766b65774",
+  "triggerCount": 0,
+  "tags": []
+}
