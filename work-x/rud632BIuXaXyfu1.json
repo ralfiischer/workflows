@@ -1,8 +1,8 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2024-11-14T20:40:52.945Z",
+  "updatedAt": "2024-11-18T13:13:00.666Z",
   "id": "rud632BIuXaXyfu1",
-  "name": "My workflow 3",
+  "name": "projeto de reconhecimento de setor para chatwoot",
   "active": false,
   "nodes": [
     {
@@ -19,7 +19,7 @@
       ],
       "id": "19b2971b-a648-4ed8-bb82-184139688649",
       "name": "Webhook",
-      "webhookId": "41c4a411-80c8-4bca-9bc7-e83049ca7199"
+      "webhookId": "50b2177c-0184-40cc-bbba-38b8c15f8902"
     },
     {
       "parameters": {
@@ -261,7 +261,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "f6345a1a-3380-4e33-a8ba-062766b65774",
+  "versionId": "1213bde2-f4ba-4ad7-94ff-4440cd816442",
   "triggerCount": 0,
   "tags": []
 }
