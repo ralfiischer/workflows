@@ -1,8 +1,8 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2024-11-18T13:13:00.666Z",
+  "updatedAt": "2024-11-19T14:09:23.533Z",
   "id": "rud632BIuXaXyfu1",
-  "name": "projeto de reconhecimento de setor para chatwoot",
+  "name": "Reconhecimento setor Chatwoot",
   "active": false,
   "nodes": [
     {
@@ -14,69 +14,16 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -540,
-        20
+        -840,
+        0
       ],
       "id": "19b2971b-a648-4ed8-bb82-184139688649",
       "name": "Webhook",
-      "webhookId": "50b2177c-0184-40cc-bbba-38b8c15f8902"
+      "webhookId": "2095b5c3-cfdc-49e2-8dd8-1a41a768f83b"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "a56ce4e2-89c1-498b-8aee-f764bd07d55e",
-              "name": "content",
-              "value": "={{ $json.body.conversation.messages[0].content }}",
-              "type": "string"
-            },
-            {
-              "id": "bd063ad9-00f1-48d2-9a6b-70869fe991e7",
-              "name": "instance_name",
-              "value": "={{ $json.body.account.name }}",
-              "type": "string"
-            },
-            {
-              "id": "3ee6de4a-a957-4f43-a4c6-0ae50cef264e",
-              "name": "phone_number",
-              "value": "={{ $json.body.conversation.meta.sender.phone_number }}",
-              "type": "string"
-            },
-            {
-              "id": "87c64376-4ec5-49a8-bf35-5c806b2772c3",
-              "name": "client_name",
-              "value": "={{ $json.body.conversation.meta.sender.name }}",
-              "type": "string"
-            },
-            {
-              "id": "1bd3f5a3-5331-4337-8e24-4fc8d88bf1f1",
-              "name": "body.conversation.meta.team.name",
-              "value": "={{ $json.body.conversation.meta.team.name }}",
-              "type": "string"
-            },
-            {
-              "id": "c9c32105-2d73-468b-ba66-096a0a886f19",
-              "name": "event_type",
-              "value": "={{ $json.body.message_type }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -340,
-        20
-      ],
-      "id": "d121f2e6-2c1d-4e59-a95a-2549f8f8b196",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "inputText": "={{ $json.content }}",
+        "inputText": "={{ $json['contato-menssagem'] }}",
         "categories": {
           "categories": [
             {
@@ -94,8 +41,8 @@
       "type": "@n8n/n8n-nodes-langchain.textClassifier",
       "typeVersion": 1,
       "position": [
-        -140,
-        20
+        -260,
+        -20
       ],
       "id": "ab032bba-3263-43b6-9d4f-0b3e8b8644bb",
       "name": "Text Classifier"
@@ -107,8 +54,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        -100,
-        160
+        -240,
+        120
       ],
       "id": "9df57900-a90a-47cc-b218-1e7e0c5dd8f5",
       "name": "OpenAI Chat Model",
@@ -121,14 +68,107 @@
     },
     {
       "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b8b52f0b-bba8-43e6-ae00-0440b61e19ed",
+              "name": "contato-nome",
+              "value": "={{ $json.body.conversation.meta.sender.name }}",
+              "type": "string"
+            },
+            {
+              "id": "81f8e0a3-9d58-4eae-af56-be7f4f1ec74f",
+              "name": "contato-wpp",
+              "value": "={{ $json.body.conversation.messages[0].sender.identifier }}",
+              "type": "string"
+            },
+            {
+              "id": "ff0c9022-6895-46c9-8295-16db1e00c5ca",
+              "name": "contato-menssagem",
+              "value": "={{ $json.body.conversation.messages[0].content }}",
+              "type": "string"
+            },
+            {
+              "id": "9f4f8787-d143-48ca-9c75-764afbbebb12",
+              "name": "conta-id",
+              "value": "={{ $json.body.conversation.messages[0].account_id }}",
+              "type": "string"
+            },
+            {
+              "id": "a7aabad5-4776-43c6-9b62-d521ba0ddd14",
+              "name": "conversa-id",
+              "value": "={{ $json.body.conversation.messages[0].conversation_id }}",
+              "type": "string"
+            },
+            {
+              "id": "de33af0e-9161-4e75-bf70-7a2e61f6a007",
+              "name": "evento-tipo",
+              "value": "={{ $json.body.event }}",
+              "type": "string"
+            },
+            {
+              "id": "88680e1a-660e-4dae-a10d-a45b3878c579",
+              "name": "chatwoot-token",
+              "value": "zyDXZitMJccAXaTZF9arUxMh",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -660,
+        0
+      ],
+      "id": "d08b9444-f8bf-48bb-8648-dc5e7a897cc7",
+      "name": "normalização"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2a5e6b4f-f8ce-458b-ba7b-0e3f51615fed",
+              "leftValue": "={{ $json['evento-tipo'] }}",
+              "rightValue": "message_created",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -480,
+        0
+      ],
+      "id": "0e4db6c8-0f3c-40dd-90b9-e02e522c3908",
+      "name": "If"
+    },
+    {
+      "parameters": {
         "method": "POST",
-        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "url": "=https://evo-chatwoot.tkbczu.easypanel.host/api/v1/accounts/{{ $json['conta-id'] }}/conversations/{{ $json['conversa-id'] }}/assignments",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
-              "name": "apikey",
-              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+              "name": "api_access_token",
+              "value": "=zyDXZitMJccAXaTZF9arUxMh"
             }
           ]
         },
@@ -136,40 +176,32 @@
         "bodyParameters": {
           "parameters": [
             {
-              "name": "number",
-              "value": "={{ $json.phone_number }}"
-            },
-            {
-              "name": "text",
-              "value": "Um momento, por favor, enquanto direcionamos você para a equipe de suporte especializada."
+              "name": "team_id",
+              "value": "2"
             }
           ]
         },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
+        "options": {}
       },
       "id": "775fe5a3-ca72-4527-8477-8533ab37c0e8",
-      "name": "Retorno EVO",
+      "name": "Chatwoot sup",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        300,
-        -100
+        100,
+        -160
       ]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "url": "=https://evo-chatwoot.tkbczu.easypanel.host/api/v1/accounts/{{ $json['conta-id'] }}/conversations/{{ $json['conversa-id'] }}/assignments",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
-              "name": "apikey",
-              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+              "name": "api_access_token",
+              "value": "=zyDXZitMJccAXaTZF9arUxMh"
             }
           ]
         },
@@ -177,28 +209,20 @@
         "bodyParameters": {
           "parameters": [
             {
-              "name": "number",
-              "value": "={{ $json.phone_number }}"
-            },
-            {
-              "name": "text",
-              "value": "Por favor, aguarde um instante enquanto direcionamos você para a equipe financeira especializada."
+              "name": "team_id",
+              "value": "1"
             }
           ]
         },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
+        "options": {}
       },
-      "id": "3e9e7c2f-6bcd-4c7c-a3cb-7d40b5e9442c",
-      "name": "Retorno EVO1",
+      "id": "d472f42d-c63b-4567-a4e4-62db3e6c13ca",
+      "name": "Chatwoot finan",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        300,
-        200
+        100,
+        120
       ]
     }
   ],
@@ -207,18 +231,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Text Classifier",
+            "node": "normalização",
             "type": "main",
             "index": 0
           }
@@ -240,14 +253,36 @@
       "main": [
         [
           {
-            "node": "Retorno EVO",
+            "node": "Chatwoot sup",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Retorno EVO1",
+            "node": "Chatwoot finan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "normalização": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
             "type": "main",
             "index": 0
           }
@@ -261,7 +296,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "1213bde2-f4ba-4ad7-94ff-4440cd816442",
+  "versionId": "53e1790a-46d6-4087-995e-86fa905bf233",
   "triggerCount": 0,
   "tags": []
 }
