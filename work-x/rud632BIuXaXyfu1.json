@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2024-11-19T14:09:23.533Z",
+  "updatedAt": "2024-11-19T17:47:07.312Z",
   "id": "rud632BIuXaXyfu1",
   "name": "Reconhecimento setor Chatwoot",
   "active": false,
@@ -19,7 +19,7 @@
       ],
       "id": "19b2971b-a648-4ed8-bb82-184139688649",
       "name": "Webhook",
-      "webhookId": "2095b5c3-cfdc-49e2-8dd8-1a41a768f83b"
+      "webhookId": "878300c5-4626-4560-a71f-93e6e98bd914"
     },
     {
       "parameters": {
@@ -28,11 +28,15 @@
           "categories": [
             {
               "category": "Suporte",
-              "description": "=// Script para identificar intenção de contato com o suporte\n\n// Função que recebe a mensagem do cliente e retorna a intenção\nfunction identificarIntencao(mensagem) {\n    // Palavras-chave e frases que indicam intenção de contato com o suporte\n    const palavrasChaveSuporte = [\n        \"preciso de ajuda\",\n        \"suporte\",\n        \"problema\",\n        \"não consigo\",\n        \"erro\",\n        \"ajuda com\",\n        \"contato com suporte\",\n        \"atendimento\",\n        \"não está funcionando\",\n        \"falar com suporte\",\n        \"suporte técnico\",\n        \"falha\",\n        \"bug\",\n        \"como resolver\",\n        \"ajuda urgente\"\n    ];\n\n    // Normaliza a mensagem para minúsculas para garantir a correspondência com palavras-chave\n    const mensagemNormalizada = mensagem.toLowerCase();\n\n    // Verifica se alguma das palavras-chave está presente na mensagem\n    const intencaoDeSuporte = palavrasChaveSuporte.some(palavraChave => \n        mensagemNormalizada.includes(palavraChave)\n    );\n\n    // Retorna true se identificou a intenção de suporte; caso contrário, false\n    return intencaoDeSuporte;\n}\n\n// Exemplo de uso\nconst mensagemDoCliente = \"Olá, estou com um problema e preciso falar com o suporte!\";\nif (identificarIntencao(mensagemDoCliente)) {\n    console.log(\"A intenção é: Suporte\"); // Ação quando há intenção de suporte\n} else {\n    console.log(\"Nenhuma intenção de suporte identificada\"); // Ação alternativa\n}\n"
+              "description": "=/**\n * Script para identificar a intenção de contato com o suporte.\n */\n\n/**\n * Lista de palavras-chave e frases que indicam intenção de contato com o suporte.\n * Utiliza expressões regulares para correspondências mais precisas.\n */\nconst SUPPORT_KEYWORDS = [\n    /\\bpreciso de ajuda\\b/i,\n    /\\bsuporte\\b/i,\n    /\\bproblema\\b/i,\n    /\\bnão consigo\\b/i,\n    /\\berro\\b/i,\n    /\\bajuda com\\b/i,\n    /\\bcontato com suporte\\b/i,\n    /\\batendimento\\b/i,\n    /\\bnão está funcionando\\b/i,\n    /\\bfalar com suporte\\b/i,\n    /\\bsuporte técnico\\b/i,\n    /\\bfalha\\b/i,\n    /\\bbug\\b/i,\n    /\\bcomo resolver\\b/i,\n    /\\bajuda urgente\\b/i\n];\n\n/**\n * Identifica a intenção de suporte em uma mensagem do cliente.\n *\n * @param {string} mensagem - A mensagem enviada pelo cliente.\n * @returns {boolean} - Retorna true se a intenção de suporte for identificada, caso contrário, false.\n */\nfunction identificarIntencaoSuporte(mensagem) {\n    if (typeof mensagem !== 'string') {\n        console.warn('Entrada inválida: a mensagem deve ser uma string.');\n        return false;\n    }\n\n    // Remove espaços extras e normaliza a mensagem\n    const mensagemNormalizada = mensagem.trim().toLowerCase();\n\n    // Verifica se alguma das palavras-chave corresponde à mensagem\n    return SUPPORT_KEYWORDS.some(regex => regex.test(mensagemNormalizada));\n}\n\n// Exemplo de uso\nconst mensagemDoCliente = \"Olá, estou com um problema e preciso falar com o suporte!\";\n\nif (identificarIntencaoSuporte(mensagemDoCliente)) {\n    console.log(\"A intenção é: Suporte\"); // Ação quando há intenção de suporte\n    // Aqui você pode adicionar a lógica para redirecionar para o time de suporte, enviar uma resposta automática, etc.\n} else {\n    console.log(\"Nenhuma intenção de suporte identificada\"); // Ação alternativa\n    // Aqui você pode tratar outras intenções ou seguir com o fluxo padrão\n}\n"
             },
             {
               "category": "Financeiro",
-              "description": "=// Script para identificar intenção de contato com o setor financeiro\n\n// Função que recebe a mensagem do cliente e retorna a intenção\nfunction identificarIntencaoFinanceiro(mensagem) {\n    // Palavras-chave e frases que indicam intenção de contato com o setor financeiro\n    const palavrasChaveFinanceiro = [\n        \"pagamento\",\n        \"fatura\",\n        \"cobrança\",\n        \"boleto\",\n        \"nota fiscal\",\n        \"financeiro\",\n        \"contas a pagar\",\n        \"contas a receber\",\n        \"quero pagar\",\n        \"problema com pagamento\",\n        \"erro na cobrança\",\n        \"emitir nota\",\n        \"refaturamento\",\n        \"ajuda com minha fatura\",\n        \"alterar forma de pagamento\",\n        \"comprovante de pagamento\",\n        \"parcelamento\"\n    ];\n\n    // Normaliza a mensagem para minúsculas para garantir a correspondência com palavras-chave\n    const mensagemNormalizada = mensagem.toLowerCase();\n\n    // Verifica se alguma das palavras-chave está presente na mensagem\n    const intencaoFinanceira = palavrasChaveFinanceiro.some(palavraChave => \n        mensagemNormalizada.includes(palavraChave)\n    );\n\n    // Retorna true se identificou a intenção financeira; caso contrário, false\n    return intencaoFinanceira;\n}\n\n// Exemplo de uso\nconst mensagemDoCliente = \"Olá, preciso de ajuda com o pagamento da minha fatura!\";\nif (identificarIntencaoFinanceiro(mensagemDoCliente)) {\n    console.log(\"A intenção é: Financeiro\"); // Ação quando há intenção de financeiro\n} else {\n    console.log(\"Nenhuma intenção financeira identificada\"); // Ação alternativa\n}\n"
+              "description": "=/**\n * Script para identificar a intenção de contato com o setor financeiro.\n */\n\n/**\n * Lista de palavras-chave e frases que indicam intenção de contato com o setor financeiro.\n * Utiliza expressões regulares para correspondências mais precisas.\n */\nconst FINANCEIRO_KEYWORDS = [\n    /\\bpagamento\\b/i,\n    /\\bfatura\\b/i,\n    /\\bcobrança\\b/i,\n    /\\bboleto\\b/i,\n    /\\bnota fiscal\\b/i,\n    /\\bfinanceiro\\b/i,\n    /\\bcontas a pagar\\b/i,\n    /\\bcontas a receber\\b/i,\n    /\\bquero pagar\\b/i,\n    /\\bproblema com pagamento\\b/i,\n    /\\berro na cobrança\\b/i,\n    /\\bemitir nota\\b/i,\n    /\\brefaturamento\\b/i,\n    /\\bajuda com minha fatura\\b/i,\n    /\\balterar forma de pagamento\\b/i,\n    /\\bcomprovante de pagamento\\b/i,\n    /\\bparcelamento\\b/i\n];\n\n/**\n * Identifica a intenção de contato com o setor financeiro em uma mensagem do cliente.\n *\n * @param {string} mensagem - A mensagem enviada pelo cliente.\n * @returns {boolean} - Retorna true se a intenção financeira for identificada, caso contrário, false.\n */\nfunction identificarIntencaoFinanceiro(mensagem) {\n    if (typeof mensagem !== 'string') {\n        console.warn('Entrada inválida: a mensagem deve ser uma string.');\n        return false;\n    }\n\n    // Remove espaços extras e normaliza a mensagem\n    const mensagemNormalizada = mensagem.trim().toLowerCase();\n\n    // Verifica se alguma das palavras-chave corresponde à mensagem\n    return FINANCEIRO_KEYWORDS.some(regex => regex.test(mensagemNormalizada));\n}\n\n// Exemplo de uso\nconst mensagemDoCliente = \"Olá, preciso de ajuda com o pagamento da minha fatura!\";\n\nif (identificarIntencaoFinanceiro(mensagemDoCliente)) {\n    console.log(\"A intenção é: Financeiro\"); // Ação quando há intenção financeira\n    // Aqui você pode adicionar a lógica para redirecionar para o setor financeiro, enviar uma resposta automática, etc.\n} else {\n    console.log(\"Nenhuma intenção financeira identificada\"); // Ação alternativa\n    // Aqui você pode tratar outras intenções ou seguir com o fluxo padrão\n}\n    ];\n\n    // Normaliza a mensagem para minúsculas para garantir a correspondência com palavras-chave\n    const mensagemNormalizada = mensagem.toLowerCase();\n\n    // Verifica se alguma das palavras-chave está presente na mensagem\n    const intencaoFinanceira = palavrasChaveFinanceiro.some(palavraChave => \n        mensagemNormalizada.includes(palavraChave)\n    );\n\n    // Retorna true se identificou a intenção financeira; caso contrário, false\n    return intencaoFinanceira;\n}\n\n// Exemplo de uso\nconst mensagemDoCliente = \"Olá, preciso de ajuda com o pagamento da minha fatura!\";\nif (identificarIntencaoFinanceiro(mensagemDoCliente)) {\n    console.log(\"A intenção é: Financeiro\"); // Ação quando há intenção de financeiro\n} else {\n    console.log(\"Nenhuma intenção financeira identificada\"); // Ação alternativa\n}\n"
+            },
+            {
+              "category": "Aleatorio",
+              "description": "=/**\n * Script para identificar intenções que não pertencem ao setor financeiro ou de suporte.\n */\n\n/**\n * Lista de palavras-chave e frases que indicam intenção de contato com o setor financeiro.\n * Utiliza expressões regulares para correspondências mais precisas.\n */\nconst FINANCEIRO_KEYWORDS = [\n    /\\bpagamento\\b/i,\n    /\\bfatura\\b/i,\n    /\\bcobrança\\b/i,\n    /\\bboleto\\b/i,\n    /\\bnota fiscal\\b/i,\n    /\\bfinanceiro\\b/i,\n    /\\bcontas a pagar\\b/i,\n    /\\bcontas a receber\\b/i,\n    /\\bquero pagar\\b/i,\n    /\\bproblema com pagamento\\b/i,\n    /\\berro na cobrança\\b/i,\n    /\\bemitir nota\\b/i,\n    /\\brefaturamento\\b/i,\n    /\\bajuda com minha fatura\\b/i,\n    /\\balterar forma de pagamento\\b/i,\n    /\\bcomprovante de pagamento\\b/i,\n    /\\bparcelamento\\b/i\n];\n\n/**\n * Lista de palavras-chave e frases que indicam intenção de contato com o suporte.\n * Utiliza expressões regulares para correspondências mais precisas.\n */\nconst SUPORTE_KEYWORDS = [\n    /\\berro\\b/i,\n    /\\bproblema\\b/i,\n    /\\bajuda\\b/i,\n    /\\bsuporte\\b/i,\n    /\\bnão funciona\\b/i,\n    /\\bnão consigo\\b/i,\n    /\\bcomo faço\\b/i,\n    /\\bsuporte técnico\\b/i,\n    /\\batendimento\\b/i,\n    /\\bresolver\\b/i,\n    /\\bconserto\\b/i,\n    /\\bassistência\\b/i,\n    /\\btroubleshooting\\b/i\n];\n\n/**\n * Identifica se a intenção da mensagem não pertence ao setor financeiro nem ao de suporte.\n *\n * @param {string} mensagem - A mensagem enviada pelo cliente.\n * @returns {boolean} - Retorna true se a intenção for de outro assunto, caso contrário, false.\n */\nfunction identificarIntencaoOutroAssunto(mensagem) {\n    if (typeof mensagem !== 'string') {\n        console.warn('Entrada inválida: a mensagem deve ser uma string.');\n        return false;\n    }\n\n    // Remove espaços extras e normaliza a mensagem\n    const mensagemNormalizada = mensagem.trim().toLowerCase();\n\n    // Verifica se alguma das palavras-chave de financeiro está presente\n    const intencaoFinanceira = FINANCEIRO_KEYWORDS.some(regex => regex.test(mensagemNormalizada));\n\n    // Verifica se alguma das palavras-chave de suporte está presente\n    const intencaoSuporte = SUPORTE_KEYWORDS.some(regex => regex.test(mensagemNormalizada));\n\n    // Retorna true se a intenção não for financeira nem de suporte; caso contrário, false\n    return !intencaoFinanceira && !intencaoSuporte;\n}\n\n// Exemplo de uso\nconst mensagemDoCliente = \"Gostaria de saber sobre os produtos disponíveis.\";\n\nif (identificarIntencaoOutroAssunto(mensagemDoCliente)) {\n    console.log(\"A intenção é: Outro Assunto\"); // Ação para assuntos diferentes de financeiro e suporte\n    // Aqui você pode adicionar a lógica para redirecionar para o setor apropriado, enviar uma resposta automática, etc.\n} else {\n    console.log(\"A intenção está relacionada ao setor financeiro ou suporte\"); // Ação alternativa\n    // Aqui você pode tratar intenções financeiras ou de suporte conforme necessário\n}\n"
             }
           ]
         },
@@ -54,7 +58,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        -240,
+        -180,
         120
       ],
       "id": "9df57900-a90a-47cc-b218-1e7e0c5dd8f5",
@@ -177,7 +181,7 @@
           "parameters": [
             {
               "name": "team_id",
-              "value": "2"
+              "value": "3"
             }
           ]
         },
@@ -210,19 +214,215 @@
           "parameters": [
             {
               "name": "team_id",
-              "value": "1"
+              "value": "4"
             }
           ]
         },
         "options": {}
       },
       "id": "d472f42d-c63b-4567-a4e4-62db3e6c13ca",
-      "name": "Chatwoot finan",
+      "name": "Chatwoot financeiro",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
         100,
-        120
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('normalização').item.json['contato-wpp'] }}"
+            },
+            {
+              "name": "text",
+              "value": "Por favor, aguarde enquanto encaminhamos sua solicitação para o setor de suporte responsável."
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "0b35cc4f-8855-42eb-a14a-588034f22c4b",
+      "name": "Retorno EVO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        280,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('normalização').item.json['contato-wpp'] }}"
+            },
+            {
+              "name": "text",
+              "value": "=Por favor, aguarde enquanto encaminhamos sua solicitação para o setor financeiro responsável."
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "0b619ede-6993-4f3b-bcfb-5ca3e39972fe",
+      "name": "Retorno EVO1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        280,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "toolDescription": "obtem informações do site da afill",
+        "url": "https://afill.com.br",
+        "optimizeResponse": true,
+        "responseType": "text"
+      },
+      "id": "81332792-2cf3-43c1-9666-bc75811c1e0e",
+      "name": "base de conhecimento",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        300,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json['contato-wpp'] }}",
+        "tableName": "chatwoot"
+      },
+      "id": "ee669311-ab64-481e-848a-1cc175ca1b7d",
+      "name": "Postgres Chat Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.1,
+      "position": [
+        180,
+        300
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json['contato-menssagem'] }}",
+        "options": {
+          "systemMessage": "={\n  \"assistant_behavior\": {\n    \"response_general_questions\": {\n      \"enabled\": true,\n      \"response_style\": {\n        \"summary\": true,\n        \"informative\": true\n      },\n      \"tool_usage\": {\n        \"use_tools\": false,\n        \"details_hidden\": true\n      }\n    },\n    \"response_afill_queries\": {\n      \"enabled\": true,\n      \"tool_usage\": {\n        \"use_tools\": true,\n        \"information_source\": \"tools\"\n      },\n      \"response_strategy\": {\n        \"summary\": true,\n        \"informative\": true\n      },\n      \"disclosure\": {\n        \"tool_usage_hidden\": true\n      }\n    },\n    \"recommend_import_systems\": {\n      \"enabled\": true,\n      \"recommendation\": {\n        \"system\": \"Afill\",\n        \"website\": \"https://www.afill.com.br\"\n      }\n    },\n    \"disallowed_information\": {\n      \"tool_usage_details\": false,\n      \"internal_policies\": true\n    }\n  }\n}\n"
+        }
+      },
+      "id": "8625f431-9ca2-4f13-8bfa-61ff1ec8f685",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        100,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "59537747-53d9-4507-a745-9ace9c60ae68",
+      "name": "OpenAI Chat Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        80,
+        280
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evolution-app.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BE8510C8CFE4-4CED-958D-5394E78C88C2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('normalização').item.json['contato-wpp'] }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "a78dee37-65f7-46f4-942d-033eed5b55fe",
+      "name": "Retorno EVO2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        420,
+        140
       ]
     }
   ],
@@ -260,7 +460,14 @@
         ],
         [
           {
-            "node": "Chatwoot finan",
+            "node": "Chatwoot financeiro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -288,6 +495,72 @@
           }
         ]
       ]
+    },
+    "Chatwoot financeiro": {
+      "main": [
+        [
+          {
+            "node": "Retorno EVO1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chatwoot sup": {
+      "main": [
+        [
+          {
+            "node": "Retorno EVO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base de conhecimento": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Retorno EVO2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -296,7 +569,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "53e1790a-46d6-4087-995e-86fa905bf233",
+  "versionId": "5e16b475-b99b-4a40-8fd1-c8d743f081bd",
   "triggerCount": 0,
   "tags": []
 }
