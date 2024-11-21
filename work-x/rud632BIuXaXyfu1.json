@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2024-11-19T17:47:07.312Z",
+  "updatedAt": "2024-11-21T13:21:03.699Z",
   "id": "rud632BIuXaXyfu1",
   "name": "Reconhecimento setor Chatwoot",
   "active": false,
@@ -19,7 +19,7 @@
       ],
       "id": "19b2971b-a648-4ed8-bb82-184139688649",
       "name": "Webhook",
-      "webhookId": "878300c5-4626-4560-a71f-93e6e98bd914"
+      "webhookId": "b1de28e0-1813-4e48-90ce-3b5e1c1dca5f"
     },
     {
       "parameters": {
@@ -338,8 +338,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.1,
       "position": [
-        180,
-        300
+        200,
+        280
       ],
       "credentials": {
         "postgres": {
@@ -374,7 +374,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        80,
+        100,
         280
       ],
       "credentials": {
@@ -569,7 +569,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "5e16b475-b99b-4a40-8fd1-c8d743f081bd",
+  "versionId": "b64621d6-68b5-436a-93d7-4da044c09c81",
   "triggerCount": 0,
   "tags": []
 }
