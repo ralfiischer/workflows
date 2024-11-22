@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2024-11-21T20:22:42.602Z",
+  "updatedAt": "2024-11-22T14:58:44.245Z",
   "id": "rud632BIuXaXyfu1",
   "name": "Reconhecimento setor Chatwoot",
   "active": false,
@@ -19,7 +19,7 @@
       ],
       "id": "19b2971b-a648-4ed8-bb82-184139688649",
       "name": "Webhook",
-      "webhookId": "b1de28e0-1813-4e48-90ce-3b5e1c1dca5f"
+      "webhookId": "c3d2979e-d8c2-411b-803d-dea6ee55a6db"
     },
     {
       "parameters": {
@@ -569,7 +569,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "3fe492e7-8017-49a3-a1a4-0726339a7b14",
+  "versionId": "45b581cf-8b32-4a2f-9ba7-d15c51f79717",
   "triggerCount": 0,
   "tags": []
 }
