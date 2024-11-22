@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2024-11-21T13:21:03.699Z",
+  "updatedAt": "2024-11-21T20:22:42.602Z",
   "id": "rud632BIuXaXyfu1",
   "name": "Reconhecimento setor Chatwoot",
   "active": false,
@@ -569,7 +569,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "b64621d6-68b5-436a-93d7-4da044c09c81",
+  "versionId": "3fe492e7-8017-49a3-a1a4-0726339a7b14",
   "triggerCount": 0,
   "tags": []
 }
