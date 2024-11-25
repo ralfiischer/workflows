@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2024-11-22T17:22:57.001Z",
+  "updatedAt": "2024-11-25T14:15:59.592Z",
   "id": "rud632BIuXaXyfu1",
   "name": "Reconhecimento setor Chatwoot",
   "active": false,
@@ -8,7 +8,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "d193c82f-0ea4-474c-8222-dc2850a21d43",
+        "path": "retornochat",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
@@ -114,6 +114,12 @@
               "id": "88680e1a-660e-4dae-a10d-a45b3878c579",
               "name": "chatwoot-token",
               "value": "zyDXZitMJccAXaTZF9arUxMh",
+              "type": "string"
+            },
+            {
+              "id": "ef96b461-14cc-450b-be92-b9556cfd15b0",
+              "name": "event",
+              "value": "={{ $json.body.message_type }}",
               "type": "string"
             }
           ]
@@ -323,35 +329,14 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        300,
-        280
+        540,
+        540
       ]
     },
     {
       "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $json['contato-wpp'] }}",
-        "tableName": "chatwoot"
-      },
-      "id": "ee669311-ab64-481e-848a-1cc175ca1b7d",
-      "name": "Postgres Chat Memory1",
-      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
-      "typeVersion": 1.1,
-      "position": [
-        200,
-        280
-      ],
-      "credentials": {
-        "postgres": {
-          "id": "bX6ggeCJ75wvYGES",
-          "name": "Postgres supabase"
-        }
-      }
-    },
-    {
-      "parameters": {
         "promptType": "define",
-        "text": "={{ $json['contato-menssagem'] }}",
+        "text": "={{ $('Webhook').item.json.body.content }}",
         "options": {
           "systemMessage": "={\n  \"assistant_behavior\": {\n    \"response_general_questions\": {\n      \"enabled\": true,\n      \"response_style\": {\n        \"summary\": true,\n        \"informative\": true\n      },\n      \"tool_usage\": {\n        \"use_tools\": false,\n        \"details_hidden\": true\n      }\n    },\n    \"response_afill_queries\": {\n      \"enabled\": true,\n      \"tool_usage\": {\n        \"use_tools\": true,\n        \"information_source\": \"tools\"\n      },\n      \"response_strategy\": {\n        \"summary\": true,\n        \"informative\": true\n      },\n      \"disclosure\": {\n        \"tool_usage_hidden\": true\n      }\n    },\n    \"recommend_import_systems\": {\n      \"enabled\": true,\n      \"recommendation\": {\n        \"system\": \"Afill\",\n        \"website\": \"https://www.afill.com.br\"\n      }\n    },\n    \"disallowed_information\": {\n      \"tool_usage_details\": false,\n      \"internal_policies\": true\n    }\n  }\n}\n"
         }
@@ -361,8 +346,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
       "position": [
-        100,
-        140
+        340,
+        400
       ]
     },
     {
@@ -374,8 +359,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        100,
-        280
+        340,
+        540
       ],
       "credentials": {
         "openAiApi": {
@@ -421,9 +406,207 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        420,
-        140
+        660,
+        400
       ]
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $json['contato-wpp'] }}_block",
+        "value": "true",
+        "keyType": "string",
+        "expire": true,
+        "ttl": 10
+      },
+      "id": "b3fc3b99-d165-4bee-8a3f-8f9223f49d02",
+      "name": "Block AI",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        240
+      ],
+      "credentials": {
+        "redis": {
+          "id": "L0Js4WEW1heNgnPs",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "block",
+        "key": "={{ $json['contato-wpp'] }}_block",
+        "options": {}
+      },
+      "id": "b55b137c-6eb0-40f1-9548-2b7334006da8",
+      "name": "Get Block Chat Id",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        420
+      ],
+      "credentials": {
+        "redis": {
+          "id": "L0Js4WEW1heNgnPs",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.block }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IA PODE RESPONDER"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "3ef0e01c-cc14-4663-bb4d-2905b350c3ab",
+                    "leftValue": "={{ $json.block }}",
+                    "rightValue": "true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IA NAO PODE RESPONDER"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "76a54c9f-fd01-47d4-85e4-b8fbab6a6302",
+      "name": "Switch Block",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        120,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('normalização').item.json.event }}",
+                    "rightValue": "outcoming",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "outcoming"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e37f4fc7-b949-4700-bfc6-526883d008aa",
+                    "leftValue": "={{ $('normalização').item.json.event }}",
+                    "rightValue": "incoming",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "incoming"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -400,
+        320
+      ],
+      "id": "c43c78ea-ebea-48ea-8a06-fde67c58f752",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Switch1').item.json['contato-wpp'] }}",
+        "tableName": "chatwoot"
+      },
+      "id": "ee669311-ab64-481e-848a-1cc175ca1b7d",
+      "name": "Postgres Chat Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.1,
+      "position": [
+        440,
+        560
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
     }
   ],
   "connections": {
@@ -467,7 +650,7 @@
         ],
         [
           {
-            "node": "AI Agent",
+            "node": "Switch1",
             "type": "main",
             "index": 0
           }
@@ -529,17 +712,6 @@
         ]
       ]
     },
-    "Postgres Chat Memory1": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI Chat Model1": {
       "ai_languageModel": [
         [
@@ -561,6 +733,57 @@
           }
         ]
       ]
+    },
+    "Get Block Chat Id": {
+      "main": [
+        [
+          {
+            "node": "Switch Block",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Block": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Block AI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Block Chat Id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -568,8 +791,169 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "1e2a4d0e-6e3b-48c3-b4e1-fc695519abac",
-  "triggerCount": 0,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-principal.tkbczu.easypanel.host",
+            "user-agent": "rest-client/2.1.0 (linux-musl x86_64) ruby/3.3.3p89",
+            "content-length": "2444",
+            "accept": "application/json",
+            "accept-encoding": "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n-n8n-principal.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "account": {
+              "id": 1,
+              "name": "Testing"
+            },
+            "additional_attributes": {},
+            "content_attributes": {},
+            "content_type": "text",
+            "content": "opa",
+            "conversation": {
+              "additional_attributes": {
+                "mail_subject": ""
+              },
+              "can_reply": true,
+              "channel": "Channel::Api",
+              "contact_inbox": {
+                "id": 28,
+                "contact_id": 4,
+                "inbox_id": 2,
+                "source_id": "0f262eb1-3fd0-4887-955c-b61fd1f3f9ac",
+                "created_at": "2024-11-12T18:58:22.020Z",
+                "updated_at": "2024-11-12T18:58:22.020Z",
+                "hmac_verified": false,
+                "pubsub_token": "QoiHEH87PKpYFz2YG6e1ycFR"
+              },
+              "id": 41,
+              "inbox_id": 2,
+              "messages": [
+                {
+                  "id": 990,
+                  "content": "opa",
+                  "account_id": 1,
+                  "inbox_id": 2,
+                  "conversation_id": 41,
+                  "message_type": 0,
+                  "created_at": 1732539895,
+                  "updated_at": "2024-11-25T13:04:55.568Z",
+                  "private": false,
+                  "status": "sent",
+                  "source_id": "WAID:3F734E734D9EEA7DA79B",
+                  "content_type": "text",
+                  "content_attributes": {},
+                  "sender_type": "Contact",
+                  "sender_id": 4,
+                  "external_source_ids": {},
+                  "additional_attributes": {},
+                  "processed_message_content": "opa",
+                  "sentiment": {},
+                  "conversation": {
+                    "assignee_id": 5,
+                    "unread_count": 1,
+                    "last_activity_at": 1732539895,
+                    "contact_inbox": {
+                      "source_id": "0f262eb1-3fd0-4887-955c-b61fd1f3f9ac"
+                    }
+                  },
+                  "sender": {
+                    "additional_attributes": {},
+                    "custom_attributes": {},
+                    "email": null,
+                    "id": 4,
+                    "identifier": "554799471522@s.whatsapp.net",
+                    "name": "Ralf Fischer",
+                    "phone_number": "+554799471522",
+                    "thumbnail": "",
+                    "type": "contact"
+                  }
+                }
+              ],
+              "labels": [],
+              "meta": {
+                "sender": {
+                  "additional_attributes": {},
+                  "custom_attributes": {},
+                  "email": null,
+                  "id": 4,
+                  "identifier": "554799471522@s.whatsapp.net",
+                  "name": "Ralf Fischer",
+                  "phone_number": "+554799471522",
+                  "thumbnail": "",
+                  "type": "contact"
+                },
+                "assignee": {
+                  "id": 5,
+                  "name": "Juvenaldo",
+                  "available_name": "Juvenaldo",
+                  "avatar_url": "",
+                  "type": "user",
+                  "availability_status": null,
+                  "thumbnail": ""
+                },
+                "team": {
+                  "id": 3,
+                  "name": "suporte"
+                },
+                "hmac_verified": false
+              },
+              "status": "open",
+              "custom_attributes": {},
+              "snoozed_until": null,
+              "unread_count": 1,
+              "first_reply_created_at": "2024-11-13T13:36:00.836Z",
+              "priority": null,
+              "waiting_since": 1732539895,
+              "agent_last_seen_at": 1732539319,
+              "contact_last_seen_at": 0,
+              "last_activity_at": 1732539895,
+              "timestamp": 1732539895,
+              "created_at": 1731504960
+            },
+            "created_at": "2024-11-25T13:04:55.568Z",
+            "id": 990,
+            "inbox": {
+              "id": 2,
+              "name": "teste"
+            },
+            "message_type": "incoming",
+            "private": false,
+            "sender": {
+              "account": {
+                "id": 1,
+                "name": "Testing"
+              },
+              "additional_attributes": {},
+              "avatar": "",
+              "custom_attributes": {},
+              "email": null,
+              "id": 4,
+              "identifier": "554799471522@s.whatsapp.net",
+              "name": "Ralf Fischer",
+              "phone_number": "+554799471522",
+              "thumbnail": ""
+            },
+            "source_id": "WAID:3F734E734D9EEA7DA79B",
+            "event": "message_created"
+          },
+          "webhookUrl": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook-test/retornochat",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "7b179d5b-ab46-4a10-b49b-58c1e1367876",
+  "triggerCount": 1,
   "tags": []
 }
