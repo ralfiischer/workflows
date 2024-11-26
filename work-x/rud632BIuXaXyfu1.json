@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2024-11-25T14:15:59.592Z",
+  "updatedAt": "2024-11-25T19:04:04.029Z",
   "id": "rud632BIuXaXyfu1",
   "name": "Reconhecimento setor Chatwoot",
   "active": false,
@@ -199,7 +199,7 @@
       "typeVersion": 4.2,
       "position": [
         100,
-        -160
+        -100
       ]
     },
     {
@@ -232,7 +232,7 @@
       "typeVersion": 4.2,
       "position": [
         100,
-        -20
+        40
       ]
     },
     {
@@ -273,7 +273,7 @@
       "typeVersion": 4.2,
       "position": [
         280,
-        -160
+        -100
       ]
     },
     {
@@ -314,7 +314,7 @@
       "typeVersion": 4.2,
       "position": [
         280,
-        -20
+        40
       ]
     },
     {
@@ -329,8 +329,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        540,
-        540
+        60,
+        500
       ]
     },
     {
@@ -346,8 +346,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
       "position": [
-        340,
-        400
+        -140,
+        360
       ]
     },
     {
@@ -359,8 +359,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        340,
-        540
+        -140,
+        500
       ],
       "credentials": {
         "openAiApi": {
@@ -406,8 +406,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        660,
-        400
+        200,
+        360
       ]
     },
     {
@@ -424,8 +424,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -100,
-        240
+        -560,
+        220
       ],
       "credentials": {
         "redis": {
@@ -446,8 +446,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -100,
-        420
+        -560,
+        380
       ],
       "credentials": {
         "redis": {
@@ -518,8 +518,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3,
       "position": [
-        120,
-        420
+        -380,
+        380
       ]
     },
     {
@@ -581,8 +581,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -400,
-        320
+        -780,
+        300
       ],
       "id": "c43c78ea-ebea-48ea-8a06-fde67c58f752",
       "name": "Switch1"
@@ -598,8 +598,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.1,
       "position": [
-        440,
-        560
+        -40,
+        520
       ],
       "credentials": {
         "postgres": {
@@ -791,169 +791,8 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-n8n-principal.tkbczu.easypanel.host",
-            "user-agent": "rest-client/2.1.0 (linux-musl x86_64) ruby/3.3.3p89",
-            "content-length": "2444",
-            "accept": "application/json",
-            "accept-encoding": "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-            "content-type": "application/json",
-            "x-forwarded-for": "172.18.0.1",
-            "x-forwarded-host": "n8n-n8n-principal.tkbczu.easypanel.host",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "e6ce9d964610",
-            "x-real-ip": "172.18.0.1"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "account": {
-              "id": 1,
-              "name": "Testing"
-            },
-            "additional_attributes": {},
-            "content_attributes": {},
-            "content_type": "text",
-            "content": "opa",
-            "conversation": {
-              "additional_attributes": {
-                "mail_subject": ""
-              },
-              "can_reply": true,
-              "channel": "Channel::Api",
-              "contact_inbox": {
-                "id": 28,
-                "contact_id": 4,
-                "inbox_id": 2,
-                "source_id": "0f262eb1-3fd0-4887-955c-b61fd1f3f9ac",
-                "created_at": "2024-11-12T18:58:22.020Z",
-                "updated_at": "2024-11-12T18:58:22.020Z",
-                "hmac_verified": false,
-                "pubsub_token": "QoiHEH87PKpYFz2YG6e1ycFR"
-              },
-              "id": 41,
-              "inbox_id": 2,
-              "messages": [
-                {
-                  "id": 990,
-                  "content": "opa",
-                  "account_id": 1,
-                  "inbox_id": 2,
-                  "conversation_id": 41,
-                  "message_type": 0,
-                  "created_at": 1732539895,
-                  "updated_at": "2024-11-25T13:04:55.568Z",
-                  "private": false,
-                  "status": "sent",
-                  "source_id": "WAID:3F734E734D9EEA7DA79B",
-                  "content_type": "text",
-                  "content_attributes": {},
-                  "sender_type": "Contact",
-                  "sender_id": 4,
-                  "external_source_ids": {},
-                  "additional_attributes": {},
-                  "processed_message_content": "opa",
-                  "sentiment": {},
-                  "conversation": {
-                    "assignee_id": 5,
-                    "unread_count": 1,
-                    "last_activity_at": 1732539895,
-                    "contact_inbox": {
-                      "source_id": "0f262eb1-3fd0-4887-955c-b61fd1f3f9ac"
-                    }
-                  },
-                  "sender": {
-                    "additional_attributes": {},
-                    "custom_attributes": {},
-                    "email": null,
-                    "id": 4,
-                    "identifier": "554799471522@s.whatsapp.net",
-                    "name": "Ralf Fischer",
-                    "phone_number": "+554799471522",
-                    "thumbnail": "",
-                    "type": "contact"
-                  }
-                }
-              ],
-              "labels": [],
-              "meta": {
-                "sender": {
-                  "additional_attributes": {},
-                  "custom_attributes": {},
-                  "email": null,
-                  "id": 4,
-                  "identifier": "554799471522@s.whatsapp.net",
-                  "name": "Ralf Fischer",
-                  "phone_number": "+554799471522",
-                  "thumbnail": "",
-                  "type": "contact"
-                },
-                "assignee": {
-                  "id": 5,
-                  "name": "Juvenaldo",
-                  "available_name": "Juvenaldo",
-                  "avatar_url": "",
-                  "type": "user",
-                  "availability_status": null,
-                  "thumbnail": ""
-                },
-                "team": {
-                  "id": 3,
-                  "name": "suporte"
-                },
-                "hmac_verified": false
-              },
-              "status": "open",
-              "custom_attributes": {},
-              "snoozed_until": null,
-              "unread_count": 1,
-              "first_reply_created_at": "2024-11-13T13:36:00.836Z",
-              "priority": null,
-              "waiting_since": 1732539895,
-              "agent_last_seen_at": 1732539319,
-              "contact_last_seen_at": 0,
-              "last_activity_at": 1732539895,
-              "timestamp": 1732539895,
-              "created_at": 1731504960
-            },
-            "created_at": "2024-11-25T13:04:55.568Z",
-            "id": 990,
-            "inbox": {
-              "id": 2,
-              "name": "teste"
-            },
-            "message_type": "incoming",
-            "private": false,
-            "sender": {
-              "account": {
-                "id": 1,
-                "name": "Testing"
-              },
-              "additional_attributes": {},
-              "avatar": "",
-              "custom_attributes": {},
-              "email": null,
-              "id": 4,
-              "identifier": "554799471522@s.whatsapp.net",
-              "name": "Ralf Fischer",
-              "phone_number": "+554799471522",
-              "thumbnail": ""
-            },
-            "source_id": "WAID:3F734E734D9EEA7DA79B",
-            "event": "message_created"
-          },
-          "webhookUrl": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook-test/retornochat",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "7b179d5b-ab46-4a10-b49b-58c1e1367876",
+  "pinData": {},
+  "versionId": "360397c3-fe73-4f67-bac7-70236a0c1ae9",
   "triggerCount": 1,
   "tags": []
 }
