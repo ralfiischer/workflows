@@ -1,18 +1,18 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-02T19:58:59.705Z",
+  "updatedAt": "2024-12-03T14:56:46.067Z",
   "id": "W3QJTzbQDINGnmUC",
   "name": "Generator QR CODE EVO",
   "active": true,
   "nodes": [
     {
       "parameters": {
-        "html": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: url('https://files.oaiusercontent.com/file-WKv8mqtV1ihYyn48gppPa3?se=2024-12-02T18%3A10%3A11Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D1a74d1ad-b39c-4465-8723-c9e2a26f3e66.webp&sig=IxASB8D682XCMsDmdbYbkM36Ae5%2BdmUPvOboorDvnuc%3D') no-repeat center center/cover;\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n        }\n\n        #timer {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #777;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n        <div id=\"timer\"></div>\n    </div>\n\n    <script>\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância.');\n                return;\n            }\n\n            const button = document.querySelector('button');\n            button.disabled = true;\n            button.textContent = 'Gerando...';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/criar-instancia-evolution', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json'\n                    },\n                    body: JSON.stringify({ instanceName })\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const data = await response.json();\n\n                // Supondo que a resposta contenha uma chave 'qrCode' com o Base64\n                // Exemplo: { \"qrCode\": \"data:image/png;base64,...\" }\n                if (data.qrCode) {\n                    const qrCodeImage = document.getElementById('qrCodeImage');\n                    qrCodeImage.src = data.qrCode;\n                    qrCodeImage.style.display = 'block';\n                    startTimer();\n                } else {\n                    throw new Error('Resposta inválida do servidor.');\n                }\n            } catch (error) {\n                alert(`Ocorreu um erro: ${error.message}`);\n                console.error(error);\n            } finally {\n                button.disabled = false;\n                button.textContent = 'Gerar QR Code';\n            }\n        }\n\n        function startTimer() {\n            let timeLeft = 30;\n            const timerElement = document.getElementById('timer');\n            timerElement.textContent = `Próximo QR Code em: ${timeLeft}s`;\n\n            const interval = setInterval(() => {\n                timeLeft--;\n                timerElement.textContent = `Próximo QR Code em: ${timeLeft}s`;\n\n                if (timeLeft <= 0) {\n                    clearInterval(interval);\n                    timerElement.textContent = '';\n                    document.getElementById('qrCodeImage').style.display = 'none';\n                }\n            }, 1000);\n        }\n    </script>\n</body>\n</html>\n"
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: url('https://files.oaiusercontent.com/file-WKv8mqtV1ihYyn48gppPa3?se=2024-12-02T18%3A10%3A11Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D1a74d1ad-b39c-4465-8723-c9e2a26f3e66.webp&sig=IxASB8D682XCMsDmdbYbkM36Ae5%2BdmUPvOboorDvnuc%3D') no-repeat center center/cover;\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage, #successMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n\n        #successMessage {\n            color: green;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <p id=\"successMessage\">QR Code lido com sucesso! Sessão iniciada.</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            const loadingMessage = document.getElementById('loadingMessage');\n            const successMessage = document.getElementById('successMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância.');\n                return;\n            }\n\n            // Mostra a mensagem de carregamento e oculta outras informações enquanto carrega\n            loadingMessage.style.display = 'block';\n            successMessage.style.display = 'none';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/criar-instancia-evolution', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n\n                // Começa a verificar se o QR Code foi lido\n                checkQRCodeStatus(instanceName);\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                // Oculta a mensagem de carregamento\n                loadingMessage.style.display = 'none';\n            }\n        }\n\n        async function checkQRCodeStatus(instanceName) {\n            try {\n                const response = await fetch(`https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/verificar-status/${instanceName}`);\n                const data = await response.json();\n\n                if (data.status === 'success') {\n                    // QR Code lido com sucesso\n                    document.getElementById('successMessage').style.display = 'block';\n                } else {\n                    // Continua verificando até que o QR Code seja lido\n                    setTimeout(() => checkQRCodeStatus(instanceName), 3000);\n                }\n            } catch (error) {\n                console.error('Erro ao verificar o status do QR Code:', error);\n            }\n        }\n    </script>\n</body>\n</html>\n"
       },
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        520,
+        480,
         600
       ],
       "id": "1ad0d470-c109-4131-94bd-1b7727124299",
@@ -27,7 +27,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        740,
+        660,
         600
       ],
       "id": "8b9b3dfa-9c33-47bb-99ef-5b05a38a7ea6",
@@ -59,23 +59,40 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        60,
-        800
+        -120,
+        1280
       ],
       "id": "c6f19b28-bbf9-4485-8086-25be6cb8e2c9",
       "name": "criar-instancia-evolution",
-      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3"
+      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "responseDataSource": "set",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        800
+      ],
+      "id": "46b68f27-8d8f-4802-878b-2e4071ea0ec9",
+      "name": "Respond to Webhook3",
+      "disabled": true
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "SEUDOMINIO/instance/create",
+        "url": "https://evo-evo.tkbczu.easypanel.host/instance/create",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "apikey",
-              "value": "SUA-APIKEY-"
+              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
             }
           ]
         },
@@ -105,105 +122,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        420,
-        800
+        60,
+        1280
       ],
-      "id": "aa0df7de-cff9-4b27-abfa-cb73f192c36b",
-      "name": "Criar instancia evolution",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "respondWith": "binary",
-        "responseDataSource": "set",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
-      "position": [
-        1000,
-        800
-      ],
-      "id": "c5252404-7e4a-4459-b3f5-bd855eb14865",
-      "name": "Respond to Webhook1",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "respondWith": "binary",
-        "responseDataSource": "set",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
-      "position": [
-        1100,
-        1000
-      ],
-      "id": "9bcb7e76-0edf-492d-98c1-7aa4d1c36320",
-      "name": "Respond to Webhook2",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "url": "=SEUDOMINIO/instance/connect/{{ $json.body.instanceName }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "SEU-api-Key"
-            }
-          ]
-        },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        520,
-        1000
-      ],
-      "id": "140a55ff-93d4-443b-8f59-777bb82a5ccb",
-      "name": "Criar instancia evolution1",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "atualizar-qr-code",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        300,
-        1000
-      ],
-      "id": "a402c02f-055d-4863-9fe9-1401f65f7da1",
-      "name": "Atualiza qr code",
-      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "operation": "toBinary",
-        "sourceProperty": "base64",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        840,
-        800
-      ],
-      "id": "75bc20b2-0c0b-42b4-9d73-2823af04b741",
-      "name": "Convert to File",
+      "id": "66e3c646-aede-4db8-b011-afbd3c88b7f3",
+      "name": "HTTP Request",
       "disabled": true
     },
     {
@@ -211,9 +134,9 @@
         "assignments": {
           "assignments": [
             {
-              "id": "7997d699-2380-48aa-8dc3-b1eac974e16e",
+              "id": "baf05207-7b62-41a6-8c11-d4fff7f70843",
               "name": "base64",
-              "value": "={{ $json.qrcode.base64.split(',').last() }}",
+              "value": "={{ $json.qrcode.base64.split(\",\").last() }}",
               "type": "string"
             }
           ]
@@ -223,10 +146,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        640,
+        420,
         800
       ],
-      "id": "d3a0efb6-1160-43c6-bcc5-cd28c6e79b7a",
+      "id": "56adabfa-c973-49bb-bb03-369cbff2473f",
       "name": "Edit Fields",
       "disabled": true
     },
@@ -239,19 +162,61 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        880,
-        1000
+        600,
+        800
       ],
-      "id": "995783ca-2e53-412e-9210-788daa7bb0fc",
-      "name": "Convert to File1",
+      "id": "639f6275-1b1b-40da-a60d-4909b9ce0b9a",
+      "name": "Convert to File",
       "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "responseDataSource": "set",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1180,
+        1080
+      ],
+      "id": "913af81b-31e2-488c-8a70-9e168b58a8ae",
+      "name": "Respond to Webhook4"
+    },
+    {
+      "parameters": {
+        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connect/{{ $json.body.instanceName }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        1080
+      ],
+      "id": "304154c6-07ec-4abb-ad3d-3b4ce7c6ed76",
+      "name": "HTTP Request1"
     },
     {
       "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "7997d699-2380-48aa-8dc3-b1eac974e16e",
+              "id": "baf05207-7b62-41a6-8c11-d4fff7f70843",
               "name": "base64",
               "value": "={{ $json.base64.split(',').last() }}",
               "type": "string"
@@ -263,27 +228,54 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        700,
-        1000
+        660,
+        1080
       ],
-      "id": "6161d727-f095-4ae4-99a0-c89ef26dcd8c",
-      "name": "Edit Fields1",
-      "disabled": true
+      "id": "b0231436-7de9-42dc-86be-9db31def7e09",
+      "name": "Edit Fields1"
     },
     {
       "parameters": {
-        "respondWith": "text",
-        "responseBody": "={{ $json.html }}",
+        "operation": "toBinary",
+        "sourceProperty": "base64",
         "options": {}
       },
-      "type": "n8n-nodes-base.respondToWebhook",
+      "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        660,
-        420
+        840,
+        1080
       ],
-      "id": "46b68f27-8d8f-4802-878b-2e4071ea0ec9",
-      "name": "Respond to Webhook3"
+      "id": "b0a31ce9-afa4-4eff-9f27-fe8b6d1774d0",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "criar-instancia-evolution",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        300,
+        1080
+      ],
+      "id": "6c669644-9cbc-4958-8ab3-4d28594bc55a",
+      "name": "reconecta evo",
+      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1000,
+        1080
+      ],
+      "id": "290c79cf-30e7-4d8c-93af-8dc700fa726b",
+      "name": "HTML1"
     }
   ],
   "connections": {
@@ -313,51 +305,18 @@
       "main": [
         [
           {
-            "node": "Respond to Webhook3",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Criar instancia evolution": {
+    "HTTP Request": {
       "main": [
         [
           {
             "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Criar instancia evolution1": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Atualiza qr code": {
-      "main": [
-        [
-          {
-            "node": "Criar instancia evolution1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Convert to File": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook1",
             "type": "main",
             "index": 0
           }
@@ -369,6 +328,28 @@
         [
           {
             "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
@@ -390,7 +371,34 @@
       "main": [
         [
           {
-            "node": "Respond to Webhook2",
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook4": {
+      "main": [
+        []
+      ]
+    },
+    "reconecta evo": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
             "type": "main",
             "index": 0
           }
@@ -404,7 +412,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "edbab7a2-6e13-474f-8626-d2fde09e3aba",
+  "versionId": "f80b63f6-be78-43f7-990a-654eda2c71d8",
   "triggerCount": 2,
   "tags": []
 }
