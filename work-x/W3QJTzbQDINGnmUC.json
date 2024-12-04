@@ -1,13 +1,13 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-03T20:43:00.692Z",
+  "updatedAt": "2024-12-04T14:56:14.578Z",
   "id": "W3QJTzbQDINGnmUC",
   "name": "Generator QR CODE EVO",
   "active": true,
   "nodes": [
     {
       "parameters": {
-        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: url('https://files.oaiusercontent.com/file-WKv8mqtV1ihYyn48gppPa3?se=2024-12-02T18%3A10%3A11Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D1a74d1ad-b39c-4465-8723-c9e2a26f3e66.webp&sig=IxASB8D682XCMsDmdbYbkM36Ae5%2BdmUPvOboorDvnuc%3D') no-repeat center center/cover;\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância.');\n                return;\n            }\n\n            // Mostra a mensagem de carregamento e oculta a imagem enquanto carrega\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconect', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                // Oculta a mensagem de carregamento\n                loadingMessage.style.display = 'none';\n            }\n        }\n    </script>\n</body>\n</html>\n"
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: url('https://files.oaiusercontent.com/file-WKv8mqtV1ihYyn48gppPa3?se=2024-12-02T18%3A10%3A11Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D1a74d1ad-b39c-4465-8723-c9e2a26f3e66.webp&sig=IxASB8D682XCMsDmdbYbkM36Ae5%2BdmUPvOboorDvnuc%3D') no-repeat center center/cover;\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n\n        #statusMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n        <p id=\"statusMessage\"></p>\n    </div>\n\n    <script>\n        let statusInterval;\n\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n            const statusMessage = document.getElementById('statusMessage');\n\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância.');\n                return;\n            }\n\n            // Mostra a mensagem de carregamento e oculta a imagem enquanto carrega\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n            statusMessage.textContent = '';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconect', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n\n                // Aguarda 15 segundos antes de iniciar a verificação do status\n                setTimeout(() => {\n                    updateStatus(instanceName);\n                }, 15000);\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                // Oculta a mensagem de carregamento\n                loadingMessage.style.display = 'none';\n            }\n        }\n\n        async function updateStatus(instanceName) {\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/atualizastatus', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro ao atualizar status: ${response.statusText}`);\n                }\n\n                // Inicia a verificação do status\n                checkStatus(instanceName);\n            } catch (error) {\n                alert(`Erro ao atualizar status: ${error.message}`);\n                console.error(error);\n            }\n        }\n\n        async function checkStatus(instanceName) {\n            const statusMessage = document.getElementById('statusMessage');\n\n            statusInterval = setInterval(async () => {\n                try {\n                    const response = await fetch(`https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/atualizastatus?instanceName=${instanceName}`);\n\n                    if (!response.ok) {\n                        throw new Error(`Erro ao verificar status: ${response.statusText}`);\n                    }\n\n                    const { status } = await response.json();\n\n                    // Atualiza a mensagem de status\n                    statusMessage.textContent = `Status da Instância: ${status}`;\n\n                    // Para a verificação se o status for 'connecting'\n                    if (status.toLowerCase() === 'connecting') {\n                        clearInterval(statusInterval);\n                        alert('A instância está conectando.');\n                    }\n                } catch (error) {\n                    console.error(`Erro ao verificar status: ${error.message}`);\n                }\n            }, 5000); // Verifica o status a cada 5 segundos\n        }\n    </script>\n</body>\n</html>\n"
       },
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
@@ -42,7 +42,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        360,
+        340,
         600
       ],
       "id": "c8dd70be-88c9-4494-836b-ba641ed5f48d",
@@ -268,7 +268,7 @@
     },
     {
       "parameters": {
-        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connectionState/{{ $('reconecta evo').item.json.body.instanceName }}",
+        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connectionState/{{ $json.body.instanceName }}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -287,12 +287,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1120,
-        800
+        240,
+        1280
       ],
       "id": "1d9dd6cb-0ba0-4553-b6d0-832333a062f0",
-      "name": "HTTP Request2",
-      "disabled": true
+      "name": "HTTP Request2"
     },
     {
       "parameters": {
@@ -302,7 +301,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        280,
+        260,
         1040
       ],
       "typeVersion": 1,
@@ -340,6 +339,22 @@
       "typeVersion": 1,
       "id": "0290f5f0-afc0-434d-8c0a-5705f5cafbdf",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "atualizastatus",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        60,
+        1280
+      ],
+      "id": "5b68a5eb-ce10-4bf4-8849-2004c7604989",
+      "name": "Atualiza Status",
+      "webhookId": "771fde8e-e0cc-4e91-9afe-ce44d36a0cb7"
     }
   ],
   "connections": {
@@ -467,6 +482,17 @@
       "main": [
         []
       ]
+    },
+    "Atualiza Status": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -475,7 +501,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "258c0431-0238-4c8f-8a34-4ddb7636a3f8",
-  "triggerCount": 2,
+  "versionId": "9dd5f342-7497-4749-bac5-2560ecd0df5a",
+  "triggerCount": 3,
   "tags": []
 }
