@@ -1,0 +1,254 @@
+{
+  "createdAt": "2024-12-05T12:13:31.805Z",
+  "updatedAt": "2024-12-05T14:34:00.522Z",
+  "id": "ex35Mn2fdTLauFMC",
+  "name": "My workflow 4",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "bf2290f0-51b0-4dd1-9896-0c5e54343747",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        720,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "api_instance",
+          "mode": "list",
+          "cachedResultName": "api_instance"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "connectionstatus",
+              "value": "close"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fb9c4f7c-f440-408f-a082-364ca364d3e1",
+      "name": "Conexões Evolution",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        920,
+        140
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "94591044-ee22-4577-b06d-bf3392184638",
+              "leftValue": "={{ !!Object.keys($node[\"Conexões Evolution\"].data).length }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c905b001-b116-4283-99b1-bc86b5917777",
+      "name": "Encontrou Desconectado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        140
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b089dc5c-ddf5-49f4-9fbb-dbaa1831f439",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário local\nfunction formatarData(timestamp) {\n  const data = new Date(timestamp);\n\n  // Extraindo os componentes da data no fuso horário de São Paulo\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(new Date(item.json.disconnectionAt).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }))\n}));"
+      },
+      "id": "5fe4f52d-971a-4bf3-a872-d12d33f61ad6",
+      "name": "Code Analise",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://evo-evo.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=C9556462-1EA0-4300-A959-9C6C0FDFA177"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "=5547999471522"
+            },
+            {
+              "name": "text",
+              "value": "=🚨*Instância Desconectada*🚨\n_Instancia:_\n_Numero:_ \n_Desconectada:_ {{ $json.disconnectionAt }}"
+            },
+            {
+              "name": "delay",
+              "value": 2000
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ce545308-dc02-4d09-bc03-efde61e5c532",
+      "name": "Envia MSG",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1620,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://evo-evo.tkbczu.easypanel.host/instance/connectionState/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "C9556462-1EA0-4300-A959-9C6C0FDFA177"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        -220
+      ],
+      "id": "95aca557-8628-4450-b178-38488dab3392",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Conexões Evolution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conexões Evolution": {
+      "main": [
+        [
+          {
+            "node": "Encontrou Desconectado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encontrou Desconectado?": {
+      "main": [
+        [
+          {
+            "node": "Code Analise",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Analise": {
+      "main": [
+        [
+          {
+            "node": "Envia MSG",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "ed51f778-e95f-415b-a589-329a65be4269",
+  "triggerCount": 0,
+  "tags": []
+}
