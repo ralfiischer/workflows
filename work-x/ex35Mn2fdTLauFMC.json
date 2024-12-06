@@ -1,61 +1,74 @@
 {
   "createdAt": "2024-12-05T12:13:31.805Z",
-  "updatedAt": "2024-12-05T20:44:19.364Z",
+  "updatedAt": "2024-12-06T14:46:21.166Z",
   "id": "ex35Mn2fdTLauFMC",
-  "name": "My workflow 4",
+  "name": "Verifica status Instancia EVO",
   "active": false,
   "nodes": [
     {
-      "parameters": {},
-      "id": "bf2290f0-51b0-4dd1-9896-0c5e54343747",
-      "name": "When clicking ‘Test workflow’",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        720,
-        140
-      ]
-    },
-    {
       "parameters": {
-        "operation": "select",
-        "schema": {
-          "__rl": true,
-          "value": "public",
-          "mode": "name"
-        },
-        "table": {
-          "__rl": true,
-          "value": "api_instance",
-          "mode": "list",
-          "cachedResultName": "api_instance"
-        },
-        "returnAll": true,
-        "where": {
-          "values": [
+        "method": "POST",
+        "url": "=https://evo-evo.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
             {
-              "column": "connectionstatus",
-              "value": "close"
+              "name": "apikey",
+              "value": "=C9556462-1EA0-4300-A959-9C6C0FDFA177"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=🚨*Instância Desconectada*🚨\n_Instancia:_{{ $json.name }}\n_Numero:_ {{ $('Conexões Evolution').item.json.ownerJid.split('@').first() }}\n_Desconectada:_ {{ $json.disconnectionAt }}\nEntre no link e reconecte https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/instanciaevolution"
+            },
+            {
+              "name": "delay",
+              "value": 2000
+            },
+            {
+              "name": "number",
+              "value": "5547999471522"
             }
           ]
         },
         "options": {}
       },
-      "id": "fb9c4f7c-f440-408f-a082-364ca364d3e1",
-      "name": "Conexões Evolution",
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.5,
+      "id": "ce545308-dc02-4d09-bc03-efde61e5c532",
+      "name": "Envia MSG",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        920,
-        140
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "postgres": {
-          "id": "bX6ggeCJ75wvYGES",
-          "name": "Postgres supabase"
-        }
-      }
+        1820,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário local\nfunction formatarData(timestamp) {\n  const data = new Date(timestamp);\n\n  // Extraindo os componentes da data no fuso horário de São Paulo\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(new Date(item.json.disconnectionAt).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }))\n}));"
+      },
+      "id": "cc4721ee-0a59-469a-a6ed-8e936dcc7267",
+      "name": "Code Analise",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "871830f8-dc02-422d-96b9-c952e81e78c3",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        440
+      ]
     },
     {
       "parameters": {
@@ -82,125 +95,74 @@
         },
         "options": {}
       },
-      "id": "c905b001-b116-4283-99b1-bc86b5917777",
+      "id": "5722c612-68e2-4f04-b4c3-eb2b5e862231",
       "name": "Encontrou Desconectado?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1140,
-        140
-      ]
-    },
-    {
-      "parameters": {},
-      "id": "b089dc5c-ddf5-49f4-9fbb-dbaa1831f439",
-      "name": "No Operation, do nothing",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        1360,
-        260
+        1440,
+        320
       ]
     },
     {
       "parameters": {
-        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário local\nfunction formatarData(timestamp) {\n  const data = new Date(timestamp);\n\n  // Extraindo os componentes da data no fuso horário de São Paulo\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(new Date(item.json.disconnectionAt).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }))\n}));"
-      },
-      "id": "5fe4f52d-971a-4bf3-a872-d12d33f61ad6",
-      "name": "Code Analise",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1360,
-        20
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://evo-evo.tkbczu.easypanel.host/message/sendText/teste",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "=C9556462-1EA0-4300-A959-9C6C0FDFA177"
-            }
-          ]
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "name"
         },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
+        "table": {
+          "__rl": true,
+          "value": "Instance",
+          "mode": "list",
+          "cachedResultName": "Instance"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
             {
-              "name": "number",
-              "value": "=5547999471522"
-            },
-            {
-              "name": "text",
-              "value": "=🚨*Instância Desconectada*🚨\n_Instancia:_\n_Numero:_ \n_Desconectada:_ {{ $json.disconnectionAt }}"
-            },
-            {
-              "name": "delay",
-              "value": 2000
+              "column": "connectionStatus",
+              "value": "close"
             }
           ]
         },
         "options": {}
       },
-      "id": "ce545308-dc02-4d09-bc03-efde61e5c532",
-      "name": "Envia MSG",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "id": "eb2815f9-ddda-4178-bc85-d6e6f8c701de",
+      "name": "Conexões Evolution",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
       "position": [
-        1620,
-        20
-      ]
+        1260,
+        320
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "VHCkkfcYq2gachxp",
+          "name": "PostgresEVO"
+        }
+      }
     },
     {
-      "parameters": {
-        "url": "https://evo-evo.tkbczu.easypanel.host/instance/connectionState/teste",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "C9556462-1EA0-4300-A959-9C6C0FDFA177"
-            }
-          ]
-        },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "parameters": {},
+      "id": "00bb090f-6dfc-464a-ba6d-d03291a3a89f",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
       "position": [
-        760,
-        -220
-      ],
-      "id": "95aca557-8628-4450-b178-38488dab3392",
-      "name": "HTTP Request"
+        1080,
+        320
+      ]
     }
   ],
   "connections": {
-    "When clicking ‘Test workflow’": {
+    "Code Analise": {
       "main": [
         [
           {
-            "node": "Conexões Evolution",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Conexões Evolution": {
-      "main": [
-        [
-          {
-            "node": "Encontrou Desconectado?",
+            "node": "Envia MSG",
             "type": "main",
             "index": 0
           }
@@ -225,30 +187,42 @@
         ]
       ]
     },
-    "Code Analise": {
+    "Conexões Evolution": {
       "main": [
         [
           {
-            "node": "Envia MSG",
+            "node": "Encontrou Desconectado?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Conexões Evolution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia MSG": {
       "main": [
         []
       ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "b8a96d5a-9c82-4879-a0ab-998f01715c1d",
+  "versionId": "dc70e41e-970d-4d6c-bddc-e295bf83c7c6",
   "triggerCount": 0,
   "tags": []
 }
