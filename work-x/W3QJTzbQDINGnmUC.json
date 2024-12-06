@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-05T14:33:47.842Z",
+  "updatedAt": "2024-12-05T20:43:08.583Z",
   "id": "W3QJTzbQDINGnmUC",
   "name": "Generator QR CODE EVO",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
@@ -64,8 +64,7 @@
       ],
       "id": "c6f19b28-bbf9-4485-8086-25be6cb8e2c9",
       "name": "criar-instancia-evolution",
-      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3",
-      "disabled": true
+      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3"
     },
     {
       "parameters": {
@@ -80,8 +79,7 @@
         800
       ],
       "id": "46b68f27-8d8f-4802-878b-2e4071ea0ec9",
-      "name": "Respond to Webhook3",
-      "disabled": true
+      "name": "Respond to Webhook3"
     },
     {
       "parameters": {
@@ -122,12 +120,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        280,
+        240,
         800
       ],
       "id": "66e3c646-aede-4db8-b011-afbd3c88b7f3",
-      "name": "HTTP Request",
-      "disabled": true
+      "name": "HTTP Request"
     },
     {
       "parameters": {
@@ -150,8 +147,7 @@
         800
       ],
       "id": "56adabfa-c973-49bb-bb03-369cbff2473f",
-      "name": "Edit Fields",
-      "disabled": true
+      "name": "Edit Fields"
     },
     {
       "parameters": {
@@ -166,8 +162,7 @@
         800
       ],
       "id": "639f6275-1b1b-40da-a60d-4909b9ce0b9a",
-      "name": "Convert to File",
-      "disabled": true
+      "name": "Convert to File"
     },
     {
       "parameters": {
@@ -178,11 +173,12 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        1040,
-        1080
+        660,
+        1300
       ],
       "id": "913af81b-31e2-488c-8a70-9e168b58a8ae",
-      "name": "Respond to Webhook4"
+      "name": "Respond to Webhook4",
+      "disabled": true
     },
     {
       "parameters": {
@@ -205,11 +201,12 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        480,
-        1080
+        120,
+        1300
       ],
       "id": "304154c6-07ec-4abb-ad3d-3b4ce7c6ed76",
-      "name": "HTTP Request1"
+      "name": "HTTP Request1",
+      "disabled": true
     },
     {
       "parameters": {
@@ -228,11 +225,12 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        660,
-        1080
+        300,
+        1300
       ],
       "id": "b0231436-7de9-42dc-86be-9db31def7e09",
-      "name": "Edit Fields1"
+      "name": "Edit Fields1",
+      "disabled": true
     },
     {
       "parameters": {
@@ -243,11 +241,12 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        840,
-        1080
+        480,
+        1300
       ],
       "id": "b0a31ce9-afa4-4eff-9f27-fe8b6d1774d0",
-      "name": "Convert to File1"
+      "name": "Convert to File1",
+      "disabled": true
     },
     {
       "parameters": {
@@ -259,38 +258,40 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        300,
-        1080
+        -60,
+        1300
       ],
       "id": "6c669644-9cbc-4958-8ab3-4d28594bc55a",
       "name": "reconecta evo",
-      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3"
+      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3",
+      "disabled": true
     },
     {
       "parameters": {
         "content": "Gera QR code para reconexão da instancia EVO",
         "height": 180,
-        "width": 980
+        "width": 940
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        260,
-        1040
+        -80,
+        1260
       ],
       "typeVersion": 1,
       "id": "7540159e-1ac5-4bad-bc96-5348456181bc",
-      "name": "Sticky Note"
+      "name": "Sticky Note",
+      "disabled": true
     },
     {
       "parameters": {
         "content": "Cria nova instancia na EVO\n",
         "height": 180,
-        "width": 960,
+        "width": 980,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        60,
+        40,
         760
       ],
       "typeVersion": 1,
@@ -392,8 +393,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        1380,
-        820
+        1440,
+        720
       ],
       "id": "29c09b1d-4972-40b8-8c44-3311937ffd51",
       "name": "Postgres",
@@ -404,6 +405,170 @@
         }
       },
       "disabled": true
+    },
+    {
+      "parameters": {
+        "tableId": "api_instance",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id",
+              "fieldValue": "={{ $('criar-instancia-evolution').item.json.body.randomID }}"
+            },
+            {
+              "fieldId": "api_url",
+              "fieldValue": "=https://evo-evo.tkbczu.easypanel.host/manager/instance/{{ $json.instance.instanceName }}"
+            },
+            {
+              "fieldId": "api_key",
+              "fieldValue": "={{ $('HTTP Request').item.json.hash }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "connectionstatus",
+              "fieldValue": "={{ $json.instance.state }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        140,
+        1020
+      ],
+      "id": "cfb7ebf1-fd38-45ab-82e6-8a2e609404b3",
+      "name": "Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "xGKs5yYdHLqCN239",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://evo-evo.tkbczu.easypanel.host/instance/connectionState/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "C9556462-1EA0-4300-A959-9C6C0FDFA177"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -40,
+        1020
+      ],
+      "id": "eb5499bf-4f7f-46f5-87af-ef14f93c6c7c",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "api_instance",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "connectionstatus",
+              "condition": "eq",
+              "keyValue": "={{ $json.instance.state }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        860,
+        1020
+      ],
+      "id": "eb4caa6a-04d2-4049-9436-61da482fc1c6",
+      "name": "Supabase1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "xGKs5yYdHLqCN239",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        1020
+      ],
+      "id": "12b127fa-1ead-441b-ae46-230e3e03a276",
+      "name": "Wait",
+      "webhookId": "a93819f2-bf1b-4b3d-b0da-dee06f291c0e"
+    },
+    {
+      "parameters": {
+        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connectionState/{{ $('criar-instancia-evolution').item.json.body.instanceName }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('HTTP Request').item.json.hash }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        1020
+      ],
+      "id": "d35889f7-1242-4f1d-8df0-2c42aa46f6bd",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f5a06e8c-b708-4ef8-a817-3eb1c1c215fe",
+              "name": "instance.state",
+              "value": "=close",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        1020
+      ],
+      "id": "601a9ee6-bb4f-41b5-a686-8929bc7f0c94",
+      "name": "Edit Fields2"
     }
   ],
   "connections": {
@@ -443,6 +608,11 @@
     "HTTP Request": {
       "main": [
         [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          },
           {
             "node": "Edit Fields",
             "type": "main",
@@ -531,6 +701,61 @@
       "main": [
         []
       ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Supabase1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -538,7 +763,11 @@
     "timezone": "America/Sao_Paulo",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "meta": null,
   "pinData": {
     "criar-instancia-evolution": [
@@ -572,8 +801,8 @@
           "params": {},
           "query": {},
           "body": {
-            "instanceName": "teste6",
-            "randomID": 3726
+            "instanceName": "teste7",
+            "randomID": 6189
           },
           "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/criar-instancia-evolution",
           "executionMode": "production"
@@ -581,7 +810,7 @@
       }
     ]
   },
-  "versionId": "4f0ac5ba-dbc3-4a11-881b-2edc0d2993f4",
+  "versionId": "4e0dc08b-d107-4597-ac57-db1a6da7d038",
   "triggerCount": 2,
   "tags": []
 }
