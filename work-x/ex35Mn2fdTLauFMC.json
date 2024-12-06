@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-05T12:13:31.805Z",
-  "updatedAt": "2024-12-05T14:34:00.522Z",
+  "updatedAt": "2024-12-05T20:44:19.364Z",
   "id": "ex35Mn2fdTLauFMC",
   "name": "My workflow 4",
   "active": false,
@@ -248,7 +248,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "ed51f778-e95f-415b-a589-329a65be4269",
+  "versionId": "b8a96d5a-9c82-4879-a0ab-998f01715c1d",
   "triggerCount": 0,
   "tags": []
 }
