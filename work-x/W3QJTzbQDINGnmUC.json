@@ -1,19 +1,19 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-06T14:25:05.187Z",
+  "updatedAt": "2024-12-06T20:03:11.826Z",
   "id": "W3QJTzbQDINGnmUC",
   "name": "Generator QR CODE EVO",
   "active": true,
   "nodes": [
     {
       "parameters": {
-        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: url('https://files.oaiusercontent.com/file-WKv8mqtV1ihYyn48gppPa3?se=2024-12-02T18%3A10%3A11Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D1a74d1ad-b39c-4465-8723-c9e2a26f3e66.webp&sig=IxASB8D682XCMsDmdbYbkM36Ae5%2BdmUPvOboorDvnuc%3D') no-repeat center center/cover;\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        function generateRandomID() {\n            // Gera um número aleatório entre 1000 e 9999 (4 dígitos)\n            return Math.floor(1000 + Math.random() * 9000);\n        }\n\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância.');\n                return;\n            }\n\n            // Gera o ID aleatório\n            const randomID = generateRandomID();\n\n            // Mostra a mensagem de carregamento e oculta a imagem enquanto carrega\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconect', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName, randomID }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                // Oculta a mensagem de carregamento\n                loadingMessage.style.display = 'none';\n            }\n        }\n    </script>\n</body>\n</html>\n"
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: linear-gradient(180deg, #4CAF50 0%, #A5D6A7 100%);\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância enviado no WhatsApp\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        function generateRandomID() {\n            return Math.floor(1000 + Math.random() * 9000);\n        }\n\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância enviada no Whatsapp.');\n                return;\n            }\n\n            const randomID = generateRandomID();\n\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconect', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName, randomID }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                loadingMessage.style.display = 'none';\n            }\n        }\n    </script>\n</body>\n</html>\n"
       },
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
         260,
-        600
+        580
       ],
       "id": "1ad0d470-c109-4131-94bd-1b7727124299",
       "name": "HTML"
@@ -28,7 +28,7 @@
       "typeVersion": 1.1,
       "position": [
         440,
-        600
+        580
       ],
       "id": "8b9b3dfa-9c33-47bb-99ef-5b05a38a7ea6",
       "name": "Respond to Webhook"
@@ -43,7 +43,7 @@
       "typeVersion": 2,
       "position": [
         80,
-        600
+        580
       ],
       "id": "c8dd70be-88c9-4494-836b-ba641ed5f48d",
       "name": "Pagina do QR code",
@@ -179,7 +179,7 @@
       "typeVersion": 1.1,
       "position": [
         820,
-        1020
+        1040
       ],
       "id": "913af81b-31e2-488c-8a70-9e168b58a8ae",
       "name": "Respond to Webhook4"
@@ -206,7 +206,7 @@
       "typeVersion": 4.2,
       "position": [
         280,
-        1020
+        1040
       ],
       "id": "304154c6-07ec-4abb-ad3d-3b4ce7c6ed76",
       "name": "HTTP Request1"
@@ -229,7 +229,7 @@
       "typeVersion": 3.4,
       "position": [
         460,
-        1020
+        1040
       ],
       "id": "b0231436-7de9-42dc-86be-9db31def7e09",
       "name": "Edit Fields1"
@@ -244,7 +244,7 @@
       "typeVersion": 1.1,
       "position": [
         640,
-        1020
+        1040
       ],
       "id": "b0a31ce9-afa4-4eff-9f27-fe8b6d1774d0",
       "name": "Convert to File1"
@@ -260,7 +260,7 @@
       "typeVersion": 2,
       "position": [
         100,
-        1020
+        1040
       ],
       "id": "6c669644-9cbc-4958-8ab3-4d28594bc55a",
       "name": "reconecta evo",
@@ -269,13 +269,13 @@
     {
       "parameters": {
         "content": "Gera QR code para reconexão da instancia EVO",
-        "height": 180,
+        "height": 200,
         "width": 960
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         40,
-        980
+        1000
       ],
       "typeVersion": 1,
       "id": "7540159e-1ac5-4bad-bc96-5348456181bc",
@@ -284,7 +284,7 @@
     {
       "parameters": {
         "content": "Cria nova instancia na EVO\n",
-        "height": 200,
+        "height": 220,
         "width": 960,
         "color": 3
       },
@@ -300,14 +300,14 @@
     {
       "parameters": {
         "content": "Response HTML com gerador de QR code\n",
-        "height": 180,
+        "height": 200,
         "width": 600,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         40,
-        560
+        540
       ],
       "typeVersion": 1,
       "id": "0290f5f0-afc0-434d-8c0a-5705f5cafbdf",
@@ -488,7 +488,7 @@
       }
     ]
   },
-  "versionId": "44643f39-a546-4d1b-90ab-5b4e12d63f29",
+  "versionId": "38eb53f8-d68d-4d9c-b323-d23dd6224549",
   "triggerCount": 2,
   "tags": []
 }
