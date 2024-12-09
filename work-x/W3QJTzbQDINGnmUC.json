@@ -1,8 +1,8 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-06T20:03:11.826Z",
+  "updatedAt": "2024-12-09T13:29:20.990Z",
   "id": "W3QJTzbQDINGnmUC",
-  "name": "Generator QR CODE EVO",
+  "name": "Reconecta EVO por QR code",
   "active": true,
   "nodes": [
     {
@@ -59,7 +59,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        100,
+        80,
         800
       ],
       "id": "c6f19b28-bbf9-4485-8086-25be6cb8e2c9",
@@ -76,7 +76,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        780,
+        760,
         800
       ],
       "id": "46b68f27-8d8f-4802-878b-2e4071ea0ec9",
@@ -122,7 +122,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        260,
+        240,
         800
       ],
       "id": "66e3c646-aede-4db8-b011-afbd3c88b7f3",
@@ -146,7 +146,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        420,
+        400,
         800
       ],
       "id": "56adabfa-c973-49bb-bb03-369cbff2473f",
@@ -162,7 +162,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        600,
+        580,
         800
       ],
       "id": "639f6275-1b1b-40da-a60d-4909b9ce0b9a",
@@ -178,7 +178,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        820,
+        760,
         1040
       ],
       "id": "913af81b-31e2-488c-8a70-9e168b58a8ae",
@@ -205,7 +205,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        280,
+        240,
         1040
       ],
       "id": "304154c6-07ec-4abb-ad3d-3b4ce7c6ed76",
@@ -228,7 +228,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        460,
+        400,
         1040
       ],
       "id": "b0231436-7de9-42dc-86be-9db31def7e09",
@@ -243,7 +243,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        640,
+        580,
         1040
       ],
       "id": "b0a31ce9-afa4-4eff-9f27-fe8b6d1774d0",
@@ -259,7 +259,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        100,
+        80,
         1040
       ],
       "id": "6c669644-9cbc-4958-8ab3-4d28594bc55a",
@@ -312,6 +312,204 @@
       "typeVersion": 1,
       "id": "0290f5f0-afc0-434d-8c0a-5705f5cafbdf",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connectionState/{{ $json.body.instanceName }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1300,
+        1120
+      ],
+      "id": "19c7ba58-c4fb-4519-b09f-c90c6018ff7b",
+      "name": "HTTP Request2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        100,
+        1340
+      ],
+      "id": "1ab91159-5236-4b13-a29d-0fc78cd2cd80",
+      "name": "Wait",
+      "webhookId": "b74e90df-5b5c-4fec-b458-05068c18b0d0"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Instance",
+          "mode": "list",
+          "cachedResultName": "Instance"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "connectionStatus",
+              "value": "open"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "51870f8c-f08f-44fb-a152-d8c5237f3fc5",
+      "name": "Conexões Evolution",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        280,
+        1340
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "VHCkkfcYq2gachxp",
+          "name": "PostgresEVO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://evo-evo.tkbczu.easypanel.host/message/sendText/teste7",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=848ABF1A-88CE-451C-BFE7-48C55AED3E5B"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=🚨*Instância Reconectada*🚨\n_Instancia:_{{ $json.name }}\n_Numero:_ {{ $('Encontrou Desconectado?').item.json.ownerJid.split('@').first() }}\n_Reconectada:_ {{ $json.disconnectionAt }}"
+            },
+            {
+              "name": "delay",
+              "value": 2000
+            },
+            {
+              "name": "number",
+              "value": "={{ $('Encontrou Desconectado?').item.json.ownerJid.split('@').first() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "007d2a07-947d-4289-9112-7474186332cd",
+      "name": "Envia MSG",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        820,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário local\nfunction formatarData(timestamp) {\n  const data = new Date(timestamp);\n\n  // Extraindo os componentes da data no fuso horário de São Paulo\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(new Date(item.json.disconnectionAt).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }))\n}));"
+      },
+      "id": "c845ab10-d4ea-43d8-aef6-9c94063faf0c",
+      "name": "Code Analise",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        1260
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "ce9c1226-64b1-4cbe-93be-0d4278c6d6ec",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        640,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "94591044-ee22-4577-b06d-bf3392184638",
+              "leftValue": "={{ !!Object.keys($node[\"Conexões Evolution\"].data).length }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6be76cd4-c0a5-4ea0-9257-fb0764a6ef1f",
+      "name": "Encontrou Desconectado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        460,
+        1340
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Envia mensagem de reconexão de instacia via whatsapp\n",
+        "height": 340,
+        "width": 960,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        40,
+        1220
+      ],
+      "typeVersion": 1,
+      "id": "066dabfd-a5c8-48b1-98ba-ea4b7c15060d",
+      "name": "Sticky Note3"
     }
   ],
   "connections": {
@@ -426,6 +624,11 @@
             "node": "HTTP Request1",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -433,6 +636,57 @@
     "Respond to Webhook": {
       "main": [
         []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Conexões Evolution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conexões Evolution": {
+      "main": [
+        [
+          {
+            "node": "Encontrou Desconectado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Analise": {
+      "main": [
+        [
+          {
+            "node": "Envia MSG",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encontrou Desconectado?": {
+      "main": [
+        [
+          {
+            "node": "Code Analise",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -488,7 +742,7 @@
       }
     ]
   },
-  "versionId": "38eb53f8-d68d-4d9c-b323-d23dd6224549",
+  "versionId": "b45125a0-90dd-485a-9c81-183b765c3856",
   "triggerCount": 2,
   "tags": []
 }
