@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-05T12:13:31.805Z",
-  "updatedAt": "2024-12-06T14:46:21.166Z",
+  "updatedAt": "2024-12-09T13:27:11.869Z",
   "id": "ex35Mn2fdTLauFMC",
   "name": "Verifica status Instancia EVO",
   "active": false,
@@ -31,7 +31,7 @@
             },
             {
               "name": "number",
-              "value": "5547999471522"
+              "value": "={{ $('Encontrou Desconectado?').item.json.ownerJid.split('@').first() }}"
             }
           ]
         },
@@ -222,7 +222,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "dc70e41e-970d-4d6c-bddc-e295bf83c7c6",
+  "versionId": "eea9072a-734d-4c56-b752-b96f277aeef1",
   "triggerCount": 0,
   "tags": []
 }
