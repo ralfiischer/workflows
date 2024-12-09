@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-09T13:29:20.990Z",
+  "updatedAt": "2024-12-09T14:54:47.183Z",
   "id": "W3QJTzbQDINGnmUC",
   "name": "Reconecta EVO por QR code",
   "active": true,
@@ -315,34 +315,6 @@
     },
     {
       "parameters": {
-        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connectionState/{{ $json.body.instanceName }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
-            }
-          ]
-        },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1300,
-        1120
-      ],
-      "id": "19c7ba58-c4fb-4519-b09f-c90c6018ff7b",
-      "name": "HTTP Request2",
-      "disabled": true
-    },
-    {
-      "parameters": {
         "amount": 15
       },
       "type": "n8n-nodes-base.wait",
@@ -373,8 +345,7 @@
         "where": {
           "values": [
             {
-              "column": "connectionStatus",
-              "value": "open"
+              "column": "connectionStatus"
             }
           ]
         },
@@ -385,8 +356,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        280,
-        1340
+        1640,
+        1020
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -398,47 +369,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://evo-evo.tkbczu.easypanel.host/message/sendText/teste7",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "=848ABF1A-88CE-451C-BFE7-48C55AED3E5B"
-            }
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "text",
-              "value": "=🚨*Instância Reconectada*🚨\n_Instancia:_{{ $json.name }}\n_Numero:_ {{ $('Encontrou Desconectado?').item.json.ownerJid.split('@').first() }}\n_Reconectada:_ {{ $json.disconnectionAt }}"
-            },
-            {
-              "name": "delay",
-              "value": 2000
-            },
-            {
-              "name": "number",
-              "value": "={{ $('Encontrou Desconectado?').item.json.ownerJid.split('@').first() }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "007d2a07-947d-4289-9112-7474186332cd",
-      "name": "Envia MSG",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        820,
-        1260
-      ]
-    },
-    {
-      "parameters": {
         "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário local\nfunction formatarData(timestamp) {\n  const data = new Date(timestamp);\n\n  // Extraindo os componentes da data no fuso horário de São Paulo\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(new Date(item.json.disconnectionAt).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }))\n}));"
       },
       "id": "c845ab10-d4ea-43d8-aef6-9c94063faf0c",
@@ -446,19 +376,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        640,
-        1260
-      ]
-    },
-    {
-      "parameters": {},
-      "id": "ce9c1226-64b1-4cbe-93be-0d4278c6d6ec",
-      "name": "No Operation, do nothing",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        640,
-        1420
+        1420,
+        1020
       ]
     },
     {
@@ -491,15 +410,15 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        460,
-        1340
+        1420,
+        840
       ]
     },
     {
       "parameters": {
         "content": "Envia mensagem de reconexão de instacia via whatsapp\n",
-        "height": 340,
-        "width": 960,
+        "height": 280,
+        "width": 1260,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -510,6 +429,180 @@
       "typeVersion": 1,
       "id": "066dabfd-a5c8-48b1-98ba-ea4b7c15060d",
       "name": "Sticky Note3"
+    },
+    {
+      "parameters": {},
+      "id": "ce9c1226-64b1-4cbe-93be-0d4278c6d6ec",
+      "name": "...",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evo.tkbczu.easypanel.host/message/sendText/teste7",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "848ABF1A-88CE-451C-BFE7-48C55AED3E5B"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('HTTP Request4').item.json.ownerJid.split('@').first() }}"
+            },
+            {
+              "name": "text",
+              "value": "=🚨*Instância Reconectada*🚨 \n_Instancia:_{{ $('HTTP Request3').item.json.instance.instanceName }}\n_Numero:_{{ $('HTTP Request4').item.json.ownerJid.split('@').first() }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        1300
+      ],
+      "id": "aa5ce1a6-f19c-4eec-ba0b-c99d4d29f7eb",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connectionState/{{ $json.name }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        1320
+      ],
+      "id": "be888bda-1ea1-498f-b901-129a66b6b654",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a1135424-ed0f-4a36-be76-8eb21602f8dc",
+              "leftValue": "={{ $json.instance.state }}",
+              "rightValue": "connecting",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        860,
+        1320
+      ],
+      "id": "30b03da9-52b0-43e6-9a4b-093a61172653",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "url": "https://evo-evo.tkbczu.easypanel.host/instance/fetchInstances",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        280,
+        1340
+      ],
+      "id": "9258f7fe-f283-4822-be99-64062d088cc3",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f253ddcf-4efd-477f-822e-ca62b6c8c18b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $('reconecta evo').item.json.body.instanceName }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        460,
+        1340
+      ],
+      "id": "45247b64-420e-4eec-b464-fdb23d010987",
+      "name": "If1"
     }
   ],
   "connections": {
@@ -642,7 +735,7 @@
       "main": [
         [
           {
-            "node": "Conexões Evolution",
+            "node": "HTTP Request4",
             "type": "main",
             "index": 0
           }
@@ -651,38 +744,70 @@
     },
     "Conexões Evolution": {
       "main": [
-        [
-          {
-            "node": "Encontrou Desconectado?",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Code Analise": {
       "main": [
+        []
+      ]
+    },
+    "Encontrou Desconectado?": {
+      "main": [
+        [],
         [
           {
-            "node": "Envia MSG",
+            "node": "...",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Encontrou Desconectado?": {
+    "...": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request3": {
       "main": [
         [
           {
-            "node": "Code Analise",
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
             "type": "main",
             "index": 0
           }
         ],
+        []
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
         [
           {
-            "node": "No Operation, do nothing",
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
             "type": "main",
             "index": 0
           }
@@ -742,7 +867,7 @@
       }
     ]
   },
-  "versionId": "b45125a0-90dd-485a-9c81-183b765c3856",
+  "versionId": "8dd45a05-fc35-4721-85e9-2728541e9c98",
   "triggerCount": 2,
   "tags": []
 }
