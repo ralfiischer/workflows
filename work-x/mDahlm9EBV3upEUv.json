@@ -1,0 +1,293 @@
+{
+  "createdAt": "2024-12-09T19:07:56.410Z",
+  "updatedAt": "2024-12-09T20:11:23.940Z",
+  "id": "mDahlm9EBV3upEUv",
+  "name": "Gera QR code aleatorio",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>QR Code Generator</title>\n  <script src=\"https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js\"></script>\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      display: flex;\n      flex-direction: column;\n      justify-content: center;\n      align-items: center;\n      height: 100vh;\n      margin: 0;\n      background: linear-gradient(180deg, #4CAF50 0%, #A5D6A7 100%);\n    }\n    .qr-container {\n      background: #ffffff;\n      padding: 20px;\n      border-radius: 10px;\n      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n      text-align: center;\n    }\n    canvas {\n      display: block;\n      margin: 0 auto;\n    }\n    .name-display {\n      margin-top: 10px;\n      font-size: 18px;\n      font-weight: bold;\n      color: #333;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"qr-container\">\n    <canvas id=\"qrcode\"></canvas>\n    <div id=\"name-display\" class=\"name-display\">Instância: {{ $json.name }}</div>\n  </div>\n\n  <script>\n    // Função para gerar o QR Code automaticamente\n    function generateQRCode() {\n      const name = \"{{ $json.name }}\"; // Nome dinâmico\n      const data = `https://example.com?name=${encodeURIComponent(name)}`; // Link com o nome dinâmico\n      const canvas = document.getElementById('qrcode');\n      const nameDisplay = document.getElementById('name-display');\n\n      // Atualiza o texto do nome na interface\n      nameDisplay.textContent = `Instância: ${name}`;\n\n      QRCode.toCanvas(canvas, data, {\n        width: 300, // Tamanho do QR Code\n        margin: 0,  // Remover bordas\n        color: {\n          dark: \"#000000\", // Preto para o QR Code\n          light: \"#FFFFFF\" // Branco para o fundo\n        }\n      }, function (error) {\n        if (error) {\n          console.error(\"Erro ao gerar QR Code:\", error);\n        } else {\n          console.log(\"QR Code gerado com sucesso.\");\n          sendQRCodeToWebhook(canvas, name); // Envia o QR Code para o webhook\n        }\n      });\n    }\n\n    // Função para enviar o QR Code para o webhook\n    function sendQRCodeToWebhook(canvas, name) {\n      const webhookUrl = \"https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/envialink\";\n\n      // Converte o canvas para base64\n      const qrCodeDataURL = canvas.toDataURL(\"image/png\");\n\n      // Prepara os dados para envio\n      const postData = {\n        qrCode: qrCodeDataURL, // Adiciona a imagem base64 no corpo do POST\n        name: name // Adiciona o nome ao corpo do POST\n      };\n\n      // Faz a requisição POST\n      fetch(webhookUrl, {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\"\n        },\n        body: JSON.stringify(postData)\n      })\n      .then(response => {\n        if (response.ok) {\n          console.log(\"QR Code enviado com sucesso.\");\n        } else {\n          console.error(\"Erro ao enviar QR Code:\", response.statusText);\n        }\n      })\n      .catch(error => {\n        console.error(\"Erro na requisição:\", error);\n      });\n    }\n\n    // Gera o QR Code automaticamente ao carregar a página\n    window.onload = generateQRCode;\n  </script>\n</body>\n</html>\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -280,
+        -120
+      ],
+      "id": "b3d5a0eb-e5b5-4826-9af9-e5c3e45caf8a",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -100,
+        -120
+      ],
+      "id": "d0572aa5-c5da-45d2-a17b-e4945e0b87fb",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "925cdfa8-94e4-44ed-8fc3-50d9f08c1ab3",
+              "name": "base64",
+              "value": "={{ $json.body.qrCode.split(',').last() }}",
+              "type": "string"
+            },
+            {
+              "id": "087d3c68-4bd0-44bc-82ed-dccc7ea2dc72",
+              "name": "",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -600,
+        160
+      ],
+      "id": "6d5876ba-8d67-40f8-8d1d-2212244c65f0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "base64",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -420,
+        160
+      ],
+      "id": "919c0029-8b7a-44c0-b822-4eeb46b548e1",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "path": "QRcode",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        -120
+      ],
+      "id": "90014762-1dbb-411c-a9c0-b59491430902",
+      "name": "Pagina do QR code",
+      "webhookId": "cce5e6b5-f99a-48a3-8b18-cf524f03c4ce"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Instance",
+          "mode": "list",
+          "cachedResultName": "Instance"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "connectionStatus",
+              "value": "close"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -460,
+        -120
+      ],
+      "id": "e98bfaf9-076e-4c6c-9437-0e66d55b04d8",
+      "name": "Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "VHCkkfcYq2gachxp",
+          "name": "PostgresEVO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "envialink",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -820,
+        140
+      ],
+      "id": "46d530bc-6845-4fec-b655-0016580f9d8b",
+      "name": "Webhook",
+      "webhookId": "764edf66-0aed-4760-b5b3-8110f4b367bf",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pagina do QR code": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0",
+            "content-length": "9059",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "application/json",
+            "cookie": "SLO_GWPT_Show_Hide_tmp=0; SLO_wptGlobTipTmp=0; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX1%2FH2dyglWUtVVDbLm00PeSr1soZcL21Xx%2Fzf41ECIq9cOJQhcRla0bQNBjp7Bc%2BHLl139L8FwQ14Q%3D%3D; rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX1%2Bw3vdBlLNASuUwuB3Jhp8h%2B0kh2dBy9HJ5P6pvRCK%2FVfLeQNvf5u4l8ZZ4eovC5JyK2Z8bK57q5g%3D%3D; rl_page_init_referring_domain=RudderEncrypt%3AU2FsdGVkX19Akg9ISma10BC2hHtGeZrDaNWrXpCrd9LaVyWZt1Tqeianlm8dObci; rl_session=RudderEncrypt%3AU2FsdGVkX1%2B0QZfqO5GJdTmXZlUTbQaMDz5IUeXweSMCeCMLFkvgWKGRiwoK4u0YG4GTIpG%2BIt%2FUpT%2Fkii%2FvlvA3Cv7L2ciYwAqsF8HSQ3ktcY29w9OCI61ukS5joar%2FszVXmV2sL1V%2BSH9k9isg8g%3D%3D",
+            "origin": "https://n8n-n8n-webhook.tkbczu.easypanel.host",
+            "priority": "u=1, i",
+            "referer": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/QRcode",
+            "sec-ch-ua": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Opera GX\";v=\"114\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-forwarded-for": "138.99.54.120",
+            "x-forwarded-host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "138.99.54.120"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "qrCode": "data:image/png;base64,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"
+          },
+          "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/envialink",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Pagina do QR code": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0",
+            "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "cache-control": "max-age=0",
+            "cookie": "SLO_GWPT_Show_Hide_tmp=0; SLO_wptGlobTipTmp=0; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX1%2FH2dyglWUtVVDbLm00PeSr1soZcL21Xx%2Fzf41ECIq9cOJQhcRla0bQNBjp7Bc%2BHLl139L8FwQ14Q%3D%3D; rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX1%2Bw3vdBlLNASuUwuB3Jhp8h%2B0kh2dBy9HJ5P6pvRCK%2FVfLeQNvf5u4l8ZZ4eovC5JyK2Z8bK57q5g%3D%3D; rl_page_init_referring_domain=RudderEncrypt%3AU2FsdGVkX19Akg9ISma10BC2hHtGeZrDaNWrXpCrd9LaVyWZt1Tqeianlm8dObci; rl_session=RudderEncrypt%3AU2FsdGVkX1%2B0QZfqO5GJdTmXZlUTbQaMDz5IUeXweSMCeCMLFkvgWKGRiwoK4u0YG4GTIpG%2BIt%2FUpT%2Fkii%2FvlvA3Cv7L2ciYwAqsF8HSQ3ktcY29w9OCI61ukS5joar%2FszVXmV2sL1V%2BSH9k9isg8g%3D%3D",
+            "if-none-match": "W/\"a56-ijq+jXCiBww4RS13eLSIsMiXumA\"",
+            "priority": "u=0, i",
+            "sec-ch-ua": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Opera GX\";v=\"114\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "document",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "none",
+            "sec-fetch-user": "?1",
+            "upgrade-insecure-requests": "1",
+            "x-forwarded-for": "138.99.54.120",
+            "x-forwarded-host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "138.99.54.120"
+          },
+          "params": {},
+          "query": {},
+          "body": {},
+          "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/QRcode",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "0cc8323d-1d60-4bf6-a317-7f8f95ad7e34",
+  "triggerCount": 1,
+  "tags": []
+}
