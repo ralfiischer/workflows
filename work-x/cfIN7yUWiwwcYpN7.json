@@ -1,10 +1,328 @@
 {
   "createdAt": "2024-12-09T18:47:36.934Z",
-  "updatedAt": "2024-12-09T19:07:44.034Z",
+  "updatedAt": "2024-12-10T14:52:43.214Z",
   "id": "cfIN7yUWiwwcYpN7",
   "name": "My workflow 4",
-  "active": false,
+  "active": true,
   "nodes": [
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: linear-gradient(180deg, #4CAF50 0%, #A5D6A7 100%);\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"qrName\">Nome do QR Code</label>\n            <input type=\"text\" id=\"qrName\" placeholder=\"Nome do QR Code\">\n        </div>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        // Defina o nome padrão do QR Code\n        const name = \"{{ $json.name }}\"; // Substitua por um valor padrão se não estiver usando um motor de template\n\n        // Função para gerar um ID aleatório\n        function generateRandomID() {\n            return Math.floor(1000 + Math.random() * 9000);\n        }\n\n        // Função para gerar o QR Code\n        async function generateQRCode(instanceName) {\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            const randomID = generateRandomID();\n\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconectt', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName, randomID }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                loadingMessage.style.display = 'none';\n            }\n        }\n\n        // Executa quando a página é carregada\n        document.addEventListener('DOMContentLoaded', () => {\n            const qrNameInput = document.getElementById('qrName');\n            qrNameInput.value = name; // Atribui o nome pré-definido ao campo\n\n            // Gera o QR Code automaticamente com o nome pré-definido\n            generateQRCode(name);\n\n            // Adiciona um listener para gerar o QR Code novamente se o nome for alterado\n            qrNameInput.addEventListener('input', () => {\n                const newName = qrNameInput.value.trim();\n                if (newName) {\n                    generateQRCode(newName);\n                }\n            });\n        });\n    </script>\n</body>\n</html>\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -340,
+        140
+      ],
+      "id": "a77d642c-0d90-46ab-a445-1ce7a000eab0",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -140,
+        140
+      ],
+      "id": "c0a61bb7-aac0-4f21-9282-95e78da25694",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "path": "instanciaevolutionn",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -700,
+        140
+      ],
+      "id": "feee1dd0-764a-42c7-904a-fa297169d8f4",
+      "name": "Pagina do QR code",
+      "webhookId": "cce5e6b5-f99a-48a3-8b18-cf524f03c4ce"
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "responseDataSource": "set",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        340
+      ],
+      "id": "e489942a-c095-44df-87d8-21a194f9b138",
+      "name": "Respond to Webhook4"
+    },
+    {
+      "parameters": {
+        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connect/{{ $json.body.instanceName }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -540,
+        340
+      ],
+      "id": "9b1f3113-623d-467f-8994-0d554e6ad807",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "baf05207-7b62-41a6-8c11-d4fff7f70843",
+              "name": "base64",
+              "value": "={{ $json.base64.split(',').last() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        340
+      ],
+      "id": "a559bb59-55f6-455f-b53d-df153155680a",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "base64",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -200,
+        340
+      ],
+      "id": "27d11e67-c7da-4b4d-b74f-e784acd11a50",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reconectt",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -700,
+        340
+      ],
+      "id": "14da4b9e-ccd4-4a2a-b538-15583a3bb2e9",
+      "name": "reconecta evo",
+      "webhookId": "f3988766-f52b-4be0-b0bd-254e485671a3"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -680,
+        540
+      ],
+      "id": "435e9d5d-6bc1-40f7-ad0c-07b8edccf96f",
+      "name": "Wait",
+      "webhookId": "b74e90df-5b5c-4fec-b458-05068c18b0d0"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evo.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "70EDA57F93EE-402B-9510-F71FE58430AB"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('HTTP Request4').item.json.ownerJid.split('@').first() }}"
+            },
+            {
+              "name": "text",
+              "value": "=🚨*Instância Reconectada*🚨 \n_Instancia:_{{ $('HTTP Request3').item.json.instance.instanceName }}\n_Numero:_{{ $('HTTP Request4').item.json.ownerJid.split('@').first() }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        500
+      ],
+      "id": "9e1fac2c-bb36-4b9a-9bff-0798a9e81cd5",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "url": "=https://evo-evo.tkbczu.easypanel.host/instance/connectionState/{{ $json.name }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -100,
+        520
+      ],
+      "id": "8a6bf78e-110b-4095-be5e-fe623c23d97b",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a1135424-ed0f-4a36-be76-8eb21602f8dc",
+              "leftValue": "={{ $json.instance.state }}",
+              "rightValue": "connecting",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        520
+      ],
+      "id": "b22db81c-097d-44bc-b8a6-9dc6d834ca51",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "url": "https://evo-evo.tkbczu.easypanel.host/instance/fetchInstances",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "PJMX6JKOxNit5icPyHv4IsSk2qLEq4NGb"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -500,
+        540
+      ],
+      "id": "ecbe9919-2920-45df-acf0-872fcda5dea4",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f253ddcf-4efd-477f-822e-ca62b6c8c18b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $('reconecta evo').item.json.body.instanceName }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        540
+      ],
+      "id": "3dd6a4a4-fca6-433a-8822-1901970bc164",
+      "name": "If1"
+    },
     {
       "parameters": {
         "operation": "select",
@@ -32,10 +350,10 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -640,
-        -120
+        -520,
+        140
       ],
-      "id": "3f2a7472-5d8f-4e96-a4b9-e1af3b30165b",
+      "id": "454706f0-2a60-44c7-9f53-cc64b02cd1b1",
       "name": "Postgres",
       "credentials": {
         "postgres": {
@@ -46,23 +364,280 @@
     },
     {
       "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
+      "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -840,
-        -120
+        -100,
+        680
       ],
-      "id": "4012ebfb-921d-4aca-b68d-a0a36632992c",
-      "name": "When clicking ‘Test workflow’"
+      "id": "be143668-ee9d-4d8c-b8e3-4676714c1aa4",
+      "name": "..."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://evo-evo.tkbczu.easypanel.host/message/sendText/teste2",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=0E9814F7E3CB-4377-B2C8-294726342A20"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=🚨*Instância Desconectada*🚨\n_Instancia:_{{ $json.name }}\n_Numero:_ {{ $json.number }}\n_Desconectada:_ {{ $json.disconnectionAt }}\nEntre no link e reconecte https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/instanciaevolutionn"
+            },
+            {
+              "name": "delay",
+              "value": "{{ 2000 }}"
+            },
+            {
+              "name": "number",
+              "value": "={{ $json.number }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b7711f11-b71d-472c-a44e-44d2d7549b63",
+      "name": "Envia MSG1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1820,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: linear-gradient(180deg, #4CAF50 0%, #A5D6A7 100%);\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância enviado no WhatsApp\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        function generateRandomID() {\n            return Math.floor(1000 + Math.random() * 9000);\n        }\n\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância enviada no Whatsapp.');\n                return;\n            }\n\n            const randomID = generateRandomID();\n\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconect', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName, randomID }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                loadingMessage.style.display = 'none';\n            }\n        }\n    </script>\n</body>\n</html>\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1600,
+        220
+      ],
+      "id": "555ba92b-f7c9-4340-a987-f118492a81ec",
+      "name": "HTML2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evo.tkbczu.easypanel.host/message/sendText/teste",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "70EDA57F93EE-402B-9510-F71FE58430AB"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Conexões Evolution').item.json.ownerJid.split('@').first() }}"
+            },
+            {
+              "name": "=text",
+              "value": "=🚨*Instância Desconectada*🚨\n_Instancia:_{{ $json.name }}\n_Numero:_ {{ $('Conexões Evolution').item.json.ownerJid.split('@').first() }}\n_Desconectada:_ {{ $json.disconnectionAt }}\nEntre no link e reconecte https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/instanciaevolutionn"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        -200
+      ],
+      "id": "9e7551dd-9f9c-47f0-a4e1-f77ea8885374",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {},
+      "id": "5fcc170d-2576-4e73-a92b-8fadcbf02ab9",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        -140
+      ],
+      "webhookId": "73ab59c1-9368-4051-a80f-b21ed2e16e4e"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "id": "20d5a057-594a-4561-9034-5d1f331cf71a",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -700,
+        -160
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "id": "f7725d54-5745-4e4b-a3a8-2c134e84e157",
+      "name": "Fim",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        500,
+        -520
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f8dbf514-63c8-4a33-bfe1-f69e0a24b094",
+      "name": "Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        180,
+        -280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário de São Paulo\nfunction formatarData(timestamp) {\n  // Ajusta para o fuso horário de São Paulo\n  const data = new Date(new Date(timestamp).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }));\n\n  // Extraindo os componentes da data no fuso horário ajustado\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(item.json.disconnectionAt) // Chama a função corrigida\n}));"
+      },
+      "id": "4ad6cf7f-a7ca-4b8a-ab39-056f9f5e67ac",
+      "name": "Code Analise",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        -280
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "ee3252ef-3bb7-498b-ba19-f29f0e49a489",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "94591044-ee22-4577-b06d-bf3392184638",
+              "leftValue": "={{ !!Object.keys($node[\"Conexões Evolution\"].data).length }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "17a4c97e-2329-42ed-be69-d2726312152e",
+      "name": "Encontrou Desconectado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -260,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Instance",
+          "mode": "list",
+          "cachedResultName": "Instance"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "connectionStatus",
+              "value": "close"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc12a9be-9782-4817-8329-be40d8ea3aef",
+      "name": "Conexões Evolution",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -480,
+        -160
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "VHCkkfcYq2gachxp",
+          "name": "PostgresEVO"
+        }
+      }
     }
   ],
   "connections": {
-    "Postgres": {
+    "HTML": {
       "main": [
-        []
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
-    "When clicking ‘Test workflow’": {
+    "Pagina do QR code": {
       "main": [
         [
           {
@@ -72,15 +647,240 @@
           }
         ]
       ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "reconecta evo": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "...",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Conexões Evolution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop": {
+      "main": [
+        [
+          {
+            "node": "Fim",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Analise": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encontrou Desconectado?": {
+      "main": [
+        [
+          {
+            "node": "Code Analise",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conexões Evolution": {
+      "main": [
+        [
+          {
+            "node": "Encontrou Desconectado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "meta": null,
   "pinData": {},
-  "versionId": "c85f8117-c420-4627-ae1d-fd1d5b2d9021",
-  "triggerCount": 1,
-  "tags": []
+  "versionId": "ac1d464d-d4af-4427-9e34-e48225a61ac4",
+  "triggerCount": 2,
+  "tags": [
+    {
+      "createdAt": "2024-10-30T13:05:50.798Z",
+      "updatedAt": "2024-10-30T13:05:50.798Z",
+      "id": "YEMOCqgKzuvlDA5d",
+      "name": "system"
+    }
+  ]
 }
