@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-09T19:49:55.627Z",
+  "updatedAt": "2024-12-10T14:10:23.954Z",
   "id": "W3QJTzbQDINGnmUC",
   "name": "Reconecta EVO por QR code",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
@@ -329,93 +329,6 @@
     },
     {
       "parameters": {
-        "operation": "select",
-        "schema": {
-          "__rl": true,
-          "value": "public",
-          "mode": "name"
-        },
-        "table": {
-          "__rl": true,
-          "value": "Instance",
-          "mode": "list",
-          "cachedResultName": "Instance"
-        },
-        "returnAll": true,
-        "where": {
-          "values": [
-            {
-              "column": "connectionStatus"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "51870f8c-f08f-44fb-a152-d8c5237f3fc5",
-      "name": "Conexões Evolution",
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.5,
-      "position": [
-        1640,
-        1020
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "postgres": {
-          "id": "VHCkkfcYq2gachxp",
-          "name": "PostgresEVO"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário local\nfunction formatarData(timestamp) {\n  const data = new Date(timestamp);\n\n  // Extraindo os componentes da data no fuso horário de São Paulo\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(new Date(item.json.disconnectionAt).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }))\n}));"
-      },
-      "id": "c845ab10-d4ea-43d8-aef6-9c94063faf0c",
-      "name": "Code Analise",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1420,
-        1020
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
-          },
-          "conditions": [
-            {
-              "id": "94591044-ee22-4577-b06d-bf3392184638",
-              "leftValue": "={{ !!Object.keys($node[\"Conexões Evolution\"].data).length }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "6be76cd4-c0a5-4ea0-9257-fb0764a6ef1f",
-      "name": "Encontrou Desconectado?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        1420,
-        840
-      ]
-    },
-    {
-      "parameters": {
         "content": "Envia mensagem de reconexão de instacia via whatsapp\n",
         "height": 280,
         "width": 1260,
@@ -429,17 +342,6 @@
       "typeVersion": 1,
       "id": "066dabfd-a5c8-48b1-98ba-ea4b7c15060d",
       "name": "Sticky Note3"
-    },
-    {
-      "parameters": {},
-      "id": "ce9c1226-64b1-4cbe-93be-0d4278c6d6ec",
-      "name": "...",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        1640,
-        860
-      ]
     },
     {
       "parameters": {
@@ -603,6 +505,20 @@
       ],
       "id": "45247b64-420e-4eec-b464-fdb23d010987",
       "name": "If1"
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: linear-gradient(180deg, #4CAF50 0%, #A5D6A7 100%);\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância enviado no WhatsApp\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        function generateRandomID() {\n            return Math.floor(1000 + Math.random() * 9000);\n        }\n\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância enviada no Whatsapp.');\n                return;\n            }\n\n            const randomID = generateRandomID();\n\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconect', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName, randomID }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                loadingMessage.style.display = 'none';\n            }\n        }\n    </script>\n</body>\n</html>\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1640,
+        700
+      ],
+      "id": "ccc1193d-8569-4354-9c59-a9ce410ec9ea",
+      "name": "HTML2",
+      "disabled": true
     }
   ],
   "connections": {
@@ -742,33 +658,6 @@
         ]
       ]
     },
-    "Conexões Evolution": {
-      "main": [
-        []
-      ]
-    },
-    "Code Analise": {
-      "main": [
-        []
-      ]
-    },
-    "Encontrou Desconectado?": {
-      "main": [
-        [],
-        [
-          {
-            "node": "...",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "...": {
-      "main": [
-        []
-      ]
-    },
     "HTTP Request3": {
       "main": [
         [
@@ -906,7 +795,7 @@
       }
     ]
   },
-  "versionId": "68d75c7b-0650-4af5-8070-9e2df60e4c6c",
+  "versionId": "98180efd-d00e-466d-9dd4-643d90ad418b",
   "triggerCount": 2,
   "tags": []
 }
