@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-31T14:47:37.059Z",
-  "updatedAt": "2024-11-01T14:11:11.952Z",
+  "updatedAt": "2024-12-09T17:50:53.638Z",
   "id": "cvF9WXVLlsuKW3vI",
   "name": "Retorno Audio EVO",
   "active": false,
@@ -189,7 +189,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.1,
       "position": [
-        1420,
+        1400,
         640
       ],
       "credentials": {
@@ -432,7 +432,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cdb52f27-d230-4292-9b1d-67bc9fc06ee3",
+  "versionId": "e794985b-604e-41a9-a53d-ffb183d295a2",
   "triggerCount": 0,
   "tags": []
 }
