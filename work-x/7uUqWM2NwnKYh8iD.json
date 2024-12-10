@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-01T14:33:08.894Z",
-  "updatedAt": "2024-11-01T14:44:07.755Z",
+  "updatedAt": "2024-12-09T18:21:06.843Z",
   "id": "7uUqWM2NwnKYh8iD",
   "name": "Backup Credenciais GitHub",
   "active": true,
@@ -125,7 +125,7 @@
         },
         "filePath": "={{ $('Workflow').item.json.id }}.json",
         "binaryData": true,
-        "commitMessage": "={{ $('Workflow').item.json.name }} {{ $now.toString() }}"
+        "commitMessage": "={{ $('Workflow').item.json.name }}{{ $now.toString() }}"
       },
       "id": "4d3ec645-303e-43a2-a0b4-8a366e7f76e7",
       "name": "GitHub Create File",
@@ -289,7 +289,7 @@
             {
               "id": "167893e5-9de8-4273-9fc3-3f2da550ebf7",
               "name": "repository",
-              "value": "n8n_tester",
+              "value": "credenciais",
               "type": "string"
             },
             {
@@ -547,7 +547,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f0834b96-0d1e-413a-a772-6df325142a9b",
+  "versionId": "2e292855-23a9-41a2-822c-0b0cdd8d7f2a",
   "triggerCount": 1,
   "tags": [
     {
