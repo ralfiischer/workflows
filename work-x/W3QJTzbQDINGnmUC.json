@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-09T14:54:47.183Z",
+  "updatedAt": "2024-12-09T19:49:55.627Z",
   "id": "W3QJTzbQDINGnmUC",
   "name": "Reconecta EVO por QR code",
   "active": true,
@@ -865,9 +865,48 @@
           "executionMode": "production"
         }
       }
+    ],
+    "reconecta evo": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0",
+            "content-length": "41",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "application/json",
+            "cookie": "SLO_GWPT_Show_Hide_tmp=0; SLO_wptGlobTipTmp=0; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX1%2FH2dyglWUtVVDbLm00PeSr1soZcL21Xx%2Fzf41ECIq9cOJQhcRla0bQNBjp7Bc%2BHLl139L8FwQ14Q%3D%3D; rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX1%2Bw3vdBlLNASuUwuB3Jhp8h%2B0kh2dBy9HJ5P6pvRCK%2FVfLeQNvf5u4l8ZZ4eovC5JyK2Z8bK57q5g%3D%3D; rl_page_init_referring_domain=RudderEncrypt%3AU2FsdGVkX19Akg9ISma10BC2hHtGeZrDaNWrXpCrd9LaVyWZt1Tqeianlm8dObci; rl_session=RudderEncrypt%3AU2FsdGVkX1%2B0QZfqO5GJdTmXZlUTbQaMDz5IUeXweSMCeCMLFkvgWKGRiwoK4u0YG4GTIpG%2BIt%2FUpT%2Fkii%2FvlvA3Cv7L2ciYwAqsF8HSQ3ktcY29w9OCI61ukS5joar%2FszVXmV2sL1V%2BSH9k9isg8g%3D%3D",
+            "origin": "https://n8n-n8n-webhook.tkbczu.easypanel.host",
+            "priority": "u=1, i",
+            "referer": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/instanciaevolution",
+            "sec-ch-ua": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Opera GX\";v=\"114\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-forwarded-for": "138.99.54.120",
+            "x-forwarded-host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "138.99.54.120"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "instanceName": "teste2",
+            "randomID": 7808
+          },
+          "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconect",
+          "executionMode": "production"
+        }
+      }
     ]
   },
-  "versionId": "8dd45a05-fc35-4721-85e9-2728541e9c98",
+  "versionId": "68d75c7b-0650-4af5-8070-9e2df60e4c6c",
   "triggerCount": 2,
   "tags": []
 }
