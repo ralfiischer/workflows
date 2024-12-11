@@ -1,19 +1,19 @@
 {
   "createdAt": "2024-12-09T18:47:36.934Z",
-  "updatedAt": "2024-12-10T14:52:43.214Z",
+  "updatedAt": "2024-12-10T19:55:56.593Z",
   "id": "cfIN7yUWiwwcYpN7",
-  "name": "My workflow 4",
-  "active": true,
+  "name": "Reconeta EVO",
+  "active": false,
   "nodes": [
     {
       "parameters": {
-        "html": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: linear-gradient(180deg, #4CAF50 0%, #A5D6A7 100%);\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"qrName\">Nome do QR Code</label>\n            <input type=\"text\" id=\"qrName\" placeholder=\"Nome do QR Code\">\n        </div>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        // Defina o nome padrão do QR Code\n        const name = \"{{ $json.name }}\"; // Substitua por um valor padrão se não estiver usando um motor de template\n\n        // Função para gerar um ID aleatório\n        function generateRandomID() {\n            return Math.floor(1000 + Math.random() * 9000);\n        }\n\n        // Função para gerar o QR Code\n        async function generateQRCode(instanceName) {\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            const randomID = generateRandomID();\n\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconectt', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName, randomID }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                loadingMessage.style.display = 'none';\n            }\n        }\n\n        // Executa quando a página é carregada\n        document.addEventListener('DOMContentLoaded', () => {\n            const qrNameInput = document.getElementById('qrName');\n            qrNameInput.value = name; // Atribui o nome pré-definido ao campo\n\n            // Gera o QR Code automaticamente com o nome pré-definido\n            generateQRCode(name);\n\n            // Adiciona um listener para gerar o QR Code novamente se o nome for alterado\n            qrNameInput.addEventListener('input', () => {\n                const newName = qrNameInput.value.trim();\n                if (newName) {\n                    generateQRCode(newName);\n                }\n            });\n        });\n    </script>\n</body>\n</html>\n"
+        "html": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: linear-gradient(180deg, #4CAF50 0%, #A5D6A7 100%);\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"qrName\">Nome do QR Code</label>\n            <input type=\"text\" id=\"qrName\" placeholder=\"Nome do QR Code\">\n        </div>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        \n        const name = \"{{ $json.name }}\"; \n\n        \n        function generateRandomID() {\n            return Math.floor(1000 + Math.random() * 9000);\n        }\n\n        \n        async function generateQRCode(instanceName) {\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            const randomID = generateRandomID();\n\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconectt', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName, randomID }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                loadingMessage.style.display = 'none';\n            }\n        }\n\n        \n        document.addEventListener('DOMContentLoaded', () => {\n            const qrNameInput = document.getElementById('qrName');\n            qrNameInput.value = name; \n\n            \n            generateQRCode(name);\n\n            \n            qrNameInput.addEventListener('input', () => {\n                const newName = qrNameInput.value.trim();\n                if (newName) {\n                    generateQRCode(newName);\n                }\n            });\n        });\n    </script>\n</body>\n</html>\n"
       },
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
         -340,
-        140
+        220
       ],
       "id": "a77d642c-0d90-46ab-a445-1ce7a000eab0",
       "name": "HTML"
@@ -28,7 +28,7 @@
       "typeVersion": 1.1,
       "position": [
         -140,
-        140
+        220
       ],
       "id": "c0a61bb7-aac0-4f21-9282-95e78da25694",
       "name": "Respond to Webhook"
@@ -43,7 +43,7 @@
       "typeVersion": 2,
       "position": [
         -700,
-        140
+        220
       ],
       "id": "feee1dd0-764a-42c7-904a-fa297169d8f4",
       "name": "Pagina do QR code",
@@ -58,8 +58,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        -20,
-        340
+        -40,
+        500
       ],
       "id": "e489942a-c095-44df-87d8-21a194f9b138",
       "name": "Respond to Webhook4"
@@ -85,8 +85,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -540,
-        340
+        -560,
+        500
       ],
       "id": "9b1f3113-623d-467f-8994-0d554e6ad807",
       "name": "HTTP Request1"
@@ -108,8 +108,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -380,
-        340
+        -400,
+        500
       ],
       "id": "a559bb59-55f6-455f-b53d-df153155680a",
       "name": "Edit Fields1"
@@ -123,8 +123,8 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -200,
-        340
+        -220,
+        500
       ],
       "id": "27d11e67-c7da-4b4d-b74f-e784acd11a50",
       "name": "Convert to File1"
@@ -139,8 +139,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -700,
-        340
+        -720,
+        500
       ],
       "id": "14da4b9e-ccd4-4a2a-b538-15583a3bb2e9",
       "name": "reconecta evo",
@@ -153,8 +153,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -680,
-        540
+        -720,
+        780
       ],
       "id": "435e9d5d-6bc1-40f7-ad0c-07b8edccf96f",
       "name": "Wait",
@@ -195,8 +195,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        340,
-        500
+        300,
+        740
       ],
       "id": "9e1fac2c-bb36-4b9a-9bff-0798a9e81cd5",
       "name": "HTTP Request2"
@@ -222,8 +222,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -100,
-        520
+        -140,
+        760
       ],
       "id": "8a6bf78e-110b-4095-be5e-fe623c23d97b",
       "name": "HTTP Request3"
@@ -241,7 +241,7 @@
             {
               "id": "a1135424-ed0f-4a36-be76-8eb21602f8dc",
               "leftValue": "={{ $json.instance.state }}",
-              "rightValue": "connecting",
+              "rightValue": "open",
               "operator": {
                 "type": "string",
                 "operation": "equals",
@@ -256,8 +256,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        80,
-        520
+        40,
+        760
       ],
       "id": "b22db81c-097d-44bc-b8a6-9dc6d834ca51",
       "name": "If"
@@ -283,8 +283,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -500,
-        540
+        -540,
+        780
       ],
       "id": "ecbe9919-2920-45df-acf0-872fcda5dea4",
       "name": "HTTP Request4"
@@ -317,8 +317,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -320,
-        540
+        -360,
+        780
       ],
       "id": "3dd6a4a4-fca6-433a-8822-1901970bc164",
       "name": "If1"
@@ -351,7 +351,7 @@
       "typeVersion": 2.5,
       "position": [
         -520,
-        140
+        220
       ],
       "id": "454706f0-2a60-44c7-9f53-cc64b02cd1b1",
       "name": "Postgres",
@@ -367,66 +367,11 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -100,
-        680
+        -140,
+        920
       ],
       "id": "be143668-ee9d-4d8c-b8e3-4676714c1aa4",
       "name": "..."
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://evo-evo.tkbczu.easypanel.host/message/sendText/teste2",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "=0E9814F7E3CB-4377-B2C8-294726342A20"
-            }
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "text",
-              "value": "=🚨*Instância Desconectada*🚨\n_Instancia:_{{ $json.name }}\n_Numero:_ {{ $json.number }}\n_Desconectada:_ {{ $json.disconnectionAt }}\nEntre no link e reconecte https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/instanciaevolutionn"
-            },
-            {
-              "name": "delay",
-              "value": "{{ 2000 }}"
-            },
-            {
-              "name": "number",
-              "value": "={{ $json.number }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "b7711f11-b71d-472c-a44e-44d2d7549b63",
-      "name": "Envia MSG1",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1820,
-        220
-      ]
-    },
-    {
-      "parameters": {
-        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Gerador de QR Code</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n            background: linear-gradient(180deg, #4CAF50 0%, #A5D6A7 100%);\n            height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .container {\n            background: rgba(255, 255, 255, 0.9);\n            padding: 20px 30px;\n            border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            text-align: center;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        h1 {\n            font-size: 24px;\n            margin-bottom: 20px;\n            color: #333;\n        }\n\n        .input-group {\n            margin-bottom: 15px;\n        }\n\n        label {\n            display: block;\n            font-size: 14px;\n            font-weight: bold;\n            margin-bottom: 5px;\n            color: #555;\n        }\n\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            outline: none;\n            transition: border-color 0.3s ease;\n        }\n\n        input[type=\"text\"]:focus {\n            border-color: #4CAF50;\n        }\n\n        button {\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            font-weight: bold;\n            border-radius: 5px;\n            cursor: pointer;\n            transition: background-color 0.3s ease;\n        }\n\n        button:hover {\n            background-color: #45a049;\n        }\n\n        #qrCodeImage {\n            margin-top: 20px;\n            display: none;\n            max-width: 100%;\n            height: auto;\n            margin-left: auto;\n            margin-right: auto;\n        }\n\n        #loadingMessage {\n            margin-top: 10px;\n            font-size: 14px;\n            color: #555;\n            display: none;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Gerador de QR Code</h1>\n        <div class=\"input-group\">\n            <label for=\"instanceName\">Nome da Instância</label>\n            <input type=\"text\" id=\"instanceName\" placeholder=\"Digite o nome da instância enviado no WhatsApp\">\n        </div>\n        <button onclick=\"generateQRCode()\">Gerar QR Code</button>\n        <p id=\"loadingMessage\">Gerando o QR Code, por favor aguarde...</p>\n        <img id=\"qrCodeImage\" src=\"\" alt=\"QR Code Gerado\">\n    </div>\n\n    <script>\n        function generateRandomID() {\n            return Math.floor(1000 + Math.random() * 9000);\n        }\n\n        async function generateQRCode() {\n            const instanceName = document.getElementById('instanceName').value.trim();\n            const loadingMessage = document.getElementById('loadingMessage');\n            const qrCodeImage = document.getElementById('qrCodeImage');\n\n            if (!instanceName) {\n                alert('Por favor, insira o nome da instância enviada no Whatsapp.');\n                return;\n            }\n\n            const randomID = generateRandomID();\n\n            loadingMessage.style.display = 'block';\n            qrCodeImage.style.display = 'none';\n\n            try {\n                const response = await fetch('https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/reconect', {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                    },\n                    body: JSON.stringify({ instanceName, randomID }),\n                });\n\n                if (!response.ok) {\n                    throw new Error(`Erro na requisição: ${response.statusText}`);\n                }\n\n                const blob = await response.blob();\n                qrCodeImage.src = URL.createObjectURL(blob);\n                qrCodeImage.style.display = 'block';\n            } catch (error) {\n                alert(`Erro ao gerar o QR Code: ${error.message}`);\n                console.error(error);\n            } finally {\n                loadingMessage.style.display = 'none';\n            }\n        }\n    </script>\n</body>\n</html>\n"
-      },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
-      "position": [
-        1600,
-        220
-      ],
-      "id": "555ba92b-f7c9-4340-a987-f118492a81ec",
-      "name": "HTML2",
-      "disabled": true
     },
     {
       "parameters": {
@@ -496,10 +441,9 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -700,
-        -160
-      ],
-      "disabled": true
+        -720,
+        -260
+      ]
     },
     {
       "parameters": {},
@@ -508,8 +452,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        500,
-        -520
+        440,
+        -420
       ]
     },
     {
@@ -546,7 +490,7 @@
       "typeVersion": 1,
       "position": [
         -40,
-        -40
+        -80
       ]
     },
     {
@@ -580,7 +524,7 @@
       "typeVersion": 2,
       "position": [
         -260,
-        -160
+        -260
       ]
     },
     {
@@ -613,8 +557,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -480,
-        -160
+        -500,
+        -260
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -623,6 +567,70 @@
           "name": "PostgresEVO"
         }
       }
+    },
+    {
+      "parameters": {
+        "content": "Verifica conexão da instancia EVO",
+        "height": 620,
+        "width": 1760,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -780,
+        -500
+      ],
+      "typeVersion": 1,
+      "id": "a056c730-ff71-4965-b262-c945f421a0c6",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "HTML que gera QR Code aleatorio com nome da instancia desconectada\n",
+        "height": 260,
+        "width": 900,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -780,
+        140
+      ],
+      "typeVersion": 1,
+      "id": "d9e8ee17-495e-455a-870d-5bf020d28714",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Reconecta instancia EVO",
+        "height": 240,
+        "width": 960,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -780,
+        420
+      ],
+      "typeVersion": 1,
+      "id": "5a0591b7-4f7d-42ac-8476-380560ad9fd7",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Verifica Status da conexão e envia mensagem se bem sucedido\n",
+        "height": 380,
+        "width": 1340,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -780,
+        680
+      ],
+      "typeVersion": 1,
+      "id": "629a36ef-e84b-4040-a1d0-e9c5b2da51dd",
+      "name": "Sticky Note3"
     }
   ],
   "connections": {
@@ -873,14 +881,7 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "ac1d464d-d4af-4427-9e34-e48225a61ac4",
-  "triggerCount": 2,
-  "tags": [
-    {
-      "createdAt": "2024-10-30T13:05:50.798Z",
-      "updatedAt": "2024-10-30T13:05:50.798Z",
-      "id": "YEMOCqgKzuvlDA5d",
-      "name": "system"
-    }
-  ]
+  "versionId": "cdb069b2-f6e9-441f-83b4-ee093120dfe0",
+  "triggerCount": 3,
+  "tags": []
 }
