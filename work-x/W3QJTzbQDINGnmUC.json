@@ -1,8 +1,8 @@
 {
   "createdAt": "2024-12-02T12:38:52.870Z",
-  "updatedAt": "2024-12-10T14:10:23.954Z",
+  "updatedAt": "2024-12-10T17:08:58.411Z",
   "id": "W3QJTzbQDINGnmUC",
-  "name": "Reconecta EVO por QR code",
+  "name": "Reconecta EVO por QR codeOBSOLETO",
   "active": false,
   "nodes": [
     {
@@ -795,7 +795,7 @@
       }
     ]
   },
-  "versionId": "98180efd-d00e-466d-9dd4-643d90ad418b",
+  "versionId": "4f4ce883-4809-465b-9e42-6593a0ae0569",
   "triggerCount": 2,
   "tags": []
 }
