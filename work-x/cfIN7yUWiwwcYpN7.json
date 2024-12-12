@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-09T18:47:36.934Z",
-  "updatedAt": "2024-12-10T19:55:56.593Z",
+  "updatedAt": "2024-12-11T19:23:45.572Z",
   "id": "cfIN7yUWiwwcYpN7",
   "name": "Reconeta EVO",
   "active": false,
@@ -408,8 +408,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        440,
-        -200
+        300,
+        -180
       ],
       "id": "9e7551dd-9f9c-47f0-a4e1-f77ea8885374",
       "name": "HTTP Request"
@@ -421,8 +421,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        780,
-        -140
+        500,
+        -180
       ],
       "webhookId": "73ab59c1-9368-4051-a80f-b21ed2e16e4e"
     },
@@ -452,8 +452,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        440,
-        -420
+        280,
+        -400
       ]
     },
     {
@@ -465,20 +465,20 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        180,
+        60,
         -280
       ]
     },
     {
       "parameters": {
-        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário de São Paulo\nfunction formatarData(timestamp) {\n  // Ajusta para o fuso horário de São Paulo\n  const data = new Date(new Date(timestamp).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }));\n\n  // Extraindo os componentes da data no fuso horário ajustado\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(item.json.disconnectionAt) // Chama a função corrigida\n}));"
+        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário de São Paulo menos 3 horas\nfunction formatarData(timestamp) {\n  // Ajusta para o fuso horário de São Paulo\n  const dataSP = new Date(new Date(timestamp).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }));\n  \n  // Subtrai 3 horas\n  dataSP.setHours(dataSP.getHours() - 3);\n\n  // Extraindo os componentes da data no fuso horário ajustado\n  const dia = String(dataSP.getDate()).padStart(2, '0');\n  const mes = String(dataSP.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = dataSP.getFullYear();\n  const horas = String(dataSP.getHours()).padStart(2, '0');\n  const minutos = String(dataSP.getMinutes()).padStart(2, '0');\n  const segundos = String(dataSP.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(item.json.disconnectionAt) // Chama a função corrigida\n}));\n"
       },
       "id": "4ad6cf7f-a7ca-4b8a-ab39-056f9f5e67ac",
       "name": "Code Analise",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -40,
+        -160,
         -280
       ]
     },
@@ -489,7 +489,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -40,
+        -160,
         -80
       ]
     },
@@ -523,7 +523,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -260,
+        -360,
         -260
       ]
     },
@@ -557,7 +557,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        -500,
+        -540,
         -260
       ],
       "alwaysOutputData": true,
@@ -631,6 +631,20 @@
       "typeVersion": 1,
       "id": "629a36ef-e84b-4040-a1d0-e9c5b2da51dd",
       "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário de São Paulo\nfunction formatarData(timestamp) {\n  // Ajusta para o fuso horário de São Paulo\n  const data = new Date(new Date(timestamp).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }));\n\n  // Extraindo os componentes da data no fuso horário ajustado\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(item.json.disconnectionAt) // Chama a função corrigida\n}));"
+      },
+      "id": "8f1b0d45-4110-412d-a1eb-deace8549273",
+      "name": "Code Analise1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        -480
+      ],
+      "disabled": true
     }
   ],
   "connections": {
@@ -881,7 +895,7 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "cdb069b2-f6e9-441f-83b4-ee093120dfe0",
+  "versionId": "d8a55069-88d7-4c59-b15f-cc8fad23608c",
   "triggerCount": 3,
   "tags": []
 }
