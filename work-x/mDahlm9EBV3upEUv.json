@@ -1,8 +1,8 @@
 {
   "createdAt": "2024-12-09T19:07:56.410Z",
-  "updatedAt": "2024-12-10T17:09:13.768Z",
+  "updatedAt": "2024-12-11T18:18:13.351Z",
   "id": "mDahlm9EBV3upEUv",
-  "name": "Gera QR code aleatorioOBSOLETO",
+  "name": "Gera QR code aleatorio OBSOLETO",
   "active": false,
   "nodes": [
     {
@@ -661,7 +661,7 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "671baaf7-05ed-4ed3-bb0f-0f54bc25a41e",
+  "versionId": "4537bbef-a4ee-4da5-932a-f7f57bc971bb",
   "triggerCount": 2,
   "tags": [
     {
