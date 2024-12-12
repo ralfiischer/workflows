@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-09T18:47:36.934Z",
-  "updatedAt": "2024-12-11T19:23:45.572Z",
+  "updatedAt": "2024-12-12T13:53:30.261Z",
   "id": "cfIN7yUWiwwcYpN7",
   "name": "Reconeta EVO",
   "active": false,
@@ -195,7 +195,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        300,
+        260,
         740
       ],
       "id": "9e1fac2c-bb36-4b9a-9bff-0798a9e81cd5",
@@ -572,7 +572,7 @@
       "parameters": {
         "content": "Verifica conexão da instancia EVO",
         "height": 620,
-        "width": 1760,
+        "width": 1480,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -620,7 +620,7 @@
       "parameters": {
         "content": "Verifica Status da conexão e envia mensagem se bem sucedido\n",
         "height": 380,
-        "width": 1340,
+        "width": 1260,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -631,20 +631,6 @@
       "typeVersion": 1,
       "id": "629a36ef-e84b-4040-a1d0-e9c5b2da51dd",
       "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Função para formatar o campo disconnectionAt para o formato DD/MM/AAAA - HH:MM:SS no horário de São Paulo\nfunction formatarData(timestamp) {\n  // Ajusta para o fuso horário de São Paulo\n  const data = new Date(new Date(timestamp).toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" }));\n\n  // Extraindo os componentes da data no fuso horário ajustado\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa em 0\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  \n  return `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;\n}\n\n// Mapeia os itens de entrada para extrair apenas os campos desejados\nreturn $input.all().map(item => ({\n  name: item.json.name,\n  number: item.json.number,\n  profileName: item.json.profileName,\n  disconnectionAt: formatarData(item.json.disconnectionAt) // Chama a função corrigida\n}));"
-      },
-      "id": "8f1b0d45-4110-412d-a1eb-deace8549273",
-      "name": "Code Analise1",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        800,
-        -480
-      ],
-      "disabled": true
     }
   ],
   "connections": {
@@ -895,7 +881,7 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "d8a55069-88d7-4c59-b15f-cc8fad23608c",
-  "triggerCount": 3,
+  "versionId": "fa90b7d9-9435-48a2-addd-0678c5d2d072",
+  "triggerCount": 2,
   "tags": []
 }
