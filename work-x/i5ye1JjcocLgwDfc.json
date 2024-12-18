@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-16T12:22:06.365Z",
-  "updatedAt": "2024-12-16T14:03:24.979Z",
+  "updatedAt": "2024-12-17T17:32:31.866Z",
   "id": "i5ye1JjcocLgwDfc",
   "name": "Agendamento com lembrete",
   "active": false,
@@ -62,7 +62,7 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -840,
+        -820,
         440
       ],
       "webhookId": "0e27e5eb-136a-4ec0-8bf7-b8e9dd5543ce"
@@ -266,7 +266,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "4340ea68-d618-4fe6-9c64-5f660bd944f8",
+  "versionId": "7c0052fe-97bc-4cdd-a208-5ab86d7fcd51",
   "triggerCount": 0,
   "tags": []
 }
