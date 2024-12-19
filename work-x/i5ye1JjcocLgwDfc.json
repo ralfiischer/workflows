@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-16T12:22:06.365Z",
-  "updatedAt": "2024-12-17T17:32:31.866Z",
+  "updatedAt": "2024-12-18T21:02:43.026Z",
   "id": "i5ye1JjcocLgwDfc",
   "name": "Agendamento com lembrete",
   "active": false,
@@ -48,8 +48,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryManager",
       "typeVersion": 1.1,
       "position": [
-        -760,
-        720
+        -720,
+        780
       ]
     },
     {
@@ -108,9 +108,9 @@
         "operation": "delete",
         "calendar": {
           "__rl": true,
-          "value": "24b9db97ddacba24782282e4f0f3782110741366dc9e34b1ad6f18fb66f905d0@group.calendar.google.com",
+          "value": "frajola1662@gmail.com",
           "mode": "list",
-          "cachedResultName": "Agendamento Gravação"
+          "cachedResultName": "frajola1662@gmail.com"
         },
         "eventId": "={{ $fromAI(\"Event_ID\",\"Id do evento que deve ser excluído\") }}",
         "options": {}
@@ -122,16 +122,22 @@
       "position": [
         -280,
         720
-      ]
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
     },
     {
       "parameters": {
         "operation": "getAll",
         "calendar": {
           "__rl": true,
-          "value": "24b9db97ddacba24782282e4f0f3782110741366dc9e34b1ad6f18fb66f905d0@group.calendar.google.com",
+          "value": "frajola1662@gmail.com",
           "mode": "list",
-          "cachedResultName": "Agendamento Gravação"
+          "cachedResultName": "frajola1662@gmail.com"
         },
         "returnAll": true,
         "options": {
@@ -152,15 +158,21 @@
       "position": [
         -160,
         760
-      ]
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
     },
     {
       "parameters": {
         "calendar": {
           "__rl": true,
-          "value": "24b9db97ddacba24782282e4f0f3782110741366dc9e34b1ad6f18fb66f905d0@group.calendar.google.com",
+          "value": "frajola1662@gmail.com",
           "mode": "list",
-          "cachedResultName": "Agendamento Gravação"
+          "cachedResultName": "frajola1662@gmail.com"
         },
         "start": "={{ $fromAI(\"Start_Time\",\"Horário inicial do evento ex.:2024-10-08 00:00:00\") }}",
         "end": "={{ $fromAI(\"End_Time\",\"Horário final do evento ex.:2024-10-08 00:01:00\") }}",
@@ -173,7 +185,13 @@
       "position": [
         -40,
         720
-      ]
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
     }
   ],
   "connections": {
@@ -266,7 +284,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "7c0052fe-97bc-4cdd-a208-5ab86d7fcd51",
+  "versionId": "42dd370c-f9ec-48d9-9987-67734cfb56e0",
   "triggerCount": 0,
   "tags": []
 }
