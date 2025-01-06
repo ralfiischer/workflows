@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-16T12:22:06.365Z",
-  "updatedAt": "2024-12-18T21:02:43.026Z",
+  "updatedAt": "2025-01-06T12:23:37.544Z",
   "id": "i5ye1JjcocLgwDfc",
   "name": "Agendamento com lembrete",
   "active": false,
@@ -14,8 +14,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        -440,
-        580
+        -380,
+        660
       ],
       "credentials": {
         "openAiApi": {
@@ -48,8 +48,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryManager",
       "typeVersion": 1.1,
       "position": [
-        -720,
-        780
+        -700,
+        740
       ]
     },
     {
@@ -62,7 +62,7 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -820,
+        -700,
         440
       ],
       "webhookId": "0e27e5eb-136a-4ec0-8bf7-b8e9dd5543ce"
@@ -82,7 +82,7 @@
       "type": "n8n-nodes-base.dateTime",
       "typeVersion": 2,
       "position": [
-        -600,
+        -520,
         440
       ]
     },
@@ -284,7 +284,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "42dd370c-f9ec-48d9-9987-67734cfb56e0",
+  "versionId": "19fb4d40-f9ff-4ffb-ae1b-3e79cf0bfa43",
   "triggerCount": 0,
   "tags": []
 }
