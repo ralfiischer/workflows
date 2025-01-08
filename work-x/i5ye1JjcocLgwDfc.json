@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-16T12:22:06.365Z",
-  "updatedAt": "2025-01-06T12:23:37.544Z",
+  "updatedAt": "2025-01-07T20:46:41.452Z",
   "id": "i5ye1JjcocLgwDfc",
   "name": "Agendamento com lembrete",
   "active": false,
@@ -35,7 +35,7 @@
       "typeVersion": 1.2,
       "position": [
         -420,
-        940
+        920
       ]
     },
     {
@@ -49,7 +49,7 @@
       "typeVersion": 1.1,
       "position": [
         -700,
-        740
+        720
       ]
     },
     {
@@ -91,7 +91,7 @@
         "promptType": "define",
         "text": "={{ $('When chat message received').item.json.chatInput }}",
         "options": {
-          "systemMessage": "=Você é um assistente de agendamento, deve auxiliar o usuário a criar e gerenciar os eventos em sua agenda\nA data de agora em inglês é:  {{ $('Date & Time').item.json.formattedDate }}\nResponda sempre em português e no fuso horário de Brasilia.\nAntes de excluir algum evento, sempre consulte o id dele antes."
+          "systemMessage": "=Você é um assistente de agendamento, deve auxiliar o usuário a criar e gerenciar os eventos em sua agenda\ne salva o nome do evento no calendar junto com a data\nA data de agora em inglês é:  {{ $('Date & Time').item.json.formattedDate }}\nResponda sempre em português e no fuso horário de Brasilia.\nAntes de excluir algum evento, sempre consulte o id dele antes."
         }
       },
       "id": "459ef837-517f-4410-8291-a8fdff7abe1e",
@@ -284,7 +284,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "19fb4d40-f9ff-4ffb-ae1b-3e79cf0bfa43",
+  "versionId": "e4899149-8b0a-45fb-be16-7f78191884e0",
   "triggerCount": 0,
   "tags": []
 }
