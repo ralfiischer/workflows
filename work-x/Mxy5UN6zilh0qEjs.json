@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-08T19:27:49.668Z",
-  "updatedAt": "2025-01-08T20:21:06.599Z",
+  "updatedAt": "2025-01-09T13:55:57.552Z",
   "id": "Mxy5UN6zilh0qEjs",
   "name": "My workflow 4",
   "active": false,
@@ -81,7 +81,7 @@
     {
       "parameters": {
         "operation": "getAll",
-        "tableId": "User",
+        "tableId": "respondeformulario",
         "returnAll": true,
         "filterType": "none"
       },
@@ -250,7 +250,7 @@
       "typeVersion": 1.1,
       "position": [
         920,
-        700
+        660
       ],
       "id": "7330540d-b063-4d73-8dbd-0a8484e962e7",
       "name": "Sucesso2"
@@ -427,7 +427,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "28460da0-e42a-4905-ae60-31f61f52a9bc",
+  "versionId": "e266d422-2557-4dc9-9902-119ca5a57b11",
   "triggerCount": 3,
   "tags": []
 }
