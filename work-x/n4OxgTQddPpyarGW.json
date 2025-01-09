@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-11-05T13:12:37.654Z",
-  "updatedAt": "2024-11-11T13:06:47.619Z",
+  "updatedAt": "2025-01-09T14:26:43.277Z",
   "id": "n4OxgTQddPpyarGW",
   "name": "Retorno formulário",
-  "active": false,
+  "active": true,
   "nodes": [
     {
       "parameters": {
