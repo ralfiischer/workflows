@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-11-04T12:09:46.832Z",
-  "updatedAt": "2025-01-09T14:26:15.272Z",
+  "updatedAt": "2025-01-09T17:34:26.369Z",
   "id": "YHl8ke5HiEmGwLJE",
   "name": "FORMULÁRIO",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
