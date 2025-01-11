@@ -1,0 +1,72 @@
+{
+  "createdAt": "2025-01-10T20:46:12.641Z",
+  "updatedAt": "2025-01-10T20:46:12.641Z",
+  "id": "vngBCMunwgSE5yNu",
+  "name": "My workflow 6",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        -20
+      ],
+      "id": "46870b2e-4ab6-4d06-9d24-d4ec0b357f20",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -260,
+        -20
+      ],
+      "id": "c0a508cb-0191-402b-9a26-c4d2c71bc86b",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "4ebda4ed-1b95-44a0-855a-4ea12dfcb21b",
+  "triggerCount": 0,
+  "tags": []
+}
