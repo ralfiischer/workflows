@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-31T13:51:33.061Z",
-  "updatedAt": "2024-12-05T14:14:06.749Z",
+  "updatedAt": "2025-01-10T20:52:31.833Z",
   "id": "YtEowEVOPoGpmWRT",
   "name": "Retorno Texto EVO",
   "active": false,
@@ -267,7 +267,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "dc9050f6-392c-4c55-94cd-bbb1810d47b1",
+  "versionId": "58fcbbf7-fee7-4b98-a253-4e6ad33348aa",
   "triggerCount": 0,
   "tags": []
 }
