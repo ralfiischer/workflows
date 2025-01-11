@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:35:56.119Z",
-  "updatedAt": "2024-12-05T14:22:44.982Z",
+  "updatedAt": "2025-01-10T20:29:36.273Z",
   "id": "OtQqWtVsHy2wKrOI",
   "name": "Chat bot com IA retorno whats",
   "active": false,
@@ -8,13 +8,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://evo-evo.tkbczu.easypanel.host/message/sendText/teste",
+        "url": "https://evo-evo.tkbczu.easypanel.host/message/sendText/teste2",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "apikey",
-              "value": "C9556462-1EA0-4300-A959-9C6C0FDFA177"
+              "value": "C2A3CC58B828-4184-93D8-8ABBB1EDC168"
             }
           ]
         },
@@ -23,11 +23,11 @@
           "parameters": [
             {
               "name": "number",
-              "value": "={{ $('normalizacao').item.json.message.chat_id }}"
+              "value": "=5547999471522"
             },
             {
               "name": "text",
-              "value": "={{ $json.output }}{{ $json.message.content }}"
+              "value": "=ta maluco\n"
             }
           ]
         },
@@ -42,8 +42,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1180,
-        880
+        -360,
+        720
       ]
     },
     {
@@ -577,8 +577,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -860,
-        520
+        -640,
+        720
       ],
       "webhookId": "90e53014-5386-4487-8470-48f982b3b8b8"
     }
@@ -720,13 +720,7 @@
     },
     "AI Agent": {
       "main": [
-        [
-          {
-            "node": "Retorno EVO",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "normalizacao": {
@@ -767,13 +761,7 @@
     },
     "input evolution": {
       "main": [
-        [
-          {
-            "node": "normalizacao",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   },
@@ -786,73 +774,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "input evolution": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-n8n-principal.tkbczu.easypanel.host",
-            "user-agent": "axios/1.7.7",
-            "content-length": "956",
-            "accept-encoding": "gzip, compress, deflate, br",
-            "content-type": "application/json",
-            "x-forwarded-for": "172.18.0.1",
-            "x-forwarded-host": "n8n-n8n-principal.tkbczu.easypanel.host",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "e6ce9d964610",
-            "x-real-ip": "172.18.0.1"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "teste",
-            "data": {
-              "key": {
-                "remoteJid": "554799471522@s.whatsapp.net",
-                "fromMe": false,
-                "id": "3F80893D7CA8F2BE9F48"
-              },
-              "pushName": "Ralf Fischer",
-              "status": "DELIVERY_ACK",
-              "message": {
-                "messageContextInfo": {
-                  "deviceListMetadata": {
-                    "senderKeyHash": "fL+QwPLg32XqJQ==",
-                    "senderTimestamp": "1732490673",
-                    "recipientKeyHash": "97P0mpHtSHhYag==",
-                    "recipientTimestamp": "1731255431"
-                  },
-                  "deviceListMetadataVersion": 2
-                },
-                "conversation": "opa"
-              },
-              "contextInfo": {
-                "expiration": 0,
-                "ephemeralSettingTimestamp": "0",
-                "disappearingMode": {
-                  "initiator": "CHANGED_IN_CHAT"
-                }
-              },
-              "messageType": "conversation",
-              "messageTimestamp": 1733408456,
-              "instanceId": "3c7e33ed-7a56-448f-9c82-ff5fe6f0fc6f",
-              "source": "unknown"
-            },
-            "destination": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook-test/testando",
-            "date_time": "2024-12-05T11:20:56.244Z",
-            "sender": "5521980410426@s.whatsapp.net",
-            "server_url": "https://evo-evo.tkbczu.easypanel.host/",
-            "apikey": "C9556462-1EA0-4300-A959-9C6C0FDFA177"
-          },
-          "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook-test/testando",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "e3c11c80-e70c-47a6-8547-9b3ba9798e42",
+  "pinData": {},
+  "versionId": "535973ee-8f72-44a0-9a6f-ed279fca2430",
   "triggerCount": 1,
   "tags": []
 }
