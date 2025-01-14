@@ -1,0 +1,456 @@
+{
+  "createdAt": "2025-01-14T12:34:24.555Z",
+  "updatedAt": "2025-01-14T12:35:17.761Z",
+  "id": "P4NM2Zpz6FNBtkMr",
+  "name": "My workflow 8",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "index",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "e4e5e066-33b4-4ec8-b77e-aca00b3d7029",
+      "name": "Serve Frontend",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        380
+      ],
+      "webhookPath": "frontend",
+      "method": "GET",
+      "responseMode": "onReceived",
+      "responseData": {
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Análise de Conversas</title>\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      margin: 0;\n      padding: 20px;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: center;\n      height: 100vh;\n    }\n    .container {\n      max-width: 400px;\n      width: 100%;\n      text-align: center;\n    }\n    textarea {\n      width: 100%;\n      height: 150px;\n      margin-bottom: 10px;\n    }\n    button {\n      background-color: #45DE71;\n      border: none;\n      padding: 10px 15px;\n      color: white;\n      cursor: pointer;\n      border-radius: 5px;\n    }\n    button:disabled {\n      background-color: #ccc;\n    }\n    #result {\n      margin-top: 20px;\n      white-space: pre-wrap;\n      text-align: left;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <h1>Análise de Conversas</h1>\n    <textarea id=\"conversation\" placeholder=\"Cole a conversa aqui...\"></textarea>\n    <button id=\"analyzeButton\">Analisar Conversa</button>\n    <div id=\"result\"></div>\n  </div>\n\n  <script>\n    const analyzeButton = document.getElementById('analyzeButton');\n    const conversationInput = document.getElementById('conversation');\n    const resultDiv = document.getElementById('result');\n\n    analyzeButton.addEventListener('click', async () => {\n      const conversation = conversationInput.value.trim();\n      if (!conversation) {\n        alert('Por favor, insira uma conversa para análise.');\n        return;\n      }\n\n      analyzeButton.disabled = true;\n      resultDiv.textContent = 'Analisando...';\n\n      try {\n        const response = await fetch('/webhook/process', {\n          method: 'POST',\n          headers: {\n            'Content-Type': 'application/json',\n          },\n          body: JSON.stringify({ conversation }),\n        });\n\n        if (!response.ok) {\n          throw new Error('Erro ao analisar a conversa.');\n        }\n\n        const result = await response.json();\n        resultDiv.textContent = `Resultado da Análise:\\n\\n${result.analysis}`;\n      } catch (error) {\n        resultDiv.textContent = 'Erro: Não foi possível analisar a conversa.';\n      } finally {\n        analyzeButton.disabled = false;\n      }\n    });\n  </script>\n</body>\n</html>"
+      },
+      "responseHeaders": [
+        {
+          "name": "Content-Type",
+          "value": "text/html"
+        }
+      ],
+      "webhookId": "18c4a0d9-b4fd-48ea-a3ec-02eca69abfbb"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "SaaS",
+        "returnAll": true,
+        "filterType": "none"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        700,
+        700
+      ],
+      "id": "f7a261ee-9664-4a85-9cd7-0d52b984b3ce",
+      "name": "Supabase",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "xGKs5yYdHLqCN239",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bba06e20-2ea2-4a31-9153-ef3c69cd0d42",
+              "leftValue": "={{ $('Webhook1').item.json.body.email }}",
+              "rightValue": "={{ $json.email }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "497e22d6-c8cf-4864-b0a1-b8a8357fad67",
+              "leftValue": "={{ $('Webhook1').item.json.body.password }}",
+              "rightValue": "={{ $json.password }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        700
+      ],
+      "id": "70e44f43-4f1b-4bb1-a157-0f6826d4bcbd",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "tableId": "SaaS",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $json.body.email }}"
+            },
+            {
+              "fieldId": "password",
+              "fieldValue": "={{ $json.body.password }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $json.body.name }}"
+            },
+            {
+              "fieldId": "contato",
+              "fieldValue": "={{ $json.body.contact }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        740,
+        420
+      ],
+      "id": "08677e07-bc43-4aa6-9253-b002ced573a4",
+      "name": "Supabase1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "xGKs5yYdHLqCN239",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"success\": false,\n  \"message\": \"Credenciais inválidas\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        780
+      ],
+      "id": "ca0a6121-9f9d-44f0-9b5e-1a9a3f6d9b10",
+      "name": "Erro"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"userId\": {{ $json.id }},\n  \"message\": \"Login realizado com sucesso\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        600
+      ],
+      "id": "32c80483-01b6-4b21-bf80-0872361cc736",
+      "name": "Sucesso"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "criaconta",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        520,
+        420
+      ],
+      "id": "35b3f0dc-372a-4d27-be7b-7592815caaf5",
+      "name": "Webhook2",
+      "webhookId": "31b43b1f-364d-46b7-9fbb-c7f39f188555"
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "url": "=https://api.tomticket.com/v2.0/ticket/list",
+        "allowUnauthorizedCerts": true,
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "TomTicket",
+              "value": "Bearer f5cbe3d415e87ccabff99b96a151999b73f963b65a518ffb5e53ab1c869e9867"
+            }
+          ]
+        }
+      },
+      "id": "694c4312-9df5-4f5e-ac6b-708327a310dd",
+      "name": "List Tickets",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        560
+      ],
+      "alwaysOutputData": true,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "function calculateTimeOpen(creationDate) {\n  const created = new Date(creationDate);\n  const now = new Date();\n  const diffHours = Math.round((now - created) / (1000 * 60 * 60));\n  return diffHours;\n}\n\nfunction calculatePriority(message, subject) {\n  const urgentKeywords = ['urgente', 'emergência', 'crítico', 'erro', 'falha'];\n  const text = (message + ' ' + subject).toLowerCase();\n  return urgentKeywords.some(keyword => text.includes(keyword)) ? 'alta' : 'normal';\n}\n\nconst tickets = $input.first().json.data;\n\nconst output = tickets.map(ticket => {\n  const baseTicket = {\n    id: ticket.protocol,\n    Titulo: ticket.subject,\n    Conversa: ticket.message,\n    Data: ticket.creation_date,\n  };\n\n  const enrichedData = {\n    cliente_info: {\n      nome: ticket.customer_name,\n      email: ticket.customer_email,\n      empresa: ticket.company_name\n    },\n    metrics: {\n      tempo_aberto_horas: calculateTimeOpen(ticket.creation_date),\n      prioridade_sugerida: calculatePriority(ticket.message, ticket.subject),\n      departamento: ticket.department,\n      categoria: ticket.category,\n      status: ticket.status\n    }\n  };\n\n  return {\n    ...baseTicket,\n    ...enrichedData\n  };\n});\n\nreturn {\n  json: {\n    tickets: output\n  }\n};"
+      },
+      "id": "52abaadb-b823-4c16-89c5-ce9b780a2cf8",
+      "name": "Prepare Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2040,
+        560
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const analysis = $input.first().json.output;\nconst ticketData = $node[\"Prepare Data\"].json.tickets[0];\n\n// Função para formatar datas no formato DD/MM/YYYY\nconst formatDate = dateString => {\n  const date = new Date(dateString);\n  return date.toLocaleDateString('pt-BR', {\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric'\n  });\n};\n\n// Função para formatar e melhorar a legibilidade do conteúdo\nconst formatContent = content => {\n  if (typeof content !== 'string') {\n    return '<p>Conteúdo não disponível</p>';\n  }\n\n  const lines = content.split(/\\r\\n|\\n|\\r/);\n  const formattedLines = lines.map(line => {\n    let formattedLine = line.trim();\n\n    // Remover vírgulas no final de cada linha\n    if (formattedLine.endsWith(',')) {\n      formattedLine = formattedLine.slice(0, -1).trim();\n    }\n\n    // Verificar se a linha está vazia\n    if (formattedLine === '') {\n      return '<br>';\n    }\n\n    // Retornar a linha formatada com HTML escapado\n    return `<p>${formattedLine\n      .replace(/&/g, '&amp;')    // Escapa '&'\n      .replace(/</g, '&lt;')    // Escapa '<'\n      .replace(/>/g, '&gt;')    // Escapa '>'\n      .replace(/\"/g, '&quot;')  // Escapa aspas duplas\n      .replace(/'/g, '&#39;')   // Escapa aspas simples\n      .replace(/{/g, '')        // Remove '{'\n      .replace(/}/g, '')        // Remove '}'\n      .replace(/\\[/g, '')       // Remove '['\n      .replace(/]/g, '')        // Remove ']'\n    }</p>`;\n  });\n\n  return formattedLines.join('');\n};\n\n// Retorno do JSON formatado\nreturn {\n  json: {\n    success: true,\n    timestamp: new Date().toISOString(),\n    ticket_info: {\n      id: ticketData.id,\n      title: ticketData.Titulo,\n      date: formatDate(ticketData.Data),\n      client: ticketData.cliente_info,\n      metrics: ticketData.metrics\n    },\n    analysis: {\n      content: formatContent(analysis), // Conteúdo formatado\n      metadata: {\n        model: \"gpt-4\",\n        temperature: 0.7,\n        type: \"detailed_ticket_analysis\",\n        analyzed_at: new Date().toISOString()\n      }\n    }\n  }\n};\n"
+      },
+      "id": "dde883ac-5840-456c-a0ff-46f99894ea29",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2500,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "99263482-04bc-4882-8ca1-747c762274d7",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        1160
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "=Analise o seguinte ticket de suporte e forneça:\n1. Resumo do problema\n2. Classificação do tipo de problema\n3. Nível de urgência sugerido\n4. Principais pontos de ação necessários\n5. Sugestões de resposta\n\nTicket:\n{{ $json.tickets[0].Conversa }}\n\nContexto adicional:\n- Cliente: {{ $json.tickets[0].cliente_info.nome }}\n- Empresa: {{ $json.tickets[0].cliente_info.empresa }}\n- Tempo aberto: {{ $json.tickets[0].metrics.tempo_aberto_horas }} horas",
+        "options": {}
+      },
+      "id": "4b4216c4-3785-4b02-abe5-cf3b35ebf1b0",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2200,
+        540
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"UTF-8\" />\n  <title>TomTicket API</title>\n</head>\n<body>\n  <div class=\"container\">\n    <h1>Informações do Ticket</h1>\n    \n    <div class=\"card\">\n      <h2>Detalhes do Ticket</h2>\n      <div class=\"info-row\">\n        <span class=\"label\">ID:</span>\n        <span class=\"value\">{{ $json.ticket_info.id }}</span>\n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Título:</span>\n        <span class=\"value\">{{ $json.ticket_info.title }}</span>\n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Data:</span>\n        <span class=\"value date-format\">{{ $json.ticket_info.date }}</span>\n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Empresa:</span>\n        <span class=\"value\">{{ $('List Tickets').item.json.data[0].customer.organization.name }}</span>\n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Cliente:</span>\n        <span class=\"value\">{{ $('List Tickets').item.json.data[0].customer.name }}</span>\n      </div>\n    </div>\n\n    <div class=\"card\">\n      <h2>Métricas</h2>\n      <div class=\"info-row\">\n        <span class=\"label\">Tempo Aberto:</span>\n        <span class=\"value\">{{ $json.ticket_info.metrics.tempo_aberto_horas }}h</span>\n      </div>\n    </div>\n\n    <div class=\"card\">\n      <h2>Análise da IA</h2>\n      <div class=\"analysis-content\">      \n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Conteúdo:</span>\n        <span class=\"value\">{{ $json.analysis.content }}</span>\n      </div>\n  \n    </div>\n  </div>\n</body>\n<style>\n.container {\n  background-color: #f5f7fa;\n  padding: 20px;\n  font-family: Arial, sans-serif;\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.card {\n  background-color: #ffffff;\n  padding: 16px;\n  border-radius: 8px;\n  margin-bottom: 20px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\nh1 {\n  color: #ff6d5a;\n  font-size: 24px;\n  font-weight: bold;\n  text-align: center;\n  padding: 8px;\n  margin-bottom: 20px;\n}\n\nh2 {\n  color: #909399;\n  font-size: 18px;\n  font-weight: bold;\n  padding: 8px;\n  margin-bottom: 12px;\n  border-bottom: 1px solid #eaeaea;\n}\n\n.info-row {\n  display: flex;\n  padding: 8px;\n  border-bottom: 1px solid #f5f5f5;\n}\n\n.info-row:last-child {\n  border-bottom: none;\n}\n\n.label {\n  color: #909399;\n  font-weight: bold;\n  width: 140px;\n  flex-shrink: 0;\n}\n\n.value {\n  color: #606266;\n  flex-grow: 1;\n}\n\n.analysis-content {\n  padding: 10px 0;\n}\n\n.section {\n  margin-bottom: 20px;\n}\n\n.section:last-child {\n  margin-bottom: 0;\n}\n\n.section h3 {\n  color: #606266;\n  font-size: 16px;\n  font-weight: 600;\n  margin-bottom: 8px;\n}\n\n.section p {\n  color: #606266;\n  line-height: 1.5;\n  margin: 0;\n}\n\n.section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.section ul li {\n  color: #606266;\n  padding: 4px 0;\n  line-height: 1.5;\n  position: relative;\n  padding-left: 20px;\n}\n\n.section ul li:before {\n  content: \"•\";\n  color: #ff6d5a;\n  position: absolute;\n  left: 0;\n}\n\n.urgency {\n  display: inline-block;\n  padding: 4px 12px;\n  border-radius: 4px;\n  background-color: #f56c6c;\n  color: white;\n  font-weight: 600;\n}\n\n.timestamp {\n  border-top: 1px solid #eaeaea;\n  margin-top: 20px;\n  padding-top: 12px;\n}\n\n.priority {\n  color: #ffffff;\n  padding: 2px 8px;\n  border-radius: 4px;\n  font-size: 14px;\n}\n\n.priority:before {\n  content: attr(data-value);\n}\n\n.priority[data-value=\"alta\"] {\n  background-color: #f56c6c;\n}\n\n.priority[data-value=\"normal\"] {\n  background-color: #67c23a;\n}\n</style>\n<script>\ndocument.addEventListener('DOMContentLoaded', function() {\n  // Formatar apenas datas (DD/MM/YYYY)\n  const dates = document.querySelectorAll('.date-format');\n  dates.forEach(date => {\n    if (date.textContent) {\n      const timestamp = date.textContent;\n      const day = timestamp.substring(8, 10);\n      const month = timestamp.substring(5, 7);\n      const year = timestamp.substring(0, 4);\n      date.textContent = `${day}/${month}/${year}`;\n    }\n  });\n\n  // Formatar datetime (DD/MM/YYYY HH:mm:ss)\n  const datetimes = document.querySelectorAll('.datetime-format');\n  datetimes.forEach(datetime => {\n    if (datetime.textContent) {\n      const timestamp = datetime.textContent;\n      const day = timestamp.substring(8, 10);\n      const month = timestamp.substring(5, 7);\n      const year = timestamp.substring(0, 4);\n      const time = timestamp.substring(11, 19);\n      datetime.textContent = `${day}/${month}/${year} ${time}`;\n    }\n  });\n\n  // Configurar badges de prioridade\n  const priorities = document.querySelectorAll('.priority');\n  priorities.forEach(priority => {\n    priority.dataset.value = priority.textContent.toLowerCase().trim();\n  });\n\n  // Remover chaves dos valores de conteúdo\n  const values = document.querySelectorAll('.value');\n  values.forEach(value => {\n    if (value.textContent) {\n      // Corrigir conteúdo escapado (como &quot;)\n      let fixedContent = value.textContent.replace(/&quot;/g, '\"');\n      fixedContent = fixedContent.replace(/[{}]/g, '').trim();\n      value.textContent = fixedContent;\n    }\n  });\n});\n\n</script>\n</html>"
+      },
+      "id": "6c531626-18c5-4c85-8227-3ac1172d57c0",
+      "name": "HTML1",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        2660,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$node[\"Format Response\"].json}}",
+        "options": {}
+      },
+      "id": "35274399-f9f5-4d0f-80c1-5fe1f46445ad",
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        2820,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "path": "analyze-tickets",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "5cd079c2-a4e1-4955-ae3d-66b028dafeb9",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        480,
+        700
+      ],
+      "webhookId": "tomticket-analyze"
+    }
+  ],
+  "connections": {
+    "Serve Frontend": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Supabase1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Tickets": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Data": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "cd6e459c-aebc-4ede-91d1-bc72b98e3759",
+  "triggerCount": 3,
+  "tags": []
+}
