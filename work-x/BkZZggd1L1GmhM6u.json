@@ -1,0 +1,224 @@
+{
+  "createdAt": "2025-01-13T19:10:29.880Z",
+  "updatedAt": "2025-01-13T20:42:56.951Z",
+  "id": "BkZZggd1L1GmhM6u",
+  "name": "My workflow 7",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "url": "=https://api.tomticket.com/v2.0/ticket/list",
+        "allowUnauthorizedCerts": true,
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "TomTicket",
+              "value": "Bearer f5cbe3d415e87ccabff99b96a151999b73f963b65a518ffb5e53ab1c869e9867"
+            }
+          ]
+        }
+      },
+      "id": "297b4766-909c-408f-b833-3655b7d96604",
+      "name": "List Tickets",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        160,
+        60
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "function calculateTimeOpen(creationDate) {\n  const created = new Date(creationDate);\n  const now = new Date();\n  const diffHours = Math.round((now - created) / (1000 * 60 * 60));\n  return diffHours;\n}\n\nfunction calculatePriority(message, subject) {\n  const urgentKeywords = ['urgente', 'emergência', 'crítico', 'erro', 'falha'];\n  const text = (message + ' ' + subject).toLowerCase();\n  return urgentKeywords.some(keyword => text.includes(keyword)) ? 'alta' : 'normal';\n}\n\nconst tickets = $input.first().json.data;\n\nconst output = tickets.map(ticket => {\n  const baseTicket = {\n    id: ticket.protocol,\n    Titulo: ticket.subject,\n    Conversa: ticket.message,\n    Data: ticket.creation_date,\n  };\n\n  const enrichedData = {\n    cliente_info: {\n      nome: ticket.customer_name,\n      email: ticket.customer_email,\n      empresa: ticket.company_name\n    },\n    metrics: {\n      tempo_aberto_horas: calculateTimeOpen(ticket.creation_date),\n      prioridade_sugerida: calculatePriority(ticket.message, ticket.subject),\n      departamento: ticket.department,\n      categoria: ticket.category,\n      status: ticket.status\n    }\n  };\n\n  return {\n    ...baseTicket,\n    ...enrichedData\n  };\n});\n\nreturn {\n  json: {\n    tickets: output\n  }\n};"
+      },
+      "id": "a1bbebf7-d012-4638-9131-6c4dddc2861b",
+      "name": "Prepare Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        340,
+        60
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const analysis = $input.first().json.output;\nconst ticketData = $node[\"Prepare Data\"].json.tickets[0];\n\n// Função para formatar datas no formato DD/MM/YYYY\nconst formatDate = dateString => {\n  const date = new Date(dateString);\n  return date.toLocaleDateString('pt-BR', {\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric'\n  });\n};\n\n// Função para formatar e melhorar a legibilidade do conteúdo\nconst formatContent = content => {\n  if (typeof content !== 'string') {\n    return '<p>Conteúdo não disponível</p>';\n  }\n\n  const lines = content.split(/\\r\\n|\\n|\\r/);\n  const formattedLines = lines.map(line => {\n    let formattedLine = line.trim();\n\n    // Remover vírgulas no final de cada linha\n    if (formattedLine.endsWith(',')) {\n      formattedLine = formattedLine.slice(0, -1).trim();\n    }\n\n    // Verificar se a linha está vazia\n    if (formattedLine === '') {\n      return '<br>';\n    }\n\n    // Retornar a linha formatada com HTML escapado\n    return `<p>${formattedLine\n      .replace(/&/g, '&amp;')    // Escapa '&'\n      .replace(/</g, '&lt;')    // Escapa '<'\n      .replace(/>/g, '&gt;')    // Escapa '>'\n      .replace(/\"/g, '&quot;')  // Escapa aspas duplas\n      .replace(/'/g, '&#39;')   // Escapa aspas simples\n      .replace(/{/g, '')        // Remove '{'\n      .replace(/}/g, '')        // Remove '}'\n      .replace(/\\[/g, '')       // Remove '['\n      .replace(/]/g, '')        // Remove ']'\n    }</p>`;\n  });\n\n  return formattedLines.join('');\n};\n\n// Retorno do JSON formatado\nreturn {\n  json: {\n    success: true,\n    timestamp: new Date().toISOString(),\n    ticket_info: {\n      id: ticketData.id,\n      title: ticketData.Titulo,\n      date: formatDate(ticketData.Data),\n      client: ticketData.cliente_info,\n      metrics: ticketData.metrics\n    },\n    analysis: {\n      content: formatContent(analysis), // Conteúdo formatado\n      metadata: {\n        model: \"gpt-4\",\n        temperature: 0.7,\n        type: \"detailed_ticket_analysis\",\n        analyzed_at: new Date().toISOString()\n      }\n    }\n  }\n};\n"
+      },
+      "id": "c9af65ad-f613-451d-9334-1951ddb50b56",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        920,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$node[\"Format Response\"].json}}",
+        "options": {}
+      },
+      "id": "a7ded171-3c62-453a-9ec1-370809220f39",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "4b44ce7f-901d-4f6b-b0af-8a2587f60d87",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        520,
+        260
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "=Analise o seguinte ticket de suporte e forneça:\n1. Resumo do problema\n2. Classificação do tipo de problema\n3. Nível de urgência sugerido\n4. Principais pontos de ação necessários\n5. Sugestões de resposta\n\nTicket:\n{{ $json.tickets[0].Conversa }}\n\nContexto adicional:\n- Cliente: {{ $json.tickets[0].cliente_info.nome }}\n- Empresa: {{ $json.tickets[0].cliente_info.empresa }}\n- Tempo aberto: {{ $json.tickets[0].metrics.tempo_aberto_horas }} horas",
+        "options": {}
+      },
+      "id": "486d5bf8-5839-467d-8cc7-8277747708bd",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        560,
+        60
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"UTF-8\" />\n  <title>TomTicket API</title>\n</head>\n<body>\n  <div class=\"container\">\n    <h1>Informações do Ticket</h1>\n    \n    <div class=\"card\">\n      <h2>Detalhes do Ticket</h2>\n      <div class=\"info-row\">\n        <span class=\"label\">ID:</span>\n        <span class=\"value\">{{ $json.ticket_info.id }}</span>\n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Título:</span>\n        <span class=\"value\">{{ $json.ticket_info.title }}</span>\n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Data:</span>\n        <span class=\"value date-format\">{{ $json.ticket_info.date }}</span>\n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Empresa:</span>\n        <span class=\"value\">{{ $('List Tickets').item.json.data[0].customer.organization.name }}</span>\n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Cliente:</span>\n        <span class=\"value\">{{ $('List Tickets').item.json.data[0].customer.name }}</span>\n      </div>\n    </div>\n\n    <div class=\"card\">\n      <h2>Métricas</h2>\n      <div class=\"info-row\">\n        <span class=\"label\">Tempo Aberto:</span>\n        <span class=\"value\">{{ $json.ticket_info.metrics.tempo_aberto_horas }}h</span>\n      </div>\n    </div>\n\n    <div class=\"card\">\n      <h2>Análise da IA</h2>\n      <div class=\"analysis-content\">      \n      </div>\n      <div class=\"info-row\">\n        <span class=\"label\">Conteúdo:</span>\n        <span class=\"value\">{{ $json.analysis.content }}</span>\n      </div>\n  \n    </div>\n  </div>\n</body>\n<style>\n.container {\n  background-color: #f5f7fa;\n  padding: 20px;\n  font-family: Arial, sans-serif;\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.card {\n  background-color: #ffffff;\n  padding: 16px;\n  border-radius: 8px;\n  margin-bottom: 20px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\nh1 {\n  color: #ff6d5a;\n  font-size: 24px;\n  font-weight: bold;\n  text-align: center;\n  padding: 8px;\n  margin-bottom: 20px;\n}\n\nh2 {\n  color: #909399;\n  font-size: 18px;\n  font-weight: bold;\n  padding: 8px;\n  margin-bottom: 12px;\n  border-bottom: 1px solid #eaeaea;\n}\n\n.info-row {\n  display: flex;\n  padding: 8px;\n  border-bottom: 1px solid #f5f5f5;\n}\n\n.info-row:last-child {\n  border-bottom: none;\n}\n\n.label {\n  color: #909399;\n  font-weight: bold;\n  width: 140px;\n  flex-shrink: 0;\n}\n\n.value {\n  color: #606266;\n  flex-grow: 1;\n}\n\n.analysis-content {\n  padding: 10px 0;\n}\n\n.section {\n  margin-bottom: 20px;\n}\n\n.section:last-child {\n  margin-bottom: 0;\n}\n\n.section h3 {\n  color: #606266;\n  font-size: 16px;\n  font-weight: 600;\n  margin-bottom: 8px;\n}\n\n.section p {\n  color: #606266;\n  line-height: 1.5;\n  margin: 0;\n}\n\n.section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.section ul li {\n  color: #606266;\n  padding: 4px 0;\n  line-height: 1.5;\n  position: relative;\n  padding-left: 20px;\n}\n\n.section ul li:before {\n  content: \"•\";\n  color: #ff6d5a;\n  position: absolute;\n  left: 0;\n}\n\n.urgency {\n  display: inline-block;\n  padding: 4px 12px;\n  border-radius: 4px;\n  background-color: #f56c6c;\n  color: white;\n  font-weight: 600;\n}\n\n.timestamp {\n  border-top: 1px solid #eaeaea;\n  margin-top: 20px;\n  padding-top: 12px;\n}\n\n.priority {\n  color: #ffffff;\n  padding: 2px 8px;\n  border-radius: 4px;\n  font-size: 14px;\n}\n\n.priority:before {\n  content: attr(data-value);\n}\n\n.priority[data-value=\"alta\"] {\n  background-color: #f56c6c;\n}\n\n.priority[data-value=\"normal\"] {\n  background-color: #67c23a;\n}\n</style>\n<script>\ndocument.addEventListener('DOMContentLoaded', function() {\n  // Formatar apenas datas (DD/MM/YYYY)\n  const dates = document.querySelectorAll('.date-format');\n  dates.forEach(date => {\n    if (date.textContent) {\n      const timestamp = date.textContent;\n      const day = timestamp.substring(8, 10);\n      const month = timestamp.substring(5, 7);\n      const year = timestamp.substring(0, 4);\n      date.textContent = `${day}/${month}/${year}`;\n    }\n  });\n\n  // Formatar datetime (DD/MM/YYYY HH:mm:ss)\n  const datetimes = document.querySelectorAll('.datetime-format');\n  datetimes.forEach(datetime => {\n    if (datetime.textContent) {\n      const timestamp = datetime.textContent;\n      const day = timestamp.substring(8, 10);\n      const month = timestamp.substring(5, 7);\n      const year = timestamp.substring(0, 4);\n      const time = timestamp.substring(11, 19);\n      datetime.textContent = `${day}/${month}/${year} ${time}`;\n    }\n  });\n\n  // Configurar badges de prioridade\n  const priorities = document.querySelectorAll('.priority');\n  priorities.forEach(priority => {\n    priority.dataset.value = priority.textContent.toLowerCase().trim();\n  });\n\n  // Remover chaves dos valores de conteúdo\n  const values = document.querySelectorAll('.value');\n  values.forEach(value => {\n    if (value.textContent) {\n      // Corrigir conteúdo escapado (como &quot;)\n      let fixedContent = value.textContent.replace(/&quot;/g, '\"');\n      fixedContent = fixedContent.replace(/[{}]/g, '').trim();\n      value.textContent = fixedContent;\n    }\n  });\n});\n\n</script>\n</html>"
+      },
+      "id": "7b7082f4-f812-4eca-8b26-5245f51be270",
+      "name": "HTML",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "path": "analyze-tickets",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "122d0db3-7add-4689-81e7-4c832fa309e8",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        60
+      ],
+      "webhookId": "tomticket-analyze"
+    }
+  ],
+  "connections": {
+    "List Tickets": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Data": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "List Tickets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "cc089358-e804-496d-8ee7-05bd2447d36c",
+  "triggerCount": 0,
+  "tags": []
+}
