@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-13T19:10:29.880Z",
-  "updatedAt": "2025-01-13T20:42:56.951Z",
+  "updatedAt": "2025-01-14T18:06:26.454Z",
   "id": "BkZZggd1L1GmhM6u",
   "name": "My workflow 7",
   "active": false,
@@ -15,7 +15,7 @@
           "parameter": [
             {
               "name": "TomTicket",
-              "value": "Bearer f5cbe3d415e87ccabff99b96a151999b73f963b65a518ffb5e53ab1c869e9867"
+              "value": "Bearer d06ef10487be6ad29b2f24e8d279b254cacd1c1e8284cbdc852b95329a28c954"
             }
           ]
         }
@@ -28,7 +28,13 @@
         160,
         60
       ],
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "BjPWOeZdmAaP6H1D",
+          "name": "Header Auth account"
+        }
+      }
     },
     {
       "parameters": {
@@ -84,13 +90,18 @@
         520,
         260
       ],
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
     },
     {
       "parameters": {
         "agent": "conversationalAgent",
         "promptType": "define",
-        "text": "=Analise o seguinte ticket de suporte e forneça:\n1. Resumo do problema\n2. Classificação do tipo de problema\n3. Nível de urgência sugerido\n4. Principais pontos de ação necessários\n5. Sugestões de resposta\n\nTicket:\n{{ $json.tickets[0].Conversa }}\n\nContexto adicional:\n- Cliente: {{ $json.tickets[0].cliente_info.nome }}\n- Empresa: {{ $json.tickets[0].cliente_info.empresa }}\n- Tempo aberto: {{ $json.tickets[0].metrics.tempo_aberto_horas }} horas",
+        "text": "=Analise o seguinte ticket de suporte e forneça:\n1. Resumo do problema\n2. Classificação do tipo de problema\n3. Nível de urgência sugerido\n4. Principais pontos de ação necessários\n5. Sugestões de resposta\n\nTicket:\n{{ $json.tickets[0].Conversa }}\n\nContexto adicional:\n- Cliente: {{ $('List Tickets').item.json.data[0].customer.name }}\n- Empresa: {{ $('List Tickets').item.json.data[0].customer.organization.name }}\n- Tempo aberto: {{ $json.tickets[0].metrics.tempo_aberto_horas }} horas",
         "options": {}
       },
       "id": "486d5bf8-5839-467d-8cc7-8277747708bd",
@@ -218,7 +229,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "cc089358-e804-496d-8ee7-05bd2447d36c",
+  "versionId": "746d4ba7-18e9-4d55-8cdc-7d0c7fbb54fa",
   "triggerCount": 0,
   "tags": []
 }
