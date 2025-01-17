@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-11-01T14:33:08.894Z",
-  "updatedAt": "2024-12-09T18:21:06.843Z",
+  "updatedAt": "2025-01-16T17:51:43.884Z",
   "id": "7uUqWM2NwnKYh8iD",
   "name": "Backup Credenciais GitHub",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
@@ -546,8 +546,26 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "2e292855-23a9-41a2-822c-0b0cdd8d7f2a",
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-01-16T01:00:07.047-03:00",
+          "Readable date": "January 16th 2025, 1:00:07 am",
+          "Readable time": "1:00:07 am",
+          "Day of week": "Thursday",
+          "Year": "2025",
+          "Month": "January",
+          "Day of month": "16",
+          "Hour": "01",
+          "Minute": "00",
+          "Second": "07",
+          "Timezone": "America/Sao_Paulo (UTC-03:00)"
+        }
+      }
+    ]
+  },
+  "versionId": "a22a3907-9bca-4e0a-9cf5-a1970d966697",
   "triggerCount": 1,
   "tags": [
     {
