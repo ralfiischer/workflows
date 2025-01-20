@@ -1,0 +1,100 @@
+{
+  "createdAt": "2025-01-20T02:15:21.097Z",
+  "updatedAt": "2025-01-20T02:45:42.516Z",
+  "id": "pCKs4U7tZxM9AJdH",
+  "name": "My workflow 8",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "romantic",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "b394d8ce-9d59-402c-af72-b947c3e09123",
+      "name": "Serve Frontend",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -1500,
+        -520
+      ],
+      "webhookPath": "frontend",
+      "method": "GET",
+      "responseMode": "onReceived",
+      "responseData": {
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Análise de Conversas</title>\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      margin: 0;\n      padding: 20px;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: center;\n      height: 100vh;\n    }\n    .container {\n      max-width: 400px;\n      width: 100%;\n      text-align: center;\n    }\n    textarea {\n      width: 100%;\n      height: 150px;\n      margin-bottom: 10px;\n    }\n    button {\n      background-color: #45DE71;\n      border: none;\n      padding: 10px 15px;\n      color: white;\n      cursor: pointer;\n      border-radius: 5px;\n    }\n    button:disabled {\n      background-color: #ccc;\n    }\n    #result {\n      margin-top: 20px;\n      white-space: pre-wrap;\n      text-align: left;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <h1>Análise de Conversas</h1>\n    <textarea id=\"conversation\" placeholder=\"Cole a conversa aqui...\"></textarea>\n    <button id=\"analyzeButton\">Analisar Conversa</button>\n    <div id=\"result\"></div>\n  </div>\n\n  <script>\n    const analyzeButton = document.getElementById('analyzeButton');\n    const conversationInput = document.getElementById('conversation');\n    const resultDiv = document.getElementById('result');\n\n    analyzeButton.addEventListener('click', async () => {\n      const conversation = conversationInput.value.trim();\n      if (!conversation) {\n        alert('Por favor, insira uma conversa para análise.');\n        return;\n      }\n\n      analyzeButton.disabled = true;\n      resultDiv.textContent = 'Analisando...';\n\n      try {\n        const response = await fetch('/webhook/process', {\n          method: 'POST',\n          headers: {\n            'Content-Type': 'application/json',\n          },\n          body: JSON.stringify({ conversation }),\n        });\n\n        if (!response.ok) {\n          throw new Error('Erro ao analisar a conversa.');\n        }\n\n        const result = await response.json();\n        resultDiv.textContent = `Resultado da Análise:\\n\\n${result.analysis}`;\n      } catch (error) {\n        resultDiv.textContent = 'Erro: Não foi possível analisar a conversa.';\n      } finally {\n        analyzeButton.disabled = false;\n      }\n    });\n  </script>\n</body>\n</html>"
+      },
+      "responseHeaders": [
+        {
+          "name": "Content-Type",
+          "value": "text/html"
+        }
+      ],
+      "webhookId": "18c4a0d9-b4fd-48ea-a3ec-02eca69abfbb"
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Contador Romântico</title>\n    <style>\n        body {\n            font-family: 'Cursive', sans-serif;\n            background: linear-gradient(to bottom, #ffe6e6, #ff99cc);\n            color: #800000;\n            text-align: center;\n            overflow: hidden;\n            position: relative;\n            height: 100vh;\n            margin: 0;\n        }\n        h1 {\n            font-size: 2.5em;\n            margin-bottom: 10px;\n            color: #ff3366;\n            position: absolute;\n            top: 20%;\n            left: 50%;\n            transform: translate(-50%, -50%);\n            max-width: 80%;\n            word-wrap: break-word;\n        }\n        .flip-clock {\n            display: flex;\n            justify-content: center;\n            gap: 15px;\n            font-size: 3em;\n            position: absolute;\n            top: 50%;\n            left: 50%;\n            transform: translate(-50%, -50%);\n        }\n        .flip-clock div {\n            background: #ffe6f2;\n            border-radius: 10px;\n            padding: 30px 20px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n            font-family: 'Courier New', Courier, monospace;\n            text-align: center;\n        }\n        .labels {\n            display: flex;\n            justify-content: center;\n            gap: 15px;\n            font-size: 1.5em;\n            position: absolute;\n            top: 58%; /* Adjusted to move closer to the clock */\n            left: 50%;\n            transform: translate(-50%, -50%);\n        }\n        .labels div {\n            width: 100px;\n            text-align: center;\n            color: #ff3366;\n        }\n    </style>\n</head>\n<body>\n    <h1>Esse é o tempo que se passou<br>desde que minha vida mudou!</h1>\n    <div class=\"flip-clock\">\n        <div id=\"days\">00</div>\n        <div id=\"hours\">00</div>\n        <div id=\"minutes\">00</div>\n        <div id=\"seconds\">00</div>\n    </div>\n    <div class=\"labels\">\n        <div>Dias</div>\n        <div>Horas</div>\n        <div>Minutos</div>\n        <div>Segundos</div>\n    </div>\n    <script>\n        function updateCounter() {\n            const startTime = new Date(\"2024-12-31T23:16:00\");\n            const now = new Date();\n            const diff = now - startTime;\n\n            const days = Math.floor(diff / (1000 * 60 * 60 * 24));\n            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));\n            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));\n            const seconds = Math.floor((diff % (1000 * 60)) / 1000);\n\n            document.getElementById('days').innerText = days.toString().padStart(2, '0');\n            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');\n            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');\n            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');\n        }\n\n        setInterval(updateCounter, 1000);\n        updateCounter(); // Run immediately\n    </script>\n</body>\n</html>\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -1320,
+        -520
+      ],
+      "id": "bdf95531-1837-473c-9507-f2eaee3259b6",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -1140,
+        -520
+      ],
+      "id": "de1f2736-7ebc-4fec-a531-6c3a3c29a91a",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Serve Frontend": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "871989a7-ebfa-4a85-ae68-07998d080c84",
+  "triggerCount": 1,
+  "tags": []
+}
