@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-09T18:47:36.934Z",
-  "updatedAt": "2024-12-12T13:53:30.261Z",
+  "updatedAt": "2025-01-20T17:01:12.769Z",
   "id": "cfIN7yUWiwwcYpN7",
   "name": "Reconeta EVO",
   "active": false,
@@ -571,14 +571,14 @@
     {
       "parameters": {
         "content": "Verifica conexão da instancia EVO",
-        "height": 620,
+        "height": 560,
         "width": 1480,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -780,
-        -500
+        -440
       ],
       "typeVersion": 1,
       "id": "a056c730-ff71-4965-b262-c945f421a0c6",
@@ -881,7 +881,7 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "fa90b7d9-9435-48a2-addd-0678c5d2d072",
+  "versionId": "ef4f026f-f00d-4b3c-b4cb-7055121e90bf",
   "triggerCount": 2,
   "tags": []
 }
