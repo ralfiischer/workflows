@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-07T18:35:56.119Z",
-  "updatedAt": "2025-01-10T20:29:36.273Z",
+  "updatedAt": "2025-01-20T16:56:59.452Z",
   "id": "OtQqWtVsHy2wKrOI",
   "name": "Chat bot com IA retorno whats",
   "active": false,
@@ -42,8 +42,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -360,
-        720
+        1320,
+        880
       ]
     },
     {
@@ -188,18 +188,6 @@
           "name": "Redis account"
         }
       }
-    },
-    {
-      "parameters": {},
-      "id": "81ace552-5ddd-4536-89cc-fff6c996c4f9",
-      "name": "Wait",
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        160,
-        900
-      ],
-      "webhookId": "ac13eb12-ea29-4507-9539-ea41f8091b8f"
     },
     {
       "parameters": {},
@@ -577,8 +565,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -640,
-        720
+        -860,
+        520
       ],
       "webhookId": "90e53014-5386-4487-8470-48f982b3b8b8"
     }
@@ -615,11 +603,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Wait": {
-      "main": [
-        []
       ]
     },
     "delete buffer": {
@@ -720,7 +703,13 @@
     },
     "AI Agent": {
       "main": [
-        []
+        [
+          {
+            "node": "Retorno EVO",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "normalizacao": {
@@ -761,7 +750,13 @@
     },
     "input evolution": {
       "main": [
-        []
+        [
+          {
+            "node": "normalizacao",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -775,7 +770,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "535973ee-8f72-44a0-9a6f-ed279fca2430",
+  "versionId": "b268d06a-d203-418f-985d-e7f4a23e9a99",
   "triggerCount": 1,
   "tags": []
 }
