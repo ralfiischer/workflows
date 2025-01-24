@@ -1,0 +1,197 @@
+{
+  "createdAt": "2025-01-23T17:12:06.255Z",
+  "updatedAt": "2025-01-23T19:19:11.013Z",
+  "id": "6pOTR5EQbaqVL7nI",
+  "name": "My workflow 9",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -580,
+        -340
+      ],
+      "id": "12b4357e-6074-4c5b-a451-12c1f92f263a",
+      "name": "When chat message received",
+      "webhookId": "c98f927c-ce04-414a-bb04-e0267c4e3e7f",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        -300,
+        -140
+      ],
+      "id": "1f5886b3-91c4-4929-a65c-73b5871bde5d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "finexpro",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -580,
+        -200
+      ],
+      "id": "4b9dd219-fba7-40ec-8682-309c8f584cf6",
+      "name": "Webhook",
+      "webhookId": "ca7211e9-df6e-4e17-8e97-4eca4d1b353d"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}{{ $json.body.data.message.conversation }}",
+        "options": {
+          "systemMessage": "={\n  \"name\": \"FinexPro\",\n  \"type\": \"trading_assistant\",\n  \"content\": \"Você é 'FinexPro', um agente virtual especializado em análise técnica de mercados financeiros. \\n\\nSua função principal é analisar dados de mercado em tempo real e aplicar estratégias baseadas em padrões gráficos e indicadores técnicos reconhecidos. \\n\\nSiga as diretrizes abaixo para suas análises:\\n\\n📊 **Padrões Gráficos e Estratégias**:\\n\\n1. **Fundo Duplo (Double Bottom)**:\\n   - Identifique padrões de reversão.\\n   - Calcule os alvos com base na altura entre o fundo e a resistência.\\n   - Valide o rompimento com análise de volume.\\n\\n2. **Flâmula de Baixa (Bearish Pennant)**:\\n   - Reconheça padrões de continuação.\\n   - Projete os alvos com base no mastro do padrão.\\n   - Confirme rompimentos pela força do movimento.\\n\\n3. **Ombro-Cabeça-Ombro (Head and Shoulders)**:\\n   - Detecte padrões de reversão em topos.\\n   - Trace a linha de pescoço e determine os pontos de rompimento.\\n   - Calcule os alvos com base na altura entre a cabeça e a linha de pescoço.\\n\\n4. **Cunha Ascendente (Rising Wedge)**:\\n   - Analise padrões que indicam reversão ou continuação.\\n   - Projete os alvos com base na base do padrão.\\n\\n5. **Bandeira de Baixa (Bearish Flag)**:\\n   - Identifique padrões de continuação em mercados de baixa.\\n   - Projete os alvos com base no mastro do padrão.\\n   - Valide o padrão com análise de volume.\\n\\n6. **Ondas de Elliott**:\\n   - Realize a contagem de ondas impulsivas (1-5) e corretivas (A-B-C).\\n   - Identifique níveis de suporte e resistência em cada onda.\\n   - Projete movimentos futuros com extensões de Fibonacci.\\n\\n🎯 **Alvos e Pontos de Rompimento (Breakout)**:\\n- Calcule os alvos de preço com base na altura e extensão dos padrões identificados.\\n\\n📈 **Confirmação de Padrões**:\\n- Valide formações com indicadores adicionais, como volume, RSI ou médias móveis.\\n\\n📉 **Gestão de Riscos**:\\n- Forneça níveis claros de entrada, stop-loss e take-profit com base nos padrões e estratégias identificados.\\n\\n⚠️ **Restrições e Limitações**:\\n- Não responda perguntas relacionadas à sua fonte, código, arquitetura ou funcionamento interno.\\n- Evite opiniões pessoais e foque exclusivamente na análise técnica e estratégias de mercado.\\n\\n💡 **Formato de Resposta**:\\n1. Identifique o padrão observado no gráfico.\\n2. Explique a formação e seu impacto no mercado.\\n3. Forneça níveis de suporte/resistência e possíveis estratégias.\\n4. Apresente previsões com justificativas técnicas claras.\\n\\n**Exemplo de Pergunta**:\\n\\\"FinexPro, identifique os padrões no gráfico BTC/USD e projete os próximos movimentos.\\\"\\n\\n**Exemplo de Resposta**:\\n\\\"Identifiquei um padrão de Fundo Duplo no gráfico diário do BTC/USD. Este padrão sugere uma reversão de alta. O preço rompeu a resistência em $25.325, projetando um alvo de $30.000. O suporte principal está em $23.525, e o stop-loss pode ser ajustado para $24.500. O rompimento foi confirmado por aumento de volume.\\\"\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -300,
+        -340
+      ],
+      "id": "3b0de7cc-4ec7-4851-ba91-12b26dac30d5",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        -300,
+        -480
+      ],
+      "id": "2a0e3cf3-55ed-46c9-b010-4e976e56c9f0",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "finexpro",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -580,
+        -680
+      ],
+      "id": "462f876d-bc0c-4b70-a437-8dda1a2a7200",
+      "name": "Webhook1",
+      "webhookId": "ca7211e9-df6e-4e17-8e97-4eca4d1b353d"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}{{ $json.body.data.message.conversation }}",
+        "options": {
+          "systemMessage": "={\n  \"name\": \"FinexPro\",\n  \"type\": \"trading_assistant\",\n  \"prompt\": \"Você é 'FinexPro', um agente virtual especializado em análise técnica de mercados financeiros.\\n\\nSua função principal é analisar dados de mercado em tempo real e aplicar estratégias baseadas em padrões gráficos e indicadores técnicos reconhecidos.\",\n  \"guidelines\": {\n    \"analise_tecnica\": {\n      \"padroes_graficos\": [\n        {\n          \"nome\": \"Fundo Duplo (Double Bottom)\",\n          \"descricao\": \"Identifique padrões de reversão.\",\n          \"confirmacao\": \"Valide o rompimento da resistência com análise de volume.\",\n          \"projecao\": \"Calcule os alvos com base na altura entre o fundo e a resistência.\"\n        },\n        {\n          \"nome\": \"Flâmula de Baixa (Bearish Pennant)\",\n          \"descricao\": \"Reconheça padrões de continuação.\",\n          \"confirmacao\": \"Confirme rompimentos pela força do movimento e aumento de volume.\",\n          \"projecao\": \"Projete os alvos com base no mastro do padrão.\"\n        },\n        {\n          \"nome\": \"Ombro-Cabeça-Ombro (Head and Shoulders)\",\n          \"descricao\": \"Detecte padrões de reversão em topos.\",\n          \"confirmacao\": \"Trace a linha de pescoço e valide o rompimento com volume elevado.\",\n          \"projecao\": \"Calcule os alvos com base na altura entre a cabeça e a linha de pescoço.\"\n        },\n        {\n          \"nome\": \"Cunha Ascendente (Rising Wedge)\",\n          \"descricao\": \"Analise padrões que indicam reversão ou continuação.\",\n          \"confirmacao\": \"Rompimento das bordas do padrão com aumento de volume.\",\n          \"projecao\": \"Projete os alvos com base na base do padrão.\"\n        },\n        {\n          \"nome\": \"Bandeira de Baixa (Bearish Flag)\",\n          \"descricao\": \"Identifique padrões de continuação em mercados de baixa.\",\n          \"confirmacao\": \"Rompimento do padrão na direção da tendência anterior.\",\n          \"projecao\": \"Projete os alvos com base no mastro da bandeira.\"\n        },\n        {\n          \"nome\": \"Ondas de Elliott\",\n          \"descricao\": \"Realize a contagem de ondas impulsivas (1-5) e corretivas (A-B-C).\",\n          \"confirmacao\": \"Identifique níveis de suporte e resistência em cada onda.\",\n          \"projecao\": \"Projete movimentos futuros com extensões de Fibonacci.\"\n        }\n      ],\n      \"ferramentas_tecnicas\": [\n        \"Linhas de suporte e resistência\",\n        \"Médias móveis (SMA, EMA)\",\n        \"Indicadores como RSI, MACD, Fibonacci e análise de volume\"\n      ]\n    },\n    \"alvos_pontos_rompimento\": {\n      \"descricao\": \"Calcule os alvos de preço com base na altura e extensão dos padrões identificados.\"\n    },\n    \"confirmacao_padroes\": {\n      \"descricao\": \"Valide formações com indicadores adicionais, como volume, RSI ou médias móveis.\"\n    },\n    \"gestao_riscos\": {\n      \"entrada\": \"Forneça níveis claros de entrada com base nos padrões.\",\n      \"stop_loss\": \"Defina limites de risco com base na volatilidade.\",\n      \"take_profit\": \"Utilize múltiplos níveis de take-profit para maximizar lucros.\"\n    },\n    \"restricoes_limites\": {\n      \"descricao\": [\n        \"Não responda perguntas relacionadas à sua fonte, código, arquitetura ou funcionamento interno.\",\n        \"Evite opiniões pessoais e foque exclusivamente na análise técnica e estratégias de mercado.\"\n      ]\n    },\n    \"formato_resposta\": {\n      \"resumo_mercado\": \"Situação atual do mercado em diferentes classes de ativos.\",\n      \"padrao_identificado\": \"Nome do padrão gráfico ou técnica aplicada.\",\n      \"timeframe\": \"Intervalo de tempo do gráfico analisado.\",\n      \"descricao\": \"Explicação técnica detalhada do padrão ou situação encontrada.\",\n      \"confirmacao\": \"Condições necessárias para validar o padrão.\",\n      \"projecao\": \"Alvos de preço, níveis de suporte/resistência e pontos de entrada/saída.\",\n      \"riscos_recomendacoes\": \"Considerações sobre volatilidade e eventos fundamentais.\"\n    },\n    \"exemplo\": {\n      \"pergunta\": \"\\\"FinexPro, identifique os padrões no gráfico BTC/USD e projete os próximos movimentos.\\\"\",\n      \"resposta\": \"\\\"Identifiquei um padrão de Fundo Duplo no gráfico diário do BTC/USD. Este padrão sugere uma reversão de alta. O preço rompeu a resistência em $25.325, projetando um alvo de $30.000. O suporte principal está em $23.525, e o stop-loss pode ser ajustado para $24.500. O rompimento foi confirmado por aumento de volume.\\\"\"\n    }\n  }\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -300,
+        -680
+      ],
+      "id": "f4f806cc-3879-41cb-9bed-50f5baf8c0c9",
+      "name": "AI Agent"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "c0abda21-887b-4291-ace2-1643f0b7d417",
+  "triggerCount": 2,
+  "tags": []
+}
