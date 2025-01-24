@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-20T19:24:54.101Z",
-  "updatedAt": "2025-01-20T19:26:35.906Z",
+  "updatedAt": "2025-01-24T13:54:30.404Z",
   "id": "LqbOglNLPi33VVjN",
   "name": "Backup Credenciais Github",
   "active": true,
@@ -550,7 +550,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "571b8ee0-85c8-4b3c-8597-de04e424456e",
+  "versionId": "a6bbde1d-f341-4dd8-a2f1-7bbb6a4db3f4",
   "triggerCount": 1,
   "tags": [
     {
