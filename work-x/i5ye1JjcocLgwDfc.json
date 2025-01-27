@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-16T12:22:06.365Z",
-  "updatedAt": "2025-01-07T20:46:41.452Z",
+  "updatedAt": "2025-01-27T13:14:52.267Z",
   "id": "i5ye1JjcocLgwDfc",
   "name": "Agendamento com lembrete",
   "active": false,
@@ -15,7 +15,7 @@
       "typeVersion": 1,
       "position": [
         -380,
-        660
+        620
       ],
       "credentials": {
         "openAiApi": {
@@ -34,8 +34,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.2,
       "position": [
-        -420,
-        920
+        -440,
+        880
       ]
     },
     {
@@ -49,7 +49,7 @@
       "typeVersion": 1.1,
       "position": [
         -700,
-        720
+        700
       ]
     },
     {
@@ -62,8 +62,8 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -700,
-        440
+        -720,
+        340
       ],
       "webhookId": "0e27e5eb-136a-4ec0-8bf7-b8e9dd5543ce"
     },
@@ -82,16 +82,16 @@
       "type": "n8n-nodes-base.dateTime",
       "typeVersion": 2,
       "position": [
-        -520,
-        440
+        -540,
+        340
       ]
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "text": "={{ $('Webhook').item.json.body.data.message.conversation }}",
         "options": {
-          "systemMessage": "=Você é um assistente de agendamento, deve auxiliar o usuário a criar e gerenciar os eventos em sua agenda\ne salva o nome do evento no calendar junto com a data\nA data de agora em inglês é:  {{ $('Date & Time').item.json.formattedDate }}\nResponda sempre em português e no fuso horário de Brasilia.\nAntes de excluir algum evento, sempre consulte o id dele antes."
+          "systemMessage": "=Você é um assistente de agendamento, deve auxiliar o usuário a criar e gerenciar os eventos em sua agenda\ne salva o nome do evento no calendar junto com a data\nA data de agora em inglês é:  {{ $json.formattedDate }}\nResponda sempre em português e no fuso horário de Brasilia.\nAntes de excluir algum evento, sempre consulte o id dele antes."
         }
       },
       "id": "459ef837-517f-4410-8291-a8fdff7abe1e",
@@ -157,7 +157,7 @@
       "typeVersion": 1.1,
       "position": [
         -160,
-        760
+        740
       ],
       "credentials": {
         "googleCalendarOAuth2Api": {
@@ -184,7 +184,7 @@
       "typeVersion": 1.1,
       "position": [
         -40,
-        720
+        700
       ],
       "credentials": {
         "googleCalendarOAuth2Api": {
@@ -192,6 +192,95 @@
           "name": "Google Calendar account"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo-evo.tkbczu.easypanel.host/message/sendText/teste2",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "C2A3CC58B828-4184-93D8-8ABBB1EDC168"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Webhook').item.json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "bc8ff8ea-d767-48a2-ac6c-4e94555a0b9a",
+      "name": "Retorno EVO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "zap",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        540
+      ],
+      "id": "b0bd072f-5948-475a-80c4-43abca8dcb05",
+      "name": "Webhook",
+      "webhookId": "2f6d7a82-04b8-48a6-a767-81c60ee706d5"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $now }}",
+        "format": "custom",
+        "customFormat": "EEEE, MMMM dd yyyy 'at' hh:mm:ss",
+        "options": {
+          "timezone": true
+        }
+      },
+      "id": "782ef836-179e-489e-a507-1b2a0673848b",
+      "name": "Date & Time1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -540,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "{{ $('Date & Time').item.json.formattedDate }}\n{{ $('When chat message received').item.json.chatInput }}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        300
+      ],
+      "id": "0fe483df-9ad1-48dc-a6ea-86f6ef70adaf",
+      "name": "Code"
     }
   ],
   "connections": {
@@ -276,6 +365,39 @@
           }
         ]
       ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Retorno EVO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -284,7 +406,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "e4899149-8b0a-45fb-be16-7f78191884e0",
+  "versionId": "a4d1ed54-b674-4ef6-8536-2d3bae1d60e4",
   "triggerCount": 0,
   "tags": []
 }
