@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-01-23T17:12:06.255Z",
-  "updatedAt": "2025-01-23T19:19:11.013Z",
+  "updatedAt": "2025-01-27T12:55:08.214Z",
   "id": "6pOTR5EQbaqVL7nI",
   "name": "My workflow 9",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
