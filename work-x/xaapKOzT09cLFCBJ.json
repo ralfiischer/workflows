@@ -1,0 +1,579 @@
+{
+  "createdAt": "2025-01-28T12:40:02.973Z",
+  "updatedAt": "2025-01-28T14:39:12.399Z",
+  "id": "xaapKOzT09cLFCBJ",
+  "name": "My workflow 10",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "teste",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6abac9c4-fc96-461c-8a2b-d5d91e5d9c11",
+      "name": "Webhook",
+      "webhookId": "ca57f285-3999-4793-9c57-3b4bd25ff2de"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "102eceb7-9497-478b-8fdd-59a0997b0698",
+              "name": "evoApiKey",
+              "value": "={{ $json.body.apikey }}",
+              "type": "string"
+            },
+            {
+              "id": "9243ecad-354a-4e53-916e-23bbc4d99217",
+              "name": "ContactNumber",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "4ce4541d-4297-4873-a9b1-4a65e3f491a2",
+              "name": "base64",
+              "value": "={{ $json.body.data.message.base64 }}",
+              "type": "string"
+            },
+            {
+              "id": "aff07a95-12be-4c2b-8028-95f6af979447",
+              "name": "ClientName",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        0
+      ],
+      "id": "307b4b9c-6919-46e1-b08a-7ff450c7ae11",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "247c31ce-b5df-4062-899b-c32442214ed2",
+              "leftValue": "={{ $('Webhook').item.json.body.apikey }}",
+              "rightValue": "={{ $json.evoApiKey }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "53e8da81-6271-441f-8099-2c2e56613002",
+              "leftValue": "={{ $('Webhook').item.json.body.event }}",
+              "rightValue": "messages.upsert",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        0
+      ],
+      "id": "d8d7a741-5c24-4082-a844-48e0a6bb4aeb",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1b0642f-f767-455f-826f-9bf33794c18d",
+              "name": "ContactNumber",
+              "value": "={{ $json.numero }}",
+              "type": "string"
+            },
+            {
+              "id": "e47da2cd-b293-4735-bbe9-c9927ab608b8",
+              "name": "ClientData",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "5804a9ef-8e7f-4226-8cd1-c64d1085fd8b",
+              "name": "ClientName",
+              "value": "={{ $json.cliente }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        700,
+        -20
+      ],
+      "id": "7e51daf4-fc8c-41cf-bbdc-b8962ad94572",
+      "name": "cliente number"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "barber_clientes",
+          "mode": "list",
+          "cachedResultName": "barber_clientes"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "numero",
+              "value": "={{ $json.ContactNumber }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        540,
+        -20
+      ],
+      "id": "307f9350-d4e9-4c97-9f89-30a272a30b28",
+      "name": "Postgres",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8494d5c6-1d5b-4016-9c27-31dac92b2575",
+              "leftValue": "={{ $json.ContactNumber }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        860,
+        -20
+      ],
+      "id": "955427fc-e390-47aa-9dda-8505f9fe6321",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7cb89ad2-e4c0-4d23-b48f-5f0f60d348d8",
+              "name": "ContactNumber",
+              "value": "={{ $json.ContactNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "9247a705-802d-4226-bd0d-a330f2fe568b",
+              "name": "ClientData",
+              "value": "={{ $json.ClientData }}",
+              "type": "string"
+            },
+            {
+              "id": "d75ce948-0705-45a7-8e4b-b7cbf7030822",
+              "name": "ClientName",
+              "value": "={{ $json.ClientName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        -40
+      ],
+      "id": "6ba0ae67-d73c-4b0a-b6d0-b354851bc3db",
+      "name": "Cliente atualizado"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "barber_clientes",
+          "mode": "list",
+          "cachedResultName": "barber_clientes"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "cliente": "={{ $('Edit Fields').item.json.ClientName }}",
+            "numero": "={{ $('Edit Fields').item.json.ContactNumber }}",
+            "data": "={{ $json.ClientData }}"
+          },
+          "matchingColumns": [
+            "numero"
+          ],
+          "schema": [
+            {
+              "id": "numero",
+              "displayName": "numero",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cliente",
+              "displayName": "cliente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1040,
+        80
+      ],
+      "id": "f203f10d-0b29-4d89-a2e2-7c48916ef121",
+      "name": "cria novo cliente",
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7cb89ad2-e4c0-4d23-b48f-5f0f60d348d8",
+              "name": "ContactNumber",
+              "value": "={{ $json.numero }}",
+              "type": "string"
+            },
+            {
+              "id": "9247a705-802d-4226-bd0d-a330f2fe568b",
+              "name": "ClientData",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "d75ce948-0705-45a7-8e4b-b7cbf7030822",
+              "name": "ClientName",
+              "value": "={{ $json.cliente }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        80
+      ],
+      "id": "700ca011-1459-4b43-981e-4beb99b712bc",
+      "name": "Cliente atualizado1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Drop the table if it exists\nDROP TABLE IF EXISTS barber_clientes;\n\n-- Create the table\nCREATE TABLE barber_clientes (\n    numero VARCHAR PRIMARY KEY,\n    cliente VARCHAR,\n    data JSONB DEFAULT '{}',\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\n-- Create trigger function to automatically update updated_at\nCREATE OR REPLACE FUNCTION update_updated_at_column()\nRETURNS TRIGGER AS $\nBEGIN\n    NEW.updated_at = CURRENT_TIMESTAMP;\n    RETURN NEW;\nEND;\n$ LANGUAGE 'plpgsql';\n\n-- Create trigger that calls the function before each update\nCREATE TRIGGER update_barber_clientes_updated_at\nBEFORE UPDATE ON barber_clientes\nFOR EACH ROW\nEXECUTE FUNCTION update_updated_at_column();\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        0,
+        -200
+      ],
+      "id": "106917f3-ea99-4eb7-a705-234daa3ebcc1",
+      "name": "Cria clientes",
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "cliente number",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cliente number": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Cliente atualizado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria novo cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria novo cliente": {
+      "main": [
+        [
+          {
+            "node": "Cliente atualizado1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cliente atualizado1": {
+      "main": [
+        [
+          {
+            "node": "Cliente atualizado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-principal.tkbczu.easypanel.host",
+            "user-agent": "axios/1.7.7",
+            "content-length": "1023",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n-n8n-principal.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "teste2",
+            "data": {
+              "key": {
+                "remoteJid": "554799471522@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3F542865D2FC6033D448"
+              },
+              "pushName": "Ralf Fischer",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "0eRCHlG61B9mMg==",
+                    "senderTimestamp": "1737208106",
+                    "recipientKeyHash": "KHkQPlnAb+UB8A==",
+                    "recipientTimestamp": "1737249589"
+                  },
+                  "deviceListMetadataVersion": 2
+                },
+                "conversation": "opa"
+              },
+              "contextInfo": {
+                "expiration": 0,
+                "ephemeralSettingTimestamp": "0",
+                "disappearingMode": {
+                  "initiator": "CHANGED_IN_CHAT"
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1738068108,
+              "instanceId": "d86c9fca-6e03-47b5-a705-0a7d9dc778ea",
+              "source": "unknown",
+              "chatwootMessageId": 60,
+              "chatwootInboxId": 2,
+              "chatwootConversationId": 7
+            },
+            "destination": "https://n8n-n8n-principal.tkbczu.easypanel.host/webhook-test/teste",
+            "date_time": "2025-01-28T09:41:49.110Z",
+            "sender": "5521980410426@s.whatsapp.net",
+            "server_url": "https://evo-evo.tkbczu.easypanel.host/",
+            "apikey": "C2A3CC58B828-4184-93D8-8ABBB1EDC168"
+          },
+          "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook-test/teste",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "18252e1e-ad23-4af4-aec1-270f4c26e255",
+  "triggerCount": 0,
+  "tags": []
+}
