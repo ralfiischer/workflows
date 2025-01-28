@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-16T12:22:06.365Z",
-  "updatedAt": "2025-01-27T13:14:52.267Z",
+  "updatedAt": "2025-01-27T17:37:23.984Z",
   "id": "i5ye1JjcocLgwDfc",
   "name": "Agendamento com lembrete",
   "active": false,
@@ -65,7 +65,8 @@
         -720,
         340
       ],
-      "webhookId": "0e27e5eb-136a-4ec0-8bf7-b8e9dd5543ce"
+      "webhookId": "0e27e5eb-136a-4ec0-8bf7-b8e9dd5543ce",
+      "disabled": true
     },
     {
       "parameters": {
@@ -84,7 +85,8 @@
       "position": [
         -540,
         340
-      ]
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -276,11 +278,12 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        0,
-        300
+        -720,
+        220
       ],
       "id": "0fe483df-9ad1-48dc-a6ea-86f6ef70adaf",
-      "name": "Code"
+      "name": "Code",
+      "disabled": true
     }
   ],
   "connections": {
@@ -406,7 +409,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "a4d1ed54-b674-4ef6-8536-2d3bae1d60e4",
+  "versionId": "16e5707f-67b9-4e9b-92dc-c4fb86e8b005",
   "triggerCount": 0,
   "tags": []
 }
