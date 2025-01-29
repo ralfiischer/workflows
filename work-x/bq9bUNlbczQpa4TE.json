@@ -1,0 +1,327 @@
+{
+  "createdAt": "2025-01-28T16:44:38.890Z",
+  "updatedAt": "2025-01-28T19:10:52.723Z",
+  "id": "bq9bUNlbczQpa4TE",
+  "name": "Agenda1",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "1"
+      },
+      "id": "2e555f46-91e4-4ab2-bf72-eb39f69be8ea",
+      "name": "Window Buffer Memory2",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [
+        300,
+        -360
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "delete",
+        "deleteMode": "all"
+      },
+      "id": "afdfbab3-0484-4476-a1c2-3535c9112d1b",
+      "name": "Chat Memory Manager2",
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        40,
+        -540
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Agenda1').item.json.body.data.message.conversation }}",
+        "options": {
+          "systemMessage": "=Você atuará como um assistente de agendamento, auxiliando o usuário na criação e gestão de eventos em sua agenda. Suas responsabilidades incluem:\n\nCriação e Gerenciamento de Eventos: Facilitar a criação, edição e organização de eventos, garantindo que o nome do evento e a data sejam devidamente registrados no calendário.\n\nData Atual: A data atual em inglês é: {{ $json.formattedDate }}.\n\nIdioma e Fuso Horário: Todas as respostas devem ser fornecidas em português, considerando o fuso horário de Brasília (BRT).\n\nExclusão de Eventos: Antes de proceder com a exclusão de qualquer evento, é imprescindível consultar e confirmar o ID correspondente do evento a ser removido."
+        }
+      },
+      "id": "264978a6-6490-493d-9903-f7d73d75cb0d",
+      "name": "AI Agent2",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        400,
+        -800
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $now }}",
+        "format": "custom",
+        "customFormat": "EEEE, MMMM dd yyyy 'at' hh:mm:ss",
+        "options": {
+          "timezone": true
+        }
+      },
+      "id": "656d04cd-41b1-4309-b39f-8f21f8908d27",
+      "name": "Date & Time2",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        180,
+        -800
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        760,
+        -800
+      ],
+      "id": "0f33ecd3-3861-4aab-b18b-3af78bbfb87a",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        340,
+        -620
+      ],
+      "id": "c775e52b-c948-4b1c-a2b0-97c31aaa7e30",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "2gQkkf81ahDZrw1U",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use essa ferramenta quando precisar deletar um evento existente, com base no ID do evento\nsempre use o email do cliente para fazer o cancelamento.",
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "frajola1662@gmail.com",
+          "mode": "list",
+          "cachedResultName": "frajola1662@gmail.com"
+        },
+        "eventId": "={{ $fromAI('id') }}",
+        "options": {}
+      },
+      "id": "fe8646ae-b33b-4d85-a73c-ed8fca70a031",
+      "name": "detelar_eventos",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.2,
+      "position": [
+        1100,
+        -460
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "frajola1662@gmail.com",
+          "mode": "list",
+          "cachedResultName": "frajola1662@gmail.com"
+        },
+        "returnAll": true,
+        "options": {
+          "timeMin": "={{ $fromAI('start_date') }}",
+          "timeMax": "={{ $fromAI('end_date') }}",
+          "query": "@"
+        }
+      },
+      "id": "033271ce-ab70-4adf-8b3f-8af3164dad9f",
+      "name": "buscar_eventos",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.2,
+      "position": [
+        780,
+        -460
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use essa ferramenta para criar o agendamento do cliente,apenas um agendamento por horário, faça com que exista a consulta de horário na tool busca_eventos para não agendar dois clientes no mesmo horario.\nApenas uma e-mail de usuário por horário de atendimento\nEstá proibido agendar mais de uma vez.",
+        "calendar": {
+          "__rl": true,
+          "value": "frajola1662@gmail.com",
+          "mode": "list",
+          "cachedResultName": "frajola1662@gmail.com"
+        },
+        "start": "= {{ $fromAI('start_time') }}",
+        "end": "= {{ $fromAI('end_time') }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $fromAI('email_do_cliente') }}"
+          ],
+          "color": "3",
+          "conferenceDataUi": {
+            "conferenceDataValues": {
+              "conferenceSolution": "hangoutsMeet"
+            }
+          },
+          "description": "={{ (() => { \n    const value = $fromAI('tipo_servico'); \n    return value.charAt(0).toUpperCase() + value.slice(1); \n})() }} {{ $fromAI('nome_pet') }} Porte {{ $fromAI('porte') }} ",
+          "location": "={{ $fromAI('local_evento') }}",
+          "sendUpdates": "all",
+          "summary": "={{ (() => { \n    const value = $fromAI('tipo_servico'); \n    return value.charAt(0).toUpperCase() + value.slice(1); \n})() }}: {{ $fromAI('nome_pet') }} - {{ $fromAI('nome_cliente') }} "
+        }
+      },
+      "id": "394f5cf9-b6fe-4031-b5b3-45143c42f4ee",
+      "name": "criar_eventos",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.2,
+      "position": [
+        940,
+        -460
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -800
+      ],
+      "id": "c733f721-c35d-4422-b577-b17c241308ec",
+      "name": "agenda1"
+    }
+  ],
+  "connections": {
+    "Window Buffer Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Chat Memory Manager2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buscar_eventos": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "criar_eventos": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "detelar_eventos": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "agenda1": {
+      "main": [
+        [
+          {
+            "node": "Date & Time2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8d59984d-ad02-4ff6-a533-988d9b5cdc36",
+  "triggerCount": 3,
+  "tags": []
+}
