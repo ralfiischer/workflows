@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-28T18:48:10.604Z",
-  "updatedAt": "2025-01-28T19:38:28.640Z",
+  "updatedAt": "2025-01-29T20:51:17.575Z",
   "id": "jaBC7crqczZwN0kE",
   "name": "agenda2",
   "active": true,
@@ -107,8 +107,8 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.2,
       "position": [
-        1520,
-        380
+        1160,
+        360
       ],
       "credentials": {
         "googleCalendarOAuth2Api": {
@@ -138,8 +138,8 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.2,
       "position": [
-        1200,
-        380
+        840,
+        360
       ],
       "credentials": {
         "googleCalendarOAuth2Api": {
@@ -181,8 +181,8 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.2,
       "position": [
-        1360,
-        380
+        1000,
+        360
       ],
       "credentials": {
         "googleCalendarOAuth2Api": {
@@ -312,7 +312,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b935fc1f-69bb-4dcb-9579-b919c42f811d",
+  "versionId": "5b72ae97-b6ac-4a34-aa3a-4324df5f52c0",
   "triggerCount": 1,
   "tags": []
 }
