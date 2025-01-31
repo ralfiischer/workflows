@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2025-01-29T13:00:28.359Z",
+  "updatedAt": "2025-01-30T18:50:59.613Z",
   "id": "rud632BIuXaXyfu1",
   "name": "Reconhecimento setor Chatwoot",
   "active": true,
@@ -58,8 +58,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        -180,
-        120
+        -260,
+        140
       ],
       "id": "9df57900-a90a-47cc-b218-1e7e0c5dd8f5",
       "name": "OpenAI Chat Model",
@@ -793,7 +793,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "9f3a156e-f082-4f2a-9228-290c2eec443b",
+  "versionId": "c0682922-7415-4361-9a65-b7bd643a0ae8",
   "triggerCount": 1,
   "tags": []
 }
