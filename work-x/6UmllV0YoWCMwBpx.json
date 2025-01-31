@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-28T12:46:33.668Z",
-  "updatedAt": "2025-01-30T20:39:13.506Z",
+  "updatedAt": "2025-01-31T13:30:19.843Z",
   "id": "6UmllV0YoWCMwBpx",
   "name": "cria e agenda usuarios",
   "active": true,
@@ -478,8 +478,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        4900,
-        2500
+        4860,
+        2480
       ]
     },
     {
@@ -904,8 +904,7 @@
       "position": [
         5580,
         2340
-      ],
-      "disabled": true
+      ]
     },
     {
       "parameters": {
@@ -1181,8 +1180,7 @@
           "id": "rUhJVege1szYIpCS",
           "name": "Google Calendar account"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -2014,7 +2012,7 @@
       }
     ]
   },
-  "versionId": "2b217740-5f96-4736-8d2c-caf757eb9d88",
+  "versionId": "b5547dbb-6fcf-44be-a2a9-76f82372b1a2",
   "triggerCount": 1,
   "tags": [
     {
