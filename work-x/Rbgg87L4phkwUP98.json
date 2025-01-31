@@ -1,0 +1,259 @@
+{
+  "createdAt": "2025-01-31T03:23:29.617Z",
+  "updatedAt": "2025-01-31T04:19:35.763Z",
+  "id": "Rbgg87L4phkwUP98",
+  "name": "carlos",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "99c49b33-9488-47a9-96d6-f9840dc154b0",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        240,
+        180
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "RhJGnAesg7rbO4uq",
+          "name": "primeiro assistent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "=Você é um assistente de agendamento, deve auxiliar o usuário a criar e gerenciar os eventos em sua agenda\ne salva o nome do evento no calendar junto com a data\nA data de agora em inglês é:  {{ $json.formattedDate }}\nResponda sempre em português e no fuso horário de Brasilia.\nAntes de excluir algum evento, sempre consulte o id dele antes."
+        }
+      },
+      "id": "2cd76b89-67b1-4358-ae3c-fde84da07116",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        280,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "frajola1662@gmail.com",
+          "mode": "list",
+          "cachedResultName": "frajola1662@gmail.com"
+        },
+        "eventId": "={{ $fromAI(\"Event_ID\",\"Id do evento que deve ser excluído\") }}",
+        "options": {}
+      },
+      "id": "d6cc027e-a8ce-4df1-8406-0312e9596172",
+      "name": "Deletar Evento",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.1,
+      "position": [
+        340,
+        280
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "frajola1662@gmail.com",
+          "mode": "list",
+          "cachedResultName": "frajola1662@gmail.com"
+        },
+        "returnAll": true,
+        "options": {
+          "timeMin": "={{ $fromAI(\"Initital_DateTime\", \"Data e hora inicial da consulta Ex.: 2024-10-17 00:00:00\") }}",
+          "timeMax": "={{ $fromAI(\"Final_DateTime\", \"Data e hora final da consulta Ex.: 2024-10-17 00:00:00\") }}",
+          "timeZone": {
+            "__rl": true,
+            "value": "America/Sao_Paulo",
+            "mode": "list",
+            "cachedResultName": "America/Sao_Paulo"
+          }
+        }
+      },
+      "id": "68c80d46-c753-4e52-8dcc-a223b294199f",
+      "name": "Buscar Eventos",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.1,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "frajola1662@gmail.com",
+          "mode": "list",
+          "cachedResultName": "frajola1662@gmail.com"
+        },
+        "start": "={{ $fromAI(\"Start_Time\",\"Horário inicial do evento ex.:2024-10-08 00:00:00\") }}",
+        "end": "={{ $fromAI(\"End_Time\",\"Horário final do evento ex.:2024-10-08 00:01:00\") }}",
+        "additionalFields": {}
+      },
+      "id": "9aea5d3e-6b84-45ca-b6eb-3da580045693",
+      "name": "Criar Eventos",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.1,
+      "position": [
+        580,
+        260
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "rUhJVege1szYIpCS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        80,
+        0
+      ],
+      "id": "97b65b72-586d-4caf-b575-dcfb4d977f2e",
+      "name": "Workflow Input Trigger"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        220,
+        300
+      ],
+      "id": "ef80335d-6326-4152-8a83-6b64a737bc1e",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "NpbQyr3jI26uiZKm",
+          "name": "Postgres n8n"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Deletar Evento": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Eventos": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Eventos": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Input Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Workflow Input Trigger": [
+      {
+        "json": {
+          "query": "31/10/2023 15:00"
+        }
+      }
+    ]
+  },
+  "versionId": "2324bb01-a7ca-4240-b53c-40cf79cb633b",
+  "triggerCount": 0,
+  "tags": []
+}
