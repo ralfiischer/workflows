@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-11-14T16:47:37.243Z",
-  "updatedAt": "2025-01-30T18:50:59.613Z",
+  "updatedAt": "2025-01-31T16:48:46.956Z",
   "id": "rud632BIuXaXyfu1",
   "name": "Reconhecimento setor Chatwoot",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
