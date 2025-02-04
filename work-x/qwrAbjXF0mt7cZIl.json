@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-31T17:57:02.533Z",
-  "updatedAt": "2025-01-31T20:54:20.135Z",
+  "updatedAt": "2025-02-04T12:32:24.256Z",
   "id": "qwrAbjXF0mt7cZIl",
   "name": "My workflow 11",
   "active": true,
@@ -1648,7 +1648,7 @@
       }
     ]
   },
-  "versionId": "4932d971-552e-4807-95f8-7259b944efe5",
+  "versionId": "0032bf64-96e8-4705-a42a-c624b0a848dc",
   "triggerCount": 1,
   "tags": [
     {
