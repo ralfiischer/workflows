@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-28T12:46:33.668Z",
-  "updatedAt": "2025-01-31T20:47:38.920Z",
+  "updatedAt": "2025-02-04T12:54:42.451Z",
   "id": "6UmllV0YoWCMwBpx",
   "name": "cria e agenda usuarios",
   "active": true,
@@ -201,7 +201,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        4600,
+        4460,
         1480
       ],
       "webhookId": "adba3aa9-53f0-4c68-ab26-2ce132ee5b90"
@@ -516,7 +516,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        4780,
+        4760,
         1900
       ]
     },
@@ -561,7 +561,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4760,
+        4740,
         1480
       ]
     },
@@ -684,8 +684,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        6460,
-        2600
+        6480,
+        2620
       ],
       "id": "6a983b49-73a9-4c9b-997d-02fa96f350c5",
       "name": "Postgres1",
@@ -705,7 +705,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        6440,
+        6460,
         2500
       ],
       "typeVersion": 1,
@@ -758,7 +758,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        6940,
+        6920,
         2640
       ],
       "id": "2ef75624-2deb-4e7b-93b3-e5058c7f0f4b",
@@ -779,7 +779,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        6920,
+        6900,
         2500
       ],
       "typeVersion": 1,
@@ -795,7 +795,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        6460,
+        6480,
         2940
       ],
       "id": "bce98081-17d3-4fa6-bb5d-b83de3a74516",
@@ -816,7 +816,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        6440,
+        6460,
         2800
       ],
       "typeVersion": 1,
@@ -854,7 +854,7 @@
       "typeVersion": 2.5,
       "position": [
         6700,
-        2600
+        2620
       ],
       "id": "9787b04d-73a6-4494-91b7-5295276844f6",
       "name": "Postgres",
@@ -1297,8 +1297,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [
-        6460,
-        3240
+        6480,
+        3220
       ],
       "id": "2bc37923-af3f-4eeb-b388-51954c44d4a0",
       "name": "Postgres5",
@@ -1318,7 +1318,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        6440,
+        6460,
         3120
       ],
       "typeVersion": 1,
@@ -1481,6 +1481,19 @@
         3140
       ],
       "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4720,
+        1280
+      ],
+      "id": "863af70d-5ade-4b1e-aef2-33d621bc45d0",
+      "name": "Edit Fields"
     }
   ],
   "connections": {
@@ -1562,6 +1575,11 @@
         [
           {
             "node": "Variáveis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -2010,9 +2028,76 @@
           "Timezone": "America/Sao_Paulo (UTC-03:00)"
         }
       }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "user-agent": "axios/1.7.7",
+            "content-length": "1024",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "teste2",
+            "data": {
+              "key": {
+                "remoteJid": "554799471522@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3FD6C04AB6774751AF8F"
+              },
+              "pushName": "Ralf Fischer",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "0eRCHlG61B9mMg==",
+                    "senderTimestamp": "1737208106",
+                    "recipientKeyHash": "KHkQPlnAb+UB8A==",
+                    "recipientTimestamp": "1737249589"
+                  },
+                  "deviceListMetadataVersion": 2
+                },
+                "conversation": "opa"
+              },
+              "contextInfo": {
+                "expiration": 0,
+                "ephemeralSettingTimestamp": "0",
+                "disappearingMode": {
+                  "initiator": "CHANGED_IN_CHAT"
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1738329660,
+              "instanceId": "d86c9fca-6e03-47b5-a705-0a7d9dc778ea",
+              "source": "unknown",
+              "chatwootMessageId": 1588,
+              "chatwootInboxId": 2,
+              "chatwootConversationId": 7
+            },
+            "destination": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/agendamento",
+            "date_time": "2025-01-31T10:21:00.896Z",
+            "sender": "5521980410426@s.whatsapp.net",
+            "server_url": "https://evo-evo.tkbczu.easypanel.host/",
+            "apikey": "C2A3CC58B828-4184-93D8-8ABBB1EDC168"
+          },
+          "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/agendamento",
+          "executionMode": "production"
+        }
+      }
     ]
   },
-  "versionId": "ea9432a8-8fa3-4d55-8536-ed4800ebca55",
+  "versionId": "a1c2a359-46c4-48a5-b68a-3f66b1b099b0",
   "triggerCount": 1,
   "tags": [
     {
