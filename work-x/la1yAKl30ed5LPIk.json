@@ -1,0 +1,18 @@
+{
+  "createdAt": "2025-02-05T13:52:28.484Z",
+  "updatedAt": "2025-02-05T13:52:28.484Z",
+  "id": "la1yAKl30ed5LPIk",
+  "name": "My workflow 13",
+  "active": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "b4636f06-9e3a-4832-9786-7b19e4d75e96",
+  "triggerCount": 0,
+  "tags": []
+}
