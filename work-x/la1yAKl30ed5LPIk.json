@@ -1,18 +1,1467 @@
 {
   "createdAt": "2025-02-05T13:52:28.484Z",
-  "updatedAt": "2025-02-05T13:52:28.484Z",
+  "updatedAt": "2025-02-05T19:51:56.219Z",
   "id": "la1yAKl30ed5LPIk",
   "name": "My workflow 13",
-  "active": false,
-  "nodes": [],
-  "connections": {},
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agenda",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -60,
+        720
+      ],
+      "id": "08883143-1ae3-4dbc-a444-eb3627410ce4",
+      "name": "input evolution",
+      "webhookId": "d14e938e-14f1-4669-9481-9f63daea9811"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Remover a tabela se já existir\nDROP TABLE IF EXISTS barber_barber;\n\n-- Criar a tabela barber_barber\nCREATE TABLE barber_barber (\n    id SERIAL PRIMARY KEY,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    nome TEXT,\n    whats TEXT,\n    infos TEXT,\n    instancia_nome TEXT,\n    instancia_url TEXT,\n    instancia_key TEXT,\n    ativo BOOLEAN DEFAULT FALSE\n);\n\n-- Criar função para atualizar updated_at automaticamente\nCREATE OR REPLACE FUNCTION atualizar_updated_at()\nRETURNS TRIGGER AS $\nBEGIN\n    NEW.updated_at = now();\n    RETURN NEW;\nEND;\n$ LANGUAGE plpgsql;\n\n-- Criar trigger para atualizar updated_at antes de UPDATE\nCREATE TRIGGER trigger_updated_at\nBEFORE UPDATE ON barber_barber\nFOR EACH ROW\nEXECUTE FUNCTION atualizar_updated_at();\n\n-- Criar política de privacidade ALL para barber_barber\nCREATE POLICY \"barber_barber ALL\"\nON \"public\".\"barber_barber\"\nAS PERMISSIVE\nFOR ALL\nTO public\nUSING (TRUE)\nWITH CHECK (TRUE);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -40,
+        140
+      ],
+      "id": "c021e74e-7b55-48d7-8987-f904a5c8c387",
+      "name": "criar_barber",
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Cria Tabelas",
+        "height": 300,
+        "width": 1140
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        40
+      ],
+      "typeVersion": 1,
+      "id": "7cbb885d-42f1-43bb-ab9d-f56bb31d0075",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Remover a tabela se já existir\nDROP TABLE IF EXISTS barber_profissionais;\n\n-- Criar a tabela barber_profissionais\nCREATE TABLE barber_profissionais (\n    id SERIAL PRIMARY KEY,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    id_barber INT NOT NULL,\n    nome TEXT,\n    whats TEXT,\n    especialidades TEXT,\n    id_agenda TEXT,\n    ativo BOOLEAN DEFAULT FALSE,\n    admin BOOLEAN DEFAULT FALSE,\n    CONSTRAINT fk_barber FOREIGN KEY (id_barber) \n        REFERENCES barber_barber(id) \n        ON UPDATE CASCADE \n        ON DELETE CASCADE\n);\n\n-- Criar função para atualizar updated_at automaticamente\nCREATE OR REPLACE FUNCTION atualizar_updated_at()\nRETURNS TRIGGER AS $\nBEGIN\n    NEW.updated_at = now();\n    RETURN NEW;\nEND;\n$ LANGUAGE plpgsql;\n\n-- Criar trigger para atualizar updated_at antes de UPDATE\nCREATE TRIGGER trigger_updated_at\nBEFORE UPDATE ON barber_profissionais\nFOR EACH ROW\nEXECUTE FUNCTION atualizar_updated_at();\n\n-- Criar política de privacidade ALL para barber_barber\nCREATE POLICY \"barber_profissionais ALL\"\nON \"public\".\"barber_profissionais\"\nAS PERMISSIVE\nFOR ALL\nTO public\nUSING (TRUE)\nWITH CHECK (TRUE);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        160,
+        140
+      ],
+      "id": "cbc64b40-aaf1-4a72-a961-beaa8d089a1f",
+      "name": "cria_cad_barbeiro",
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Remover a tabela se já existir\nDROP TABLE IF EXISTS barber_clientes;\n\n-- Criar a tabela barber_clientes\nCREATE TABLE barber_clientes (\n    id SERIAL PRIMARY KEY,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    id_barber INT NOT NULL,\n    nome TEXT,\n    whats TEXT,\n    aniversario DATE,\n    frequencia BOOLEAN DEFAULT FALSE,\n    periodo TEXT,\n    prazo NUMERIC,\n    profissional TEXT,\n    CONSTRAINT fk_barber FOREIGN KEY (id_barber) \n        REFERENCES barber_barber(id) \n        ON UPDATE CASCADE \n        ON DELETE CASCADE\n);\n\n-- Criar função para atualizar updated_at automaticamente\nCREATE OR REPLACE FUNCTION atualizar_updated_at()\nRETURNS TRIGGER AS $\nBEGIN\n    NEW.updated_at = now();\n    RETURN NEW;\nEND;\n$ LANGUAGE plpgsql;\n\n-- Criar trigger para atualizar updated_at antes de UPDATE\nCREATE TRIGGER trigger_updated_at\nBEFORE UPDATE ON barber_clientes\nFOR EACH ROW\nEXECUTE FUNCTION atualizar_updated_at();\n\n-- Criar política de privacidade ALL para barber_barber\nCREATE POLICY \"barber_clientes ALL\"\nON \"public\".\"barber_clientes\"\nAS PERMISSIVE\nFOR ALL\nTO public\nUSING (TRUE)\nWITH CHECK (TRUE);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        360,
+        140
+      ],
+      "id": "405bd3e8-1763-4c4c-9212-265bf2499e7d",
+      "name": "cria_clientes",
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Remover a tabela se já existir\nDROP TABLE IF EXISTS barber_servicos;\n\n-- Criar a tabela barber_servicos\nCREATE TABLE barber_servicos (\n    id SERIAL PRIMARY KEY,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    id_barber INT NOT NULL,\n    descricao TEXT,\n    preco NUMERIC(10,2),\n    tempo TIME,\n    CONSTRAINT fk_barber FOREIGN KEY (id_barber) \n        REFERENCES barber_barber(id) \n        ON UPDATE CASCADE \n        ON DELETE CASCADE\n);\n\n-- Criar função para atualizar updated_at automaticamente\nCREATE OR REPLACE FUNCTION atualizar_updated_at()\nRETURNS TRIGGER AS $\nBEGIN\n    NEW.updated_at = now();\n    RETURN NEW;\nEND;\n$ LANGUAGE plpgsql;\n\n-- Criar trigger para atualizar updated_at antes de UPDATE\nCREATE TRIGGER trigger_updated_at\nBEFORE UPDATE ON barber_servicos\nFOR EACH ROW\nEXECUTE FUNCTION atualizar_updated_at();\n\n-- Criar política de privacidade ALL para barber_barber\nCREATE POLICY \"barber_servicos ALL\"\nON \"public\".\"barber_servicos\"\nAS PERMISSIVE\nFOR ALL\nTO public\nUSING (TRUE)\nWITH CHECK (TRUE);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        560,
+        140
+      ],
+      "id": "6fd44d5b-75bf-42a7-a224-d74fe5c57afc",
+      "name": "cria_servicos",
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Remover a tabela se já existir\nDROP TABLE IF EXISTS barber_faturamento;\n\n-- Criar a tabela barber_faturamento\nCREATE TABLE barber_faturamento (\n    id SERIAL PRIMARY KEY,\n    created_at TIMESTAMPTZ DEFAULT now(),\n    updated_at TIMESTAMPTZ DEFAULT now(),\n    id_barber INT NOT NULL,\n    data DATE,\n    hora TIME,\n    profissional TEXT,\n    servicos TEXT,\n    valor NUMERIC(10,2),\n    CONSTRAINT fk_barber FOREIGN KEY (id_barber) \n        REFERENCES barber_barber(id) \n        ON UPDATE CASCADE \n        ON DELETE CASCADE\n);\n\n-- Criar função para atualizar updated_at automaticamente\nCREATE OR REPLACE FUNCTION atualizar_updated_at()\nRETURNS TRIGGER AS $\nBEGIN\n    NEW.updated_at = now();\n    RETURN NEW;\nEND;\n$ LANGUAGE plpgsql;\n\n-- Criar trigger para atualizar updated_at antes de UPDATE\nCREATE TRIGGER trigger_updated_at\nBEFORE UPDATE ON barber_faturamento\nFOR EACH ROW\nEXECUTE FUNCTION atualizar_updated_at();\n\n-- Criar política de privacidade ALL para barber_barber\nCREATE POLICY \"barber_faturamento ALL\"\nON \"public\".\"barber_faturamento\"\nAS PERMISSIVE\nFOR ALL\nTO public\nUSING (TRUE)\nWITH CHECK (TRUE);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        780,
+        140
+      ],
+      "id": "0614b179-5f0d-4cf2-abd2-1cad30a5ec53",
+      "name": "cria_faturamento",
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "barber_barber",
+          "mode": "list",
+          "cachedResultName": "barber_barber"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "whats",
+              "value": "={{ $('barbearia').item.json.body.assistent }}"
+            },
+            {
+              "column": "ativo",
+              "value": "={{ true }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        760,
+        1300
+      ],
+      "id": "427afc35-8b81-4c4d-bb3b-a885bc838dc6",
+      "name": "busca_barbearia",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "=barbearia",
+        "key": "=barbearia:{{ $json.body.whats }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        200,
+        1240
+      ],
+      "id": "0bca8b3d-0364-47c8-a708-dce1b7f68aa3",
+      "name": "redis_barbeiro",
+      "credentials": {
+        "redis": {
+          "id": "L0Js4WEW1heNgnPs",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "cliente",
+        "key": "=cliente:{{ $json.body.whats }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        1120
+      ],
+      "id": "a024ef91-7a22-4088-b69a-59a4186be9ff",
+      "name": "Redis_cliente",
+      "credentials": {
+        "redis": {
+          "id": "L0Js4WEW1heNgnPs",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "260c8dda-921a-4ce2-9cac-6696c2ad4867",
+              "leftValue": "={{ $json.cliente.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1980,
+        1120
+      ],
+      "id": "0ab7c2bc-c94e-4e57-9eb3-b30d79048098",
+      "name": "sem cliente redis?"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "barber_clientes",
+          "mode": "list",
+          "cachedResultName": "barber_clientes"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id_barber",
+              "value": "={{ $('cliente').item.json.body.id_barber }}"
+            },
+            {
+              "column": "whats",
+              "value": "={{ $('cliente').item.json.body.whats }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1500,
+        1380
+      ],
+      "id": "d3deda79-6411-4d00-8ad8-caec8c3f20e4",
+      "name": "busca_cliente",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6b13d0c3-9df8-47d1-b420-61ac77e90a25",
+              "leftValue": "={{ !!Object.keys($node[\"busca_cliente\"].data).length }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1720,
+        1380
+      ],
+      "id": "18b9057a-709d-4515-9de2-1277745a1540",
+      "name": "encontrou usuario?"
+    },
+    {
+      "parameters": {
+        "tableId": "barber_clientes",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_barber",
+              "fieldValue": "={{ $('junta_barberia').item.json.barbearia.parseJson().id }}"
+            },
+            {
+              "fieldId": "whats",
+              "fieldValue": "={{ $('normalizacao1').item.json.message.whatsapp }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('normalizacao1').item.json.message.pushName }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        1540
+      ],
+      "id": "0606ae1c-8ca8-4eb9-93c8-b5d0a07c446c",
+      "name": "cria cliente",
+      "credentials": {
+        "supabaseApi": {
+          "id": "xGKs5yYdHLqCN239",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=cliente:{{ $('cliente').item.json.body.whats }}",
+        "value": "={{ $json.toJsonString() }}",
+        "expire": true,
+        "ttl": 600
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2180,
+        1360
+      ],
+      "id": "1f596b53-d385-4266-9d11-a98945c15fa4",
+      "name": "Redis_cliente1",
+      "credentials": {
+        "redis": {
+          "id": "L0Js4WEW1heNgnPs",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2540,
+        1140
+      ],
+      "id": "b8e0b16a-79cc-45f0-867b-03806792616b",
+      "name": "Junta_cliente"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/v1/barbearia",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "assistent",
+              "value": "={{ $json.instance.assistent }}"
+            },
+            {
+              "name": "whats",
+              "value": "={{ $json.message.whatsapp }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        380,
+        720
+      ],
+      "id": "7e70db72-684e-4205-aeb7-1b1a08393863",
+      "name": "Barberia",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        760,
+        1080
+      ],
+      "id": "3ccd12b4-ff0b-4168-b073-a75358e9049d",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "19fac500-0a6a-4b50-bc2e-9cc8df9bb433",
+              "leftValue": "={{ $json.barbearia.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        420,
+        1240
+      ],
+      "id": "fe725e01-d0e6-4d86-b9ce-60116de4ded4",
+      "name": "redis_barberia_vazio?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0ef24efc-63d2-4e17-8122-868497a0a893",
+              "leftValue": "={{ $json.isNotEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        980,
+        1300
+      ],
+      "id": "cc15aab0-d4e6-4645-94cf-f62a7bcedd5f",
+      "name": "encontrou_barberio"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "barber_profissionais",
+          "mode": "list",
+          "cachedResultName": "barber_profissionais"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "id_barber",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "column": "ativo",
+              "value": "={{ true }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        420,
+        1560
+      ],
+      "id": "c960bc2b-1275-4a8d-a947-f7743c33e137",
+      "name": "busca_barbeiros",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "barber_servicos",
+          "mode": "list",
+          "cachedResultName": "barber_servicos"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "id_barber",
+              "value": "={{ $('encontrou_barberio').item.json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -20,
+        1760
+      ],
+      "id": "48779122-945c-4d72-806d-7d99d258ff84",
+      "name": "busca_servicos",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "bX6ggeCJ75wvYGES",
+          "name": "Postgres supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "servicos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        420,
+        1760
+      ],
+      "id": "0d859365-1639-4caf-a01a-e16e0b175ecc",
+      "name": "Agrega_Servicos"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "barbeiros",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        860,
+        1560
+      ],
+      "id": "e58a0906-33e7-4ede-a765-19d683b1be61",
+      "name": "Agrega_Barbeiros"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "db4a2e5b-5ae9-47b8-9e74-6d914d32a2c9",
+              "name": "nome",
+              "value": "={{ $json.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "2094784d-d6cf-456a-98cc-8a19106ad454",
+              "name": "especialidades",
+              "value": "={{ $json.especialidades }}",
+              "type": "string"
+            },
+            {
+              "id": "3f847283-fd19-4e4b-ad1e-51ed17e6a6cf",
+              "name": "id_agenda",
+              "value": "={{ $json.id_agenda }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        1560
+      ],
+      "id": "921707b7-85d2-4037-8e0f-9dab306104d9",
+      "name": "set_barbeiros"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d2db6e69-00f2-457d-9248-a716881ca46d",
+              "name": "descricao",
+              "value": "={{ $json.descricao }}",
+              "type": "string"
+            },
+            {
+              "id": "2ecdb938-a5c3-439e-8129-2c1df2501fd5",
+              "name": "preco",
+              "value": "={{ $json.preco }}",
+              "type": "string"
+            },
+            {
+              "id": "0efdb02a-3f6f-4359-bada-e9f3ef6765a8",
+              "name": "tempo",
+              "value": "={{ $json.tempo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        200,
+        1760
+      ],
+      "id": "f939b3b5-a8c8-45e9-89a6-d07863c2b76d",
+      "name": "Set_Serviços"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        1560
+      ],
+      "id": "1d23a8fe-fbc3-4d9d-ab91-456be4a1157b",
+      "name": "set_barbearia"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11a64cd8-5a8f-4064-a399-9981e4019f3b",
+              "name": "dados",
+              "value": "=<barbearia>\n  Nome: {{ $('set_barbearia').item.json.nome }}\n</barbearia>\n\n<profissionais>\n  {{ $('Agrega_Barbeiros').item.json.barbeiros.map(item => `\n  <profissional>\n      <nome>${item.nome}</nome>\n      <especialidade>${item.especialidades}</especialidade>\n      <id_agenda>${item.id_agenda}</id_agenda>\n  </profissional>\n`) }}\n</profissionais>\n\n<servicos>\n  {{ $('Agrega_Servicos').item.json.servicos.map(item => `\n  <servico>\n      <descricao>${item.descrica}</descricao>\n      <valor>${item.precos}</valor>\n      <tempo>${item.tempo}</tempo>\n  </servico>\n`) }}\n</servicos>\n\n<informacoes_barbearia>\n  {{ $('set_barbearia').item.json.infos }}\n<informacoes_barbearia>",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        1760
+      ],
+      "id": "75eb125b-7c43-47a9-ad93-2e5bc86f496a",
+      "name": "estrutura dados"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=barbearia:{{ $('barbearia').item.json.body.whats }}",
+        "messageData": "={{ $json.toJsonString() }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        200,
+        1560
+      ],
+      "id": "b4d67fe2-dcc6-4a7b-b830-dda3ab4d9f19",
+      "name": "adiciona_dados_barberia",
+      "credentials": {
+        "redis": {
+          "id": "L0Js4WEW1heNgnPs",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=barbearia:{{ $('barbearia').item.json.body.whats }}",
+        "messageData": "={{ $json.dados }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        860,
+        1760
+      ],
+      "id": "f249e92b-58cd-40d8-88c8-da7aea716f3c",
+      "name": "adiciona_prompt",
+      "credentials": {
+        "redis": {
+          "id": "L0Js4WEW1heNgnPs",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1080,
+        1760
+      ],
+      "id": "93036309-77a6-4f2e-b38e-6d78d54b04d6",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "content": "## Dados Barbearia",
+        "height": 980,
+        "width": 1500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -100,
+        1020
+      ],
+      "typeVersion": 1,
+      "id": "f6927e0b-a5be-44f1-9a3c-e65ece111400",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Dados Cliente",
+        "height": 720,
+        "width": 1320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1420,
+        1020
+      ],
+      "typeVersion": 1,
+      "id": "359d4be1-fff5-45c9-806f-551724447629",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "v1/barbearia",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        1240
+      ],
+      "id": "920f44fe-132f-429c-889c-eddc1daa92df",
+      "name": "barbearia",
+      "webhookId": "2b5f1f0c-2140-4782-abee-9f15265fec05",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "path": "v1/cliente",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        1120
+      ],
+      "id": "faf5e822-1cf6-4cc1-a79f-248125a1ef1e",
+      "name": "cliente",
+      "webhookId": "2b5f1f0c-2140-4782-abee-9f15265fec05"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/v1/cliente",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "assistent",
+              "value": "={{ $('normalizacao1').item.json.instance.assistent }}"
+            },
+            {
+              "name": "whats",
+              "value": "={{ $('normalizacao1').item.json.message.whatsapp }}"
+            },
+            {
+              "name": "id_barber",
+              "value": "={{ $('Barberia').item.json.barbearia[0].parseJson().id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        840,
+        740
+      ],
+      "id": "c8ec2c0c-f135-40c2-a161-f051c61420f7",
+      "name": "Cliente"
+    },
+    {
+      "parameters": {
+        "respondWith": "noData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1220,
+        1320
+      ],
+      "id": "1a47eea0-049d-44a7-94e9-141a12f6433b",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "57069228-9ea4-4759-9da9-7e9a1c88dd50",
+              "leftValue": "={{ $json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        600,
+        720
+      ],
+      "id": "3d4e29c1-116a-48da-9729-3fd07dc9bc7f",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        840,
+        540
+      ],
+      "id": "62865d40-15ea-42f3-b2c6-808c928b0391",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8f16b1bf-1a3e-4029-8d7a-1bccb919ee43",
+              "name": "message.message_id",
+              "value": "={{ $json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "11800d83-ecca-4f9c-a878-a2419db0c8e9",
+              "name": "message.chat_id",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "26f6231c-1dac-49f0-95c2-48c91830bb14",
+              "name": "message.pushName",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "c34c0c12-37b0-4d59-917c-056b40c2e157",
+              "name": "message.whatsapp",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "dafce551-d1bd-452b-8ae9-a123d0b6d49a",
+              "name": "=message.origem",
+              "value": "=individual",
+              "type": "string"
+            },
+            {
+              "id": "c33f9527-e661-49e5-8e5e-64f3b430928a",
+              "name": "message.content_type",
+              "value": "=text",
+              "type": "string"
+            },
+            {
+              "id": "06eba1c9-cff0-4f68-b6da-6bb0092466b7",
+              "name": "message.content",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "5ba2b89a-34a5-4455-96af-1ec3862f9729",
+              "name": "instance.assistent",
+              "value": "={{ $json.body.sender }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cbf9920c-29c4-4e9a-8d01-30e81274624f",
+      "name": "normalizacao1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        720
+      ]
+    }
+  ],
+  "connections": {
+    "input evolution": {
+      "main": [
+        [
+          {
+            "node": "normalizacao1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca_barbearia": {
+      "main": [
+        [
+          {
+            "node": "encontrou_barberio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "redis_barbeiro": {
+      "main": [
+        [
+          {
+            "node": "redis_barberia_vazio?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis_cliente": {
+      "main": [
+        [
+          {
+            "node": "sem cliente redis?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "sem cliente redis?": {
+      "main": [
+        [
+          {
+            "node": "busca_cliente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Junta_cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca_cliente": {
+      "main": [
+        [
+          {
+            "node": "encontrou usuario?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou usuario?": {
+      "main": [
+        [
+          {
+            "node": "Redis_cliente1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria cliente": {
+      "main": [
+        [
+          {
+            "node": "Redis_cliente1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis_cliente1": {
+      "main": [
+        [
+          {
+            "node": "Junta_cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Barberia": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "redis_barberia_vazio?": {
+      "main": [
+        [
+          {
+            "node": "busca_barbearia",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_barberio": {
+      "main": [
+        [
+          {
+            "node": "set_barbearia",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca_barbeiros": {
+      "main": [
+        [
+          {
+            "node": "set_barbeiros",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca_servicos": {
+      "main": [
+        [
+          {
+            "node": "Set_Serviços",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set_barbeiros": {
+      "main": [
+        [
+          {
+            "node": "Agrega_Barbeiros",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set_Serviços": {
+      "main": [
+        [
+          {
+            "node": "Agrega_Servicos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agrega_Barbeiros": {
+      "main": [
+        [
+          {
+            "node": "busca_servicos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agrega_Servicos": {
+      "main": [
+        [
+          {
+            "node": "estrutura dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set_barbearia": {
+      "main": [
+        [
+          {
+            "node": "adiciona_dados_barberia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "estrutura dados": {
+      "main": [
+        [
+          {
+            "node": "adiciona_prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adiciona_dados_barberia": {
+      "main": [
+        [
+          {
+            "node": "busca_barbeiros",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adiciona_prompt": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "barbearia": {
+      "main": [
+        [
+          {
+            "node": "redis_barbeiro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cliente": {
+      "main": [
+        [
+          {
+            "node": "Redis_cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "normalizacao1": {
+      "main": [
+        [
+          {
+            "node": "Barberia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "b4636f06-9e3a-4832-9786-7b19e4d75e96",
-  "triggerCount": 0,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "input evolution": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "user-agent": "axios/1.7.9",
+            "content-length": "1019",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "teste2",
+            "data": {
+              "key": {
+                "remoteJid": "554799471522@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3F8CB3D70185CE90C1FC"
+              },
+              "pushName": "Ralf Fischer",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "woOLbjX0rkeFrQ==",
+                    "senderTimestamp": "1738538993",
+                    "recipientKeyHash": "KHkQPlnAb+UB8A==",
+                    "recipientTimestamp": "1737249589"
+                  },
+                  "deviceListMetadataVersion": 2
+                },
+                "conversation": "opa"
+              },
+              "contextInfo": {
+                "expiration": 0,
+                "ephemeralSettingTimestamp": "0",
+                "disappearingMode": {
+                  "initiator": "CHANGED_IN_CHAT"
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1738782290,
+              "instanceId": "d86c9fca-6e03-47b5-a705-0a7d9dc778ea",
+              "source": "unknown",
+              "chatwootMessageId": 1623,
+              "chatwootInboxId": 2,
+              "chatwootConversationId": 7
+            },
+            "destination": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/agenda",
+            "date_time": "2025-02-05T16:04:51.289Z",
+            "sender": "5521980410426@s.whatsapp.net",
+            "server_url": "https://evo-evo.tkbczu.easypanel.host/",
+            "apikey": "C2A3CC58B828-4184-93D8-8ABBB1EDC168"
+          },
+          "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/agenda",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "barbearia": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "user-agent": "axios/1.7.4",
+            "content-length": "82",
+            "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n-n8n-webhook.tkbczu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e6ce9d964610",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "assistent": "5521980410426@s.whatsapp.net",
+            "whats": "554799471522@s.whatsapp.net"
+          },
+          "webhookUrl": "https://n8n-n8n-webhook.tkbczu.easypanel.host/webhook/v1/barbearia",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "bd60aa7b-dce5-4980-a377-8ae807cf6d92",
+  "triggerCount": 2,
   "tags": []
 }
