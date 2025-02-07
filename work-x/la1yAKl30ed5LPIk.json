@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-02-05T13:52:28.484Z",
-  "updatedAt": "2025-02-05T19:51:56.219Z",
+  "updatedAt": "2025-02-07T12:17:54.457Z",
   "id": "la1yAKl30ed5LPIk",
   "name": "My workflow 13",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {
@@ -1461,7 +1461,7 @@
       }
     ]
   },
-  "versionId": "bd60aa7b-dce5-4980-a377-8ae807cf6d92",
+  "versionId": "7fd4d058-871b-489f-82c3-7d9d4a01acea",
   "triggerCount": 2,
   "tags": []
 }
